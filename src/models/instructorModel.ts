@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
+import bcrypt from 'bcryptjs'
 
-const instructorSchema = new mongoose.Schema({
+const InstructorSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Please provide a name']
@@ -41,7 +42,15 @@ const instructorSchema = new mongoose.Schema({
     }
 })
 
-instructorSchema.pre('save', function(next) {
+InstructorSchema.pre('save', async function (next) {
+    if (this.password){
+        const salt = await bcrypt.genSalt(10)
+        this.password = await bcrypt.hash(this.password, salt)
+    }
+    next()
+})
+
+InstructorSchema.pre('save', function(next) {
     if (this.formOfService === 'presential') {
         if (!this.classLocation){
             return next(new Error('Local is required for presential service'))
@@ -50,6 +59,6 @@ instructorSchema.pre('save', function(next) {
     next()
 })
 
-const instructor = mongoose.model('Instructor', instructorSchema)
+const instructor = mongoose.model('Instructor', InstructorSchema)
 
 export default instructor
