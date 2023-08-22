@@ -10,3 +10,7 @@ export const register = async (req: Request, res: Response)=>{
 export const login = async (req: Request, res: Response)=>{
     res.send('Instructor login route working')
 }
+
+export const logout = async (req: Request,res: Response)=>{
+    res.send('Instructor logout route working')
+}
