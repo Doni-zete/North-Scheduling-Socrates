@@ -13,7 +13,7 @@ export const register = async (req: Request, res: Response)=>{
         }
         const instructor = await Instructor.create({...req.body})
         const token = await jwt.sign({email: instructor.email, name: instructor.name}, JWTSECRET)
-        res.status(StatusCodes.CREATED).json({instructor: {name: instructor.name}})
+        res.status(StatusCodes.CREATED).json({instructor: {name: instructor.name}, token})
     } catch (error) {
         res.send(error)
     }
