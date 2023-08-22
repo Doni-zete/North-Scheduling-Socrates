@@ -4,7 +4,7 @@ import customApiErrors from '../errors/customApiErrors'
 import { StatusCodes } from "http-status-codes"
 
 
-export function errorHandler(err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
+export default function errorHandler(err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
     // console.log(err)
 
     if (err instanceof customApiErrors.CustomApiError) {
