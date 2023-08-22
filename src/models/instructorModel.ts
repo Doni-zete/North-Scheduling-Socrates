@@ -59,6 +59,14 @@ InstructorSchema.pre('save', function(next) {
     next()
 })
 
+InstructorSchema.methods.comparePassword = async function (candidatePassword:string) {
+    try {
+        return await bcrypt.compare(candidatePassword, this.password)
+    } catch (error) {
+        throw error
+    }
+}
+
 const instructor = mongoose.model('Instructor', InstructorSchema)
 
 export default instructor
