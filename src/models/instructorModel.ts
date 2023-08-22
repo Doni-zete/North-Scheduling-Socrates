@@ -18,11 +18,15 @@ const instructorSchema = new mongoose.Schema({
         enum: ['presential', 'Online'],
         required: [true, 'Please provide your form of service']
     },
+    classStartTime:{
+        type: Date,
+        required: [true, 'Please provide the start time of the class']
+    },
     classTime:{
         type: Number,
         required: [true, 'Please provide the time of each class']
     },
-    local: {
+    classLocation: {
         type: String
     },
     email:{
@@ -35,4 +39,13 @@ const instructorSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please provide a password'],
     }
+})
+
+instructorSchema.pre('save', function(next) {
+    if (this.formOfService === 'presential') {
+        if (!this.classLocation){
+            return next(new Error('Local is required for presential service'))
+        }
+    }
+    next()
 })
