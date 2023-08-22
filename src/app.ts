@@ -1,9 +1,14 @@
 import 'dotenv/config'
+import 'express-async-errors'
 import express from 'express'
 import mongoose from 'mongoose'
+import { errorHandler } from './middlewares/errorHandler'
 
 
 const app = express()
+
+
+app.use(errorHandler)
 
 async function start() {
     try {
