@@ -80,6 +80,6 @@ InstructorSchema.methods.comparePassword = async function (candidatePassword:str
     return await bcrypt.compare(candidatePassword, this.password)
 }
 
-const instructor = mongoose.model('Instructor', InstructorSchema)
+const Instructor = mongoose.model('Instructor', InstructorSchema)
 
-export default instructor
+export default Instructor
