@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
 import customApiErrors from '../errors/customApiErrors'
+import jwt from 'jsonwebtoken'
 
 const InstructorSchema = new mongoose.Schema({
     name: {
@@ -60,6 +61,20 @@ InstructorSchema.pre('save', function(next) {
     }
     next();
 });
+
+InstructorSchema.methods.createJWT = async function(){
+    try {
+        const jwtSecret: string = process.env.JWT_SECRET || ''
+        const token = jwt.sign(
+            {usedId: this._id, name:this.name},
+            jwtSecret,
+            {expiresIn: process.env.JWT_LIFETIME}    
+        )
+        return token
+    } catch (error) {
+        throw error
+    }
+}
 
 InstructorSchema.methods.comparePassword = async function (candidatePassword:string) {
     return await bcrypt.compare(candidatePassword, this.password)
