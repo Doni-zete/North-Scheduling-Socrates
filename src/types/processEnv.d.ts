@@ -1,6 +1,6 @@
 namespace NodeJS {
     interface ProcessEnv {
-        PORT: string
+        PORT: number
         MONGO_URI: string
     }
 }
