@@ -1,18 +1,18 @@
 import 'dotenv/config'
 import 'express-async-errors'
-import express, {Request, Response} from 'express'
+import express, { Request, Response } from 'express'
 import mongoose from 'mongoose'
 import errorHandler from './middlewares/errorHandler'
 import notFoundRoute from './middlewares/notFoundRoute'
 
 
 const app = express()
-
+app.use(express.json())
 // Routers
 import instructorRouter from './routes/instructorRoutes'
 
 // Base page
-app.get('/', (req: Request, res:Response)=>{
+app.get('/', (req: Request, res: Response) => {
     res.send('North Scheduling Socrates')
 })
 
@@ -27,7 +27,7 @@ async function start() {
     try {
         await mongoose.connect(process.env.MONGO_URI)
         console.log('Database connected!')
-    
+
         app.listen(process.env.PORT, () => {
             console.log(`Server running on port ${process.env.PORT}!`)
         })
