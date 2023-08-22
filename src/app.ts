@@ -2,12 +2,13 @@ import 'dotenv/config'
 import 'express-async-errors'
 import express from 'express'
 import mongoose from 'mongoose'
-import { errorHandler } from './middlewares/errorHandler'
+import errorHandler from './middlewares/errorHandler'
+import notFoundRoute from './middlewares/notFoundRoute'
 
 
 const app = express()
 
-
+app.use(notFoundRoute)
 app.use(errorHandler)
 
 async function start() {
