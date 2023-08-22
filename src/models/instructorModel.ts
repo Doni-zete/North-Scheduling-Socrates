@@ -49,3 +49,7 @@ instructorSchema.pre('save', function(next) {
     }
     next()
 })
+
+const instructor = mongoose.model('Instructor', instructorSchema)
+
+export default instructor
