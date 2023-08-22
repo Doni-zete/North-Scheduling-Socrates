@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
+import customApiErrors from '../errors/customApiErrors'
 
 const InstructorSchema = new mongoose.Schema({
     name: {
@@ -52,19 +53,16 @@ InstructorSchema.pre('save', async function (next) {
 
 InstructorSchema.pre('save', function(next) {
     if (this.formOfService === 'presential') {
-        if (!this.classLocation){
-            return next(new Error('Local is required for presential service'))
-        }
+        if (!this.classLocation) {
+            const error = new customApiErrors.BadRequestError('Please provide a classLocation');
+            return next(error)
+       }
     }
-    next()
-})
+    next();
+});
 
 InstructorSchema.methods.comparePassword = async function (candidatePassword:string) {
-    try {
-        return await bcrypt.compare(candidatePassword, this.password)
-    } catch (error) {
-        throw error
-    }
+    return await bcrypt.compare(candidatePassword, this.password)
 }
 
 const instructor = mongoose.model('Instructor', InstructorSchema)
