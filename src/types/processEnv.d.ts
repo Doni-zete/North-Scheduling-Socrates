@@ -4,5 +4,6 @@ namespace NodeJS {
         PORT: number
         MONGO_URI: string
         JWT_SECRET: jwt.Secret
+        JWT_LIFETIME: number
     }
 }
