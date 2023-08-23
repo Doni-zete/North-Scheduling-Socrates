@@ -9,7 +9,7 @@ import notFoundRoute from './middlewares/notFoundRoute'
 const app = express()
 app.use(express.json())
 // Routers
-import instructorRouter from './routes/instructorRoutes'
+import instructorRouter from './routes/instructorAuthRoute'
 
 // Base page
 app.get('/', (req: Request, res: Response) => {
