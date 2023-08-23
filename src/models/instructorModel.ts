@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
-import customApiErrors from '../errors/customApiErrors'
 import jwt from 'jsonwebtoken'
+import InstructorDocument from './instructorDocument'
 
 const InstructorSchema = new mongoose.Schema({
     name: {
@@ -18,7 +18,7 @@ const InstructorSchema = new mongoose.Schema({
     },
     formOfService: {
         type: String,
-        enum: ['presential', 'Online'],
+        enum: ['presential', 'online'],
         required: [true, 'Please provide your form of service']
     },
     classStartTime: {
@@ -62,6 +62,6 @@ InstructorSchema.methods.comparePassword = async function (candidatePassword: st
     return await bcrypt.compare(candidatePassword, this.password)
 }
 
-const Instructor = mongoose.model('Instructor', InstructorSchema)
+const Instructor = mongoose.model<InstructorDocument>('Instructor', InstructorSchema)
 
 export default Instructor
