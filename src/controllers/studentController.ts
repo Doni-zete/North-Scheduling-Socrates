@@ -10,3 +10,8 @@ export const createStudent = async (req: Request, res: Response) => {
     return res.status(StatusCodes.CREATED).json(students)
 
 }
+
+export const findAllStudents = async (req: Request, res: Response) => {
+    const students = await Student.find({ createdBy: req.params.studentId })
+    res.status(StatusCodes.OK).json(students)
+}
