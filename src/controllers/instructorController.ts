@@ -7,7 +7,7 @@ import customApiErrors from "../errors/customApiErrors";
 
 export const register = async (req: Request, res: Response) => {
     
-    const requiredFields = ['name', 'specialities', 'availableTime', 'formOfService', 'classSatartTime', 'classTime', 'email', 'password']
+    const requiredFields = ['name', 'specialities', 'availableTime', 'formOfService', 'classStartTime', 'classTime', 'email', 'password']
     const missingFields = requiredFields.filter(field => !(field in req.body))
 
     // Validação do body
