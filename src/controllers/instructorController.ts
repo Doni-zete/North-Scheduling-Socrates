@@ -56,6 +56,10 @@ export const login = async (req: Request, res: Response) => {
         res.sendStatus(StatusCodes.UNPROCESSABLE_ENTITY)
         return
     }
+
+    const token = jwt.sign({email: user.email, name:user.name}, process.env.JWT_SECRET)
+
+    res.status(StatusCodes.OK).json({user: {name:user.name}, token})
 }
 
 export const logout = async (req: Request, res: Response) => {
