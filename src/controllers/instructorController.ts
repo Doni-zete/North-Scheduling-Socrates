@@ -34,7 +34,28 @@ export const register = async (req: Request, res: Response) => {
 }
 
 export const login = async (req: Request, res: Response) => {
-    res.send('Instructor login route working')
+    const {email, password} = req.body
+
+    if(!email || !password){
+        throw new customApiErrors.BadRequestError('Please provide email and password')
+    }
+
+    const user = await Instructor.findOne({email})
+
+    if(!user){
+        throw new customApiErrors.UnauthenticatedError("Invalid Credentials")
+    }
+
+    const isPasswordCorrect = await user.comparePassword(password)
+
+    if(!isPasswordCorrect){
+        throw new customApiErrors.UnauthenticatedError('Invalid Credentials')
+    }
+
+    if(!process.env.JWT_SECRET){
+        res.sendStatus(StatusCodes.UNPROCESSABLE_ENTITY)
+        return
+    }
 }
 
 export const logout = async (req: Request, res: Response) => {
