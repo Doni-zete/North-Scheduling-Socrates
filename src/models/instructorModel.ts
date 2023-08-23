@@ -52,16 +52,6 @@ InstructorSchema.pre('save', async function (next) {
     next()
 })
 
-// InstructorSchema.pre('save', function(next) {
-//     if (this.formOfService === 'presential') {
-//         if (!this.classLocation) {
-//             const error = new customApiErrors.BadRequestError('Please provide a classLocation');
-//             return next(error)
-//        }
-//     }
-//     next();
-// });
-
 InstructorSchema.methods.createJWT = async function () {
     const jwtSecret = process.env.JWT_SECRET
     return jwt.sign({ usedId: this._id, name: this.name }, jwtSecret, { expiresIn: process.env.JWT_LIFETIME }
