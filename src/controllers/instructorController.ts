@@ -63,5 +63,11 @@ export const login = async (req: Request, res: Response) => {
 }
 
 export const logout = async (req: Request, res: Response) => {
-    res.send('Instructor logout route working')
+    res.cookie('token', 'logout', {
+        httpOnly: true,
+        expires: new Date(Date.now() + 30 * 60 * 1000)
+    })
+    res.status(StatusCodes.OK).json({
+        msg: 'user logged out!'
+    })
 }
