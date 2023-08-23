@@ -3,6 +3,7 @@ import Instructor from "../models/instructorModel";
 import { Request, Response } from "express";
 import jwt from 'jsonwebtoken'
 import customApiErrors from "../errors/customApiErrors";
+import { DATE } from "sequelize";
 
 
 export const register = async (req: Request, res: Response) => {
@@ -52,21 +53,16 @@ export const login = async (req: Request, res: Response) => {
         throw new customApiErrors.UnauthenticatedError('Invalid Credentials')
     }
 
-    if(!process.env.JWT_SECRET){
-        res.sendStatus(StatusCodes.UNPROCESSABLE_ENTITY)
-        return
-    }
-
-    const token = jwt.sign({email: user.email, name:user.name}, process.env.JWT_SECRET)
-
-    res.status(StatusCodes.OK).json({user: {name:user.name}, token})
-}
-
-export const logout = async (req: Request, res: Response) => {
-    res.cookie('token', 'logout', {
+    res.cookie('session', {email: user.email, name: user.name},{
         httpOnly: true,
         expires: new Date(Date.now() + 30 * 60 * 1000)
     })
+
+    res.status(StatusCodes.OK).json({user: {name:user.name}, message: 'Logged in successfully'})
+}
+
+export const logout = async (req: Request, res: Response) => {
+    res.clearCookie('session')
     res.status(StatusCodes.OK).json({
         msg: 'user logged out!'
     })
