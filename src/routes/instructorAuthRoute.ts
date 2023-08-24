@@ -1,9 +1,9 @@
 import express from 'express'
-const instructorRouter = express.Router()
+const instructorAuthRouter = express.Router()
 import {register, login, logout} from '../controllers/instructorAuth'
 
-instructorRouter.post('/instructor/register', register)
-instructorRouter.post('/instructor/login', login)
-instructorRouter.get('/instructor/logout', logout)
+instructorAuthRouter.post('/instructor/register', register)
+instructorAuthRouter.post('/instructor/login', login)
+instructorAuthRouter.get('/instructor/logout', logout)
 
-export default instructorRouter
+export default instructorAuthRouter

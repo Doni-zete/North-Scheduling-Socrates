@@ -4,8 +4,6 @@ import express, { Request, Response } from 'express'
 import mongoose from 'mongoose'
 import errorHandler from './middlewares/errorHandler'
 import notFoundRoute from './middlewares/notFoundRoute'
-import studentRoute from './routes/studentRoutes'
-
 
 const app = express()
 app.use(express.json())
@@ -14,11 +12,9 @@ app.get('/', (req: Request, res: Response) => {
     res.send('Running')
 })
 
-app.use('/api/v1', studentRoute)
-
 // Routers
-import instructorRouter from './routes/instructorAuthRoute'
-
+import instructorAuthRouter from './routes/instructorAuthRoute'
+import studentRoute from './routes/studentRoutes'
 
 // Base page
 app.get('/', (req: Request, res: Response) => {
@@ -26,7 +22,8 @@ app.get('/', (req: Request, res: Response) => {
 })
 
 // Routes
-app.use('/api/v1', instructorRouter)
+app.use('/api/v1', instructorAuthRouter)
+app.use('/api/v1', studentRoute)
 
 // Middlewares
 app.use(notFoundRoute)
