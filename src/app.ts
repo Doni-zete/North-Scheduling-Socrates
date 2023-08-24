@@ -4,12 +4,21 @@ import express, { Request, Response } from 'express'
 import mongoose from 'mongoose'
 import errorHandler from './middlewares/errorHandler'
 import notFoundRoute from './middlewares/notFoundRoute'
+import studentRoute from './routes/studentRoutes'
 
 
 const app = express()
 app.use(express.json())
+
+app.get('/', (req: Request, res: Response) => {
+    res.send('Running')
+})
+
+app.use('/api/v1', studentRoute)
+
 // Routers
 import instructorRouter from './routes/instructorAuthRoute'
+
 
 // Base page
 app.get('/', (req: Request, res: Response) => {
