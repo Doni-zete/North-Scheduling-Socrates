@@ -38,5 +38,23 @@ export const updateStudent = async (req: Request, res: Response) => {
     }
 }
 
+export const deleteStudent = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id
+        if (!mongoose.isValidObjectId(id)) {
+            return res.status(StatusCodes.BAD_REQUEST).send({ message: `Id provided is out of standard: ${id}` });
+        }
 
+        const student = await Student.findByIdAndRemove({
+            _id: id
+        })
+        if (!student) {
+            return res.status(StatusCodes.NOT_FOUND).send({ message: `Student not found: ${id}` });
+        }
+        return res.status(StatusCodes.OK).send({ message: `Student deleted successfully` });
+
+    } catch (error) {
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(`Unexpected error, try again ${error}`);
+    }
+}
 
