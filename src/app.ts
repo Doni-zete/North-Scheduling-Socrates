@@ -16,6 +16,19 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use('/api/v1', studentRoute)
 
+// Routers
+import instructorRouter from './routes/instructorAuthRoute'
+
+
+// Base page
+app.get('/', (req: Request, res: Response) => {
+    res.send('North Scheduling Socrates')
+})
+
+// Routes
+app.use('/api/v1', instructorRouter)
+
+// Middlewares
 app.use(notFoundRoute)
 app.use(errorHandler)
 
