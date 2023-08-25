@@ -5,12 +5,11 @@ import { StatusCodes } from "http-status-codes";
 
 const authenticateUser = async (req: Request, res:Response, next: NextFunction)=>{
 
-    const authHeader = req.headers.authorization
+    const token = req.cookies.token
 
-    if(!authHeader){
+    if(!token){
         throw new customApiErrors.UnauthenticatedError("No token found")
     }
-    const token = authHeader.replace('Bearer ', '')
 
     if(!process.env.JWT_SECRET){
         res.sendStatus(StatusCodes.UNPROCESSABLE_ENTITY)
