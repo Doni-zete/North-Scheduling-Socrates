@@ -4,6 +4,7 @@ import express, { Request, Response } from 'express'
 import mongoose from 'mongoose'
 import errorHandler from './middlewares/errorHandler'
 import notFoundRoute from './middlewares/notFoundRoute'
+import authenticateUser from './middlewares/authentication'
 
 const app = express()
 app.use(express.json())

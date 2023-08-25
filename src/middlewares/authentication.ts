@@ -3,7 +3,7 @@ import customApiErrors from "../errors/customApiErrors";
 import { Request, Response, NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 
-export const authenticateUser = async (req: Request, res:Response, next: NextFunction)=>{
+const authenticateUser = async (req: Request, res:Response, next: NextFunction)=>{
 
     const authHeader = req.headers.authorization
 
@@ -27,3 +27,5 @@ export const authenticateUser = async (req: Request, res:Response, next: NextFun
 
     next()
 }
+
+export default authenticateUser
