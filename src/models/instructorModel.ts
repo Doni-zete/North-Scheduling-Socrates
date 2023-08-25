@@ -52,12 +52,6 @@ InstructorSchema.pre('save', async function (next) {
     next()
 })
 
-InstructorSchema.methods.createJWT = async function () {
-    const jwtSecret = process.env.JWT_SECRET
-    return jwt.sign({ usedId: this._id, name: this.name }, jwtSecret, { expiresIn: process.env.JWT_LIFETIME }
-    )
-}
-
 InstructorSchema.methods.comparePassword = async function (candidatePassword: string) {
     return await bcrypt.compare(candidatePassword, this.password)
 }

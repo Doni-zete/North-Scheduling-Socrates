@@ -11,7 +11,6 @@ interface InstructorDocument extends Document {
     email: string,
     password: string,
     comparePassword (candidatePassword:string): Promise<boolean>,
-    createJWT():Promise<string>
 }
 
 export default InstructorDocument
