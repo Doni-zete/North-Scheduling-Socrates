@@ -1,15 +1,56 @@
 import Student from '../models/studentModel'
 import { Request, Response } from "express"
 import { StatusCodes } from 'http-status-codes'
+import jwt from 'jsonwebtoken';
+import customApiErrors from '../errors/customApiErrors';
 import mongoose from 'mongoose';
 
 
-export const createStudent = async (req: Request, res: Response) => {
-    const studentData = {
-        ...req.body,
-    };
-    const students = await Student.create(studentData)
+export const registerStudent = async (req: Request, res: Response) => {
+    const { name, email, password, schooling } = req.body
+
+    if (!name || !email || !password || !schooling) {
+        throw new customApiErrors.BadRequestError('Please provide valid payload.')
+    }
+
+    const students = await Student.create(name, email, password, schooling)
     return res.status(StatusCodes.CREATED).json(students)
+}
+
+export const login = async (req: Request, res: Response) => {
+    const { email, password } = req.body
+
+    if (!email || !password) {
+        throw new customApiErrors.BadRequestError('Please provide valid payload')
+    }
+
+    const user = await Student.findOne({ email })
+
+    if (!user) {
+        throw new customApiErrors.UnauthenticatedError("Invalid Credentials")
+    }
+
+    const isPasswordCorrect = await user.comparePassword(password)
+
+    if (!isPasswordCorrect) {
+        throw new customApiErrors.UnauthenticatedError('Invalid Credentials')
+    }
+
+    const token = jwt.sign({ id: user._id, name: user.name, role: 'student' }, process.env.JWT_SECRET)
+
+    res.cookie('token', token, {
+        httpOnly: true,
+        expires: new Date(Date.now() + 30 * 60 * 1000)
+    })
+
+    res.status(StatusCodes.OK).json({ user: { name: user.name }, message: 'Logged in successfully' })
+}
+
+export const logout = async (req: Request, res: Response) => {
+    res.clearCookie('token')
+    res.status(StatusCodes.OK).json({
+        msg: 'user logged out!'
+    })
 }
 
 export const findAllStudents = async (req: Request, res: Response) => {
