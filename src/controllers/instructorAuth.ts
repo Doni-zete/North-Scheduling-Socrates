@@ -3,7 +3,6 @@ import Instructor from "../models/instructorModel";
 import { Request, Response } from "express";
 import jwt from 'jsonwebtoken'
 import customApiErrors from "../errors/customApiErrors";
-import { DATE } from "sequelize";
 
 
 export const register = async (req: Request, res: Response) => {
