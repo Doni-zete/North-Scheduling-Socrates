@@ -8,10 +8,6 @@ import notFoundRoute from './middlewares/notFoundRoute'
 const app = express()
 app.use(express.json())
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Running')
-})
-
 // Routers
 import instructorAuthRouter from './routes/instructorRoutes'
 import studentRoute from './routes/studentRoutes'
