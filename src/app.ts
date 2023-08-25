@@ -13,7 +13,7 @@ app.get('/', (req: Request, res: Response) => {
 })
 
 // Routers
-import instructorAuthRouter from './routes/instructorAuthRoute'
+import instructorAuthRouter from './routes/instructorRoutes'
 import studentRoute from './routes/studentRoutes'
 
 // Base page
