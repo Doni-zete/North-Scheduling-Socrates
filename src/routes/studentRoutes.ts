@@ -1,5 +1,7 @@
 import { Router } from "express";
 import * as studentController from '../controllers/studentController'
+import authenticateUser from "../middlewares/authnetication";
+
 const router = Router()
 
 
