@@ -2,13 +2,17 @@ import Student from '../models/studentModel'
 import { Request, Response } from "express"
 import { StatusCodes } from 'http-status-codes'
 import mongoose from 'mongoose';
+import customApiErrors from '../errors/customApiErrors';
 
 
-export const createStudent = async (req: Request, res: Response) => {
-    const studentData = {
-        ...req.body,
-    };
-    const students = await Student.create(studentData)
+export const registerStudent = async (req: Request, res: Response) => {
+    const { name, email, password, schooling } = req.body
+
+    if(!name || !email || !password || !schooling){
+        throw new customApiErrors.BadRequestError('Please provide valid payload.')
+    }
+
+    const students = await Student.create(name, email, password, schooling)
     return res.status(StatusCodes.CREATED).json(students)
 }
 
