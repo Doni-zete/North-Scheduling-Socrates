@@ -22,7 +22,7 @@ const authenticateUser = async (req: Request, res:Response, next: NextFunction)=
         throw new customApiErrors.UnauthenticatedError('Invalid token payload')
     }
 
-    res.locals.useremail = payload.email
+    req.user = {email: payload.email}
 
     next()
 }
