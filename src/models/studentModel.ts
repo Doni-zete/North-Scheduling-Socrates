@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from 'bcryptjs'
+import { studentDocument } from "./studentDocument";
 
 const StudentSchema = new mongoose.Schema({
     name: {
@@ -29,6 +30,6 @@ StudentSchema.methods.comparePassword =async function (candidatePassword:string)
     return await bcrypt.compare(candidatePassword, this.password)
 }
 
-const student = mongoose.model('Students', StudentSchema)
+const student = mongoose.model<studentDocument>('Students', StudentSchema)
 
 export default student
