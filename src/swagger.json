@@ -1,1 +1,12 @@
-{}
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "North Scheduling Socrates",
+        "description": "A API N.S.S. (North Scheduling Socrates) tem como seu objetivo possibilitar o agendamento de aulas de forma dinâmica, onde um instrutor pode se cadastrar para mestrar aulas, e o aluno pode agendar uma aula com o instrutor.",
+        "version": "1.0.0",
+        "contact": {
+            "name": "API Support",
+            "email": "asttryd.pacheco.pb@compass.com.br"
+        }
+    }
+}
