@@ -1,9 +1,18 @@
 import express from 'express'
-const instructorAuthRouter = express.Router()
-import {register, login, logout} from '../controllers/instructorController'
+import { register, login, logout, findAllInstructors, updateInstructor, deleteInstructor } from '../controllers/instructorController'
+import authenticateUser from '../middlewares/authentication'
+import { authorizePermissions } from '../middlewares/authorization'
 
-instructorAuthRouter.post('/instructor/register', register)
-instructorAuthRouter.post('/instructor/login', login)
-instructorAuthRouter.get('/instructor/logout', logout)
+const instructorRouter = express.Router()
 
-export default instructorAuthRouter
+instructorRouter.post('/instructor/register', register)
+instructorRouter.post('/instructor/login', login)
+instructorRouter.get('/instructor/logout', logout)
+
+instructorRouter.use(authenticateUser)
+
+instructorRouter.get('/instructor/findAll', authorizePermissions(['instructor']), findAllInstructors)
+instructorRouter.patch('/instructor/update/:id', authorizePermissions(['instructor']), updateInstructor)
+instructorRouter.delete('/instructor/delete/id', authorizePermissions(['instructor']), deleteInstructor)
+
+export default instructorRouter

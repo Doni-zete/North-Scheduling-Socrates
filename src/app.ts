@@ -4,9 +4,12 @@ import express, { Request, Response } from 'express'
 import mongoose from 'mongoose'
 import errorHandler from './middlewares/errorHandler'
 import notFoundRoute from './middlewares/notFoundRoute'
+import cookieParser from 'cookie-parser'
 
 const app = express()
 app.use(express.json())
+
+app.use(cookieParser(process.env.JWT_SECRET))
 
 // Routers
 import instructorAuthRouter from './routes/instructorRoutes'

@@ -16,7 +16,7 @@ const authenticateUser = async (req: Request, res: Response, next: NextFunction)
         return
     }
 
-    const payload = jwt.verify('token', process.env.JWT_SECRET) as { id: string, name: string, role: string }
+    const payload = jwt.verify(token, process.env.JWT_SECRET) as { id: string, name: string, role: string }
 
     req.user = { id: payload.id, name: payload.name, role: payload.role }
 
