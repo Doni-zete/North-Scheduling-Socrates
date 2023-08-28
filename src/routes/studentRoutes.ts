@@ -5,7 +5,7 @@ import authenticateUser from "../middlewares/authentication";
 const router = Router()
 
 
-router.post('/student/register', studentController.registerStudent)
+router.post('/student/register', studentController.register)
 router.post('student/login', studentController.login)
 router.get('student/login', studentController.logout)
 
