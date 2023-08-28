@@ -33,6 +33,12 @@ class NotFoundError extends CustomApiError {
     }
 }
 
-const customApiErrors = { CustomApiError, BadRequestError, UnauthenticatedError, UnauthorizedError, NotFoundError }
+class UnprocessableEntity extends CustomApiError {
+    constructor(message:string) {
+        super(message, StatusCodes.UNPROCESSABLE_ENTITY)
+    }
+}
+
+const customApiErrors = { CustomApiError, BadRequestError, UnauthenticatedError, UnauthorizedError, NotFoundError, UnprocessableEntity }
 
 export default customApiErrors
