@@ -3,6 +3,7 @@ import Instructor from "../models/instructorModel";
 import { Request, Response } from "express";
 import jwt from 'jsonwebtoken'
 import customApiErrors from "../errors/customApiErrors";
+import mongoose from "mongoose";
 
 export const register = async (req: Request, res: Response) => {
 
@@ -55,7 +56,8 @@ export const login = async (req: Request, res: Response) => {
 
     res.cookie('token', token, {
         httpOnly: true,
-        expires: new Date(Date.now() + 30 * 60 * 1000)
+        expires: new Date(Date.now() + 30 * 60 * 1000),
+        secure: true
     })
 
     res.status(StatusCodes.OK).json({ user: { name: user.name }, message: 'Logged in successfully' })
@@ -67,3 +69,62 @@ export const logout = async (req: Request, res: Response) => {
         msg: 'user logged out!'
     })
 }
+
+export const findAllInstructors = async (req: Request, res: Response) => {
+    const instructors = await Instructor.find({ createdBy: req.params.instructorId })
+
+    if(!instructors){
+        throw new customApiErrors.NotFoundError('No instructors found')
+    }
+
+    res.status(StatusCodes.OK).json({instructors})
+}
+
+export const updateInstructor = async (req: Request, res: Response) => {
+    const id = req.params.id
+    const instructorData: {} = req.body
+
+    if (!id) {
+        throw new customApiErrors.BadRequestError('Invalid Credentials')
+    }
+
+    if (!instructorData) {
+        throw new customApiErrors.BadRequestError('Please provide the data to be updated')
+    }
+
+    if (!mongoose.isValidObjectId(id)) {
+        throw new customApiErrors.BadRequestError(`Id provided is out of standard: ${id}`);
+    }
+    const updatedInstructor = await Instructor.findByIdAndUpdate(id, instructorData, { new: true });
+
+    if (!updatedInstructor) {
+        throw new customApiErrors.NotFoundError(`Instructor not found: ${id}`);
+    }
+
+    res.status(StatusCodes.OK).json({updatedInstructor});
+}
+
+export const deleteInstructor = async (req: Request, res: Response) => {
+
+    const id = req.params.id
+
+    if (!id) {
+        throw new customApiErrors.BadRequestError('Invalid Credentials')
+    }
+
+    if (!mongoose.isValidObjectId(id)) {
+        throw new customApiErrors.BadRequestError(`Id provided is out of standard: ${id}`);
+    }
+
+    const instructor = await Instructor.findByIdAndRemove({
+        _id: id
+    })
+
+    if (!instructor) {
+        throw new customApiErrors.NotFoundError(`Instructor not found: ${id}`);
+    }
+
+    res.status(StatusCodes.OK).send(`Instructor deleted successfully`);
+
+}
+
