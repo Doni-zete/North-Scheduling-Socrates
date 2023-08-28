@@ -5,11 +5,15 @@ import mongoose from 'mongoose'
 import errorHandler from './middlewares/errorHandler'
 import notFoundRoute from './middlewares/notFoundRoute'
 import cookieParser from 'cookie-parser'
+import swaggerUi from 'swagger-ui-express'
+import swaggerDocs from './swagger.json'
 
 const app = express()
 app.use(express.json())
 
 app.use(cookieParser(process.env.JWT_SECRET))
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
 // Routers
 import instructorAuthRouter from './routes/instructorRoutes'
