@@ -67,9 +67,12 @@ const findAll = async (req: Request, res: Response) => {
 }
 
 const findById = async (req: Request, res: Response) => {
-    const instructors = await Instructor.find({ _id: req.params.id })
+    const instructor = await Instructor.findById(req.params.id)
+    if (!instructor) {
+        throw new customApiErrors.NotFoundError('Record was not found')
+    }
 
-    return res.status(StatusCodes.OK).json({ instructors })
+    return res.status(StatusCodes.OK).json({ instructor })
 }
 
 const updateId = async (req: Request, res: Response) => {
