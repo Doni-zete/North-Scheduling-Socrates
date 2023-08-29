@@ -12,9 +12,9 @@ export const register = async (req: Request, res: Response) => {
         throw new customApiErrors.BadRequestError('Please provide valid payload.')
     }
 
-    const students = await Student.create(name, email, password, schooling)
+    const student = await Student.create({name, email, password, schooling})
 
-    return res.status(StatusCodes.CREATED).json(students)
+    return res.status(StatusCodes.CREATED).json({ student: { _id: student._id, name: student.name, role: 'student' } })
 }
 
 export const login = async (req: Request, res: Response) => {
