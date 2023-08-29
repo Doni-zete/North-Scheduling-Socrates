@@ -13,6 +13,6 @@ instructorRouter.use(authenticateUser)
 
 instructorRouter.get('/instructor/findAll', authorizePermissions(['instructor']), findAllInstructors)
 instructorRouter.patch('/instructor/update/:id', authorizePermissions(['instructor']), updateInstructor)
-instructorRouter.delete('/instructor/delete/id', authorizePermissions(['instructor']), deleteInstructor)
+instructorRouter.delete('/instructor/delete/:id', authorizePermissions(['instructor']), deleteInstructor)
 
 export default instructorRouter
