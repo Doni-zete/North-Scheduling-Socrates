@@ -1,9 +1,11 @@
-import { Document } from "mongoose";
+import { Document } from "mongoose"
 
-export interface studentDocument extends Document {
+interface StudentDocument extends Document {
     name: string,
     email: string,
     password: string,
     schooling: string,
-    comparePassword (candidatePassword:string): Promise<boolean>
+    comparePassword(candidatePassword: string): Promise<boolean>
 }
+
+export default StudentDocument

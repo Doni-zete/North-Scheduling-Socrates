@@ -1,4 +1,4 @@
-import {Document} from 'mongoose'
+import { Document } from 'mongoose'
 
 interface InstructorDocument extends Document {
     name: string,
@@ -10,7 +10,7 @@ interface InstructorDocument extends Document {
     classLocation: string,
     email: string,
     password: string,
-    comparePassword (candidatePassword:string): Promise<boolean>,
+    comparePassword(candidatePassword: string): Promise<boolean>,
 }
 
 export default InstructorDocument

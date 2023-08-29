@@ -1,15 +1,19 @@
 import express from 'express'
-import { register, login, logout, findAllInstructors, updateInstructor, deleteInstructor } from '../controllers/instructorController'
+import instructorController from '../controllers/instructorController'
 import authenticateUser from '../middlewares/authentication'
 import { authorizePermissions } from '../middlewares/authorization'
 
-const instructorRouter = express.Router()
+const Router = express.Router()
 
-instructorRouter.post('/instructor/register', register)
-instructorRouter.post('/instructor/login', login)
-instructorRouter.get('/instructor/logout', logout)
-instructorRouter.get('/instructor/findAll', authenticateUser, authorizePermissions(['instructor']), findAllInstructors)
-instructorRouter.patch('/instructor/update/:id', authenticateUser, authorizePermissions(['instructor']), updateInstructor)
-instructorRouter.delete('/instructor/delete/:id', authenticateUser, authorizePermissions(['instructor']), deleteInstructor)
+// Auth-routes
+Router.post('/auth/instructor/register', instructorController.register)
+Router.post('/auth/instructor/login', instructorController.login)
+Router.get('/auth/instructor/logout', instructorController.logout)
 
-export default instructorRouter
+Router.get('/instructor/', authenticateUser, authorizePermissions(['instructor']), instructorController.findAll)
+Router.get('/instructor/:id', authenticateUser, authorizePermissions(['instructor']), instructorController.findById)
+Router.patch('/instructor/:id', authenticateUser, authorizePermissions(['instructor']), instructorController.updateId)
+Router.delete('/instructor/:id', authenticateUser, authorizePermissions(['instructor']), instructorController.deleteId)
+
+
+export default Router
