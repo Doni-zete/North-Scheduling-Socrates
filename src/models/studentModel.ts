@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 import bcrypt from 'bcryptjs'
-import { studentDocument } from "./studentDocument";
+import StudentDocument from "./studentDocument"
 
 const StudentSchema = new mongoose.Schema({
     name: {
@@ -18,18 +18,18 @@ const StudentSchema = new mongoose.Schema({
 
 })
 
-StudentSchema.pre('save', async function(next){
-    if (this.password){
+StudentSchema.pre('save', async function (next) {
+    if (this.password) {
         const salt = await bcrypt.genSalt(10)
         this.password = await bcrypt.hash(this.password, salt)
     }
     next()
 })
 
-StudentSchema.methods.comparePassword =async function (candidatePassword:string) {
+StudentSchema.methods.comparePassword = async function (candidatePassword: string) {
     return await bcrypt.compare(candidatePassword, this.password)
 }
 
-const student = mongoose.model<studentDocument>('Students', StudentSchema)
+const Student = mongoose.model<StudentDocument>('Students', StudentSchema)
 
-export default student
+export default Student
