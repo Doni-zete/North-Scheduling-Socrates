@@ -12,8 +12,8 @@ export default function errorHandler(err: any, req: express.Request, res: expres
         return res.status(err.statusCode).json({ error: err.message })
     }
 
-    if (err instanceof jwt.JsonWebTokenError || err instanceof jwt.NotBeforeError || jwt.TokenExpiredError) {
-        return res.status(StatusCodes.UNAUTHORIZED).json({ error: "Invalid or expired token!" })
+    if (err instanceof jwt.JsonWebTokenError || err instanceof jwt.NotBeforeError || err instanceof jwt.TokenExpiredError) {
+        return res.status(StatusCodes.UNAUTHORIZED).json({ error: "Invalid or  token!"})
     }
 
     // This error is from MongoServerError, not mongoose.Error - {unique: true} in schema
