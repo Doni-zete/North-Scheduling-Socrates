@@ -1,23 +1,23 @@
 import Student from '../models/studentModel'
-import { Request, Response } from "express"
 import { StatusCodes } from 'http-status-codes'
+import { Request, Response } from "express"
 import jwt from 'jsonwebtoken'
 import customApiErrors from '../errors/customApiErrors'
 import mongoose from 'mongoose'
 
 
-export const register = async (req: Request, res: Response) => {
+const register = async (req: Request, res: Response) => {
     const { name, email, password, schooling } = req.body
     if (!name || !email || !password || !schooling) {
         throw new customApiErrors.BadRequestError('Please provide valid payload.')
     }
 
-    const student = await Student.create({name, email, password, schooling})
+    const student = await Student.create({ name, email, password, schooling })
 
     return res.status(StatusCodes.CREATED).json({ student: { _id: student._id, name: student.name, role: 'student' } })
 }
 
-export const login = async (req: Request, res: Response) => {
+const login = async (req: Request, res: Response) => {
     const { email, password } = req.body
     if (!email || !password) {
         throw new customApiErrors.BadRequestError('Please provide valid payload')
@@ -40,21 +40,27 @@ export const login = async (req: Request, res: Response) => {
     return res.status(StatusCodes.OK).json({ user: { name: user.name }, msg: 'Logged in successfully' })
 }
 
-export const logout = async (req: Request, res: Response) => {
+const logout = async (req: Request, res: Response) => {
     res.clearCookie('token')
 
     return res.status(StatusCodes.OK).json({ msg: 'User logged out!' })
 }
 
-export const findAllStudents = async (req: Request, res: Response) => {
-    const students = await Student.find({ createdBy: req.params.studentId })
+const findAll = async (req: Request, res: Response) => {
+    const students = await Student.find({})
 
-    return res.status(StatusCodes.OK).json(students)
+    return res.status(StatusCodes.OK).json({ students })
 }
 
-export const updateStudent = async (req: Request, res: Response) => {
+const findById = async (req: Request, res: Response) => {
+    const students = await Student.find({ _id: req.params.id })
+
+    return res.status(StatusCodes.OK).json({ students })
+}
+
+const updateId = async (req: Request, res: Response) => {
     const studentData = req.body
-    
+
     const id = req.params.id
     if (!mongoose.isValidObjectId(id)) {
         throw new customApiErrors.BadRequestError(`Id provided is out of standard: ${id}`)
@@ -68,7 +74,7 @@ export const updateStudent = async (req: Request, res: Response) => {
     return res.status(StatusCodes.OK).json(updatedStudent)
 }
 
-export const deleteStudent = async (req: Request, res: Response) => {
+const deleteId = async (req: Request, res: Response) => {
     const id = req.params.id
     if (!mongoose.isValidObjectId(id)) {
         throw new customApiErrors.BadRequestError(`Id provided is out of standard: ${id}`)
@@ -82,3 +88,7 @@ export const deleteStudent = async (req: Request, res: Response) => {
     return res.status(StatusCodes.OK).json({ msg: `Student deleted successfully` })
 }
 
+
+const studentController = { register, login, logout, findAll, findById, updateId, deleteId }
+
+export default studentController
