@@ -13,7 +13,7 @@ router.get('/student/logout', studentController.logout)
 router.use(authenticateUser)
 
 router.get('/student/findAll', authorizePermissions(['student']), studentController.findAllStudents)
-router.put('/student/update/:id', authorizePermissions(['student']), studentController.updateStudent)
+router.patch('/student/update/:id', authorizePermissions(['student']), studentController.updateStudent)
 router.delete('/student/delete/:id', authorizePermissions(['student']), studentController.deleteStudent)
 
 
