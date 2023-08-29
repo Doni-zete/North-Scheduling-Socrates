@@ -1,11 +1,12 @@
-import { StatusCodes } from "http-status-codes"
-import Instructor from "../models/instructorModel"
-import { Request, Response } from "express"
+import Instructor from '../models/instructorModel'
+import { StatusCodes } from 'http-status-codes'
+import { Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
-import customApiErrors from "../errors/customApiErrors"
-import mongoose from "mongoose"
+import customApiErrors from '../errors/customApiErrors'
+import mongoose from 'mongoose'
 
-export const register = async (req: Request, res: Response) => {
+
+const register = async (req: Request, res: Response) => {
     const { name, specialities, availableTime, formOfService, classStartTime, classTime, classLocation, email, password } = req.body
     if (!name || !specialities || !availableTime || !formOfService || !classStartTime || !classTime || !email || !password) {
         throw new customApiErrors.BadRequestError('Please provide valid payload.')
@@ -31,7 +32,7 @@ export const register = async (req: Request, res: Response) => {
 
 }
 
-export const login = async (req: Request, res: Response) => {
+const login = async (req: Request, res: Response) => {
     const { email, password } = req.body
     if (!email || !password) {
         throw new customApiErrors.BadRequestError('Please provide email and password')
@@ -53,22 +54,25 @@ export const login = async (req: Request, res: Response) => {
     return res.status(StatusCodes.OK).json({ user: { name: user.name }, msg: 'Logged in successfully' })
 }
 
-export const logout = async (req: Request, res: Response) => {
+const logout = async (req: Request, res: Response) => {
     res.clearCookie('token')
 
     return res.status(StatusCodes.OK).json({ msg: 'User logged out!' })
 }
 
-export const findAllInstructors = async (req: Request, res: Response) => {
-    const instructors = await Instructor.find({ createdBy: req.params.instructorId })
-    if (!instructors) {
-        throw new customApiErrors.NotFoundError('No instructors found')
-    }
+const findAll = async (req: Request, res: Response) => {
+    const instructors = await Instructor.find({})
 
     return res.status(StatusCodes.OK).json({ instructors })
 }
 
-export const updateInstructor = async (req: Request, res: Response) => {
+const findById = async (req: Request, res: Response) => {
+    const instructors = await Instructor.find({ _id: req.params.id })
+
+    return res.status(StatusCodes.OK).json({ instructors })
+}
+
+const updateId = async (req: Request, res: Response) => {
     const id = req.params.id
     const instructorData: {} = req.body
     if (!id) {
@@ -91,7 +95,7 @@ export const updateInstructor = async (req: Request, res: Response) => {
     return res.status(StatusCodes.OK).json({ updatedInstructor })
 }
 
-export const deleteInstructor = async (req: Request, res: Response) => {
+const deleteId = async (req: Request, res: Response) => {
     const id = req.params.id
     if (!id) {
         throw new customApiErrors.BadRequestError('Invalid Credentials')
@@ -110,3 +114,7 @@ export const deleteInstructor = async (req: Request, res: Response) => {
     return res.status(StatusCodes.OK).json({ msg: "Instructor deleted successfully" })
 }
 
+
+const instructorController = { register, login, logout, findAll, findById, updateId, deleteId }
+
+export default instructorController
