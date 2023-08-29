@@ -7,8 +7,8 @@ const router = Router()
 
 
 router.post('/student/register', studentController.register)
-router.post('student/login', studentController.login)
-router.get('student/login', studentController.logout)
+router.post('/student/login', studentController.login)
+router.get('/student/logout', studentController.logout)
 
 router.use(authenticateUser)
 
