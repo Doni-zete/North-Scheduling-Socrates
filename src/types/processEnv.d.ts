@@ -5,5 +5,6 @@ namespace NodeJS {
         MONGO_URI: string
         JWT_SECRET: jwt.Secret
         JWT_LIFETIME: number
+        CREATE_ADMIN_KEY: string
     }
 }
