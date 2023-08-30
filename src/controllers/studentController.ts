@@ -1,18 +1,12 @@
 import Student from '../models/studentModel'
 import { StatusCodes } from 'http-status-codes'
 import { Request, Response } from "express"
-import jwt from 'jsonwebtoken'
 import customApiErrors from '../errors/customApiErrors'
-import mongoose from 'mongoose'
+import { createJwt, setResponseCookie } from '../utils/jwtUtils'
 
 
 const register = async (req: Request, res: Response) => {
-    const { name, email, password, schooling } = req.body
-    if (!name || !email || !password || !schooling) {
-        throw new customApiErrors.BadRequestError('Please provide valid payload.')
-    }
-
-    const student = await Student.create({ name, email, password, schooling })
+    const student = await Student.create(req.body)
 
     return res.status(StatusCodes.CREATED).json({ student: { _id: student._id, name: student.name, role: 'student' } })
 }
@@ -23,21 +17,20 @@ const login = async (req: Request, res: Response) => {
         throw new customApiErrors.BadRequestError('Please provide valid payload')
     }
 
-    const user = await Student.findOne({ email })
-    if (!user) {
+    const student = await Student.findOne({ email })
+    if (!student) {
         throw new customApiErrors.UnauthenticatedError("Invalid Credentials")
     }
 
-    const isPasswordCorrect = await user.comparePassword(password)
+    const isPasswordCorrect = await student.comparePassword(password)
     if (!isPasswordCorrect) {
         throw new customApiErrors.UnauthenticatedError('Invalid Credentials')
     }
 
-    const token = jwt.sign({ id: user._id, name: user.name, role: 'student' }, process.env.JWT_SECRET)
-
-    res.cookie('token', token, { httpOnly: true, expires: new Date(Date.now() + 30 * 60 * 1000), signed: true })
-
-    return res.status(StatusCodes.OK).json({ user: { name: user.name }, msg: 'Logged in successfully' })
+    const token = createJwt(student, 'student')
+    setResponseCookie(token, res)
+    
+    return res.status(StatusCodes.OK).json({ student: { _id: student._id, name: student.name, role: 'student' }, msg: 'Logged in successfully' })
 }
 
 const logout = async (req: Request, res: Response) => {
@@ -58,46 +51,26 @@ const findById = async (req: Request, res: Response) => {
     }
 
     const student = await Student.findById(req.params.id)
-    if (!student) {
-        throw new customApiErrors.NotFoundError('Record was not found')
-    }
 
     return res.status(StatusCodes.OK).json({ student })
 }
 
 const updateId = async (req: Request, res: Response) => {
-    const studentData = req.body
     if ((req.user.role !== 'admin') && (req.user.id !== req.params.id)) {
         throw new customApiErrors.UnauthorizedError('Invalid id request, you only can update your id')
     }
 
-    const id = req.params.id
-    if (!mongoose.isValidObjectId(id)) {
-        throw new customApiErrors.BadRequestError(`Id provided is out of standard: ${id}`)
-    }
+    const updatedStudent = await Student.findByIdAndUpdate(req.params.id, req.body, { new: true })
 
-    const updatedStudent = await Student.findByIdAndUpdate(id, studentData, { new: true })
-    if (!updatedStudent) {
-        throw new customApiErrors.NotFoundError(`Student not found: ${id}`)
-    }
-
-    return res.status(StatusCodes.OK).json(updatedStudent)
+    return res.status(StatusCodes.OK).json({ updatedStudent })
 }
 
 const deleteId = async (req: Request, res: Response) => {
-    const id = req.params.id
     if ((req.user.role !== 'admin') && (req.user.id !== req.params.id)) {
         throw new customApiErrors.UnauthorizedError('Invalid id request, you only can delete your id')
     }
 
-    if (!mongoose.isValidObjectId(id)) {
-        throw new customApiErrors.BadRequestError(`Id provided is out of standard: ${id}`)
-    }
-
-    const student = await Student.findByIdAndRemove({ _id: id })
-    if (!student) {
-        throw new customApiErrors.NotFoundError(`Student not found: ${id}`)
-    }
+    const student = await Student.findByIdAndRemove(req.params.id)
 
     return res.status(StatusCodes.OK).json({ msg: `Student deleted successfully` })
 }

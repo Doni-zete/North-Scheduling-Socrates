@@ -1,19 +1,16 @@
 import Admin from '../models/adminModel'
 import { StatusCodes } from 'http-status-codes'
 import { Request, Response } from 'express'
-import jwt from 'jsonwebtoken'
 import customApiErrors from '../errors/customApiErrors'
-import mongoose from 'mongoose'
+import { createJwt, setResponseCookie } from '../utils/jwtUtils'
 
 
 const register = async (req: Request, res: Response) => {
-    const { name, email, password, key } = req.body
-
-    if (key !== process.env.CREATE_ADMIN_KEY) {
+    if (req.body.key !== process.env.CREATE_ADMIN_KEY) {
         throw new customApiErrors.UnauthorizedError('Invalid admin key')
     }
 
-    const admin = await Admin.create({ name, email, password })
+    const admin = await Admin.create(req.body)
 
     return res.status(StatusCodes.CREATED).json({ admin: { _id: admin._id, name: admin.name, role: 'admin' } })
 }
@@ -34,10 +31,10 @@ const login = async (req: Request, res: Response) => {
         throw new customApiErrors.UnauthenticatedError('Invalid Credentials')
     }
 
-    const token = jwt.sign({ id: admin._id, name: admin.name, role: 'admin' }, process.env.JWT_SECRET)
-    res.cookie('token', token, { httpOnly: true, expires: new Date(Date.now() + 30 * 60 * 1000), signed: true })
+    const token = createJwt(admin, 'admin')
+    setResponseCookie(token, res)
 
-    return res.status(StatusCodes.OK).json({ admin: { name: admin.name }, msg: 'Logged in successfully' })
+    return res.status(StatusCodes.OK).json({ admin: { _id: admin._id, name: admin.name, role: 'admin' }, msg: 'Logged in successfully' })
 }
 
 const logout = async (req: Request, res: Response) => {
@@ -69,6 +66,7 @@ const deleteId = async (req: Request, res: Response) => {
 
     return res.status(StatusCodes.OK).json({ msg: "Admin deleted successfully" })
 }
+
 
 const adminController = { register, login, logout, findAll, findById, updateId, deleteId }
 
