@@ -1,7 +1,7 @@
 import express from 'express'
 import studentController from '../controllers/studentController'
-import authenticateUser from "../middlewares/authentication"
-import { authorizePermissions } from "../middlewares/authorization"
+import authenticateUser from '../middlewares/authentication'
+import { authorizePermissions } from '../middlewares/authorization'
 
 const Router = express.Router()
 
