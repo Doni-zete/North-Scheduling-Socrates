@@ -67,6 +67,10 @@ const findAll = async (req: Request, res: Response) => {
 }
 
 const findById = async (req: Request, res: Response) => {
+    if ((req.user.role !== 'admin') && (req.user.id !== req.params.id)) {
+        throw new customApiErrors.UnauthorizedError('Invalid id request, you only can get your id')
+    }
+
     const instructor = await Instructor.findById(req.params.id)
     if (!instructor) {
         throw new customApiErrors.NotFoundError('Record was not found')
@@ -78,6 +82,11 @@ const findById = async (req: Request, res: Response) => {
 const updateId = async (req: Request, res: Response) => {
     const id = req.params.id
     const instructorData: {} = req.body
+
+    if ((req.user.role !== 'admin') && (req.user.id !== req.params.id)) {
+        throw new customApiErrors.UnauthorizedError('Invalid id request, you only can update your id')
+    }
+
     if (!id) {
         throw new customApiErrors.BadRequestError('Invalid Credentials')
     }
@@ -100,6 +109,11 @@ const updateId = async (req: Request, res: Response) => {
 
 const deleteId = async (req: Request, res: Response) => {
     const id = req.params.id
+
+    if ((req.user.role !== 'admin') && (req.user.id !== req.params.id)) {
+        throw new customApiErrors.UnauthorizedError('Invalid id request, you only can delete your id')
+    }
+    
     if (!id) {
         throw new customApiErrors.BadRequestError('Invalid Credentials')
     }
