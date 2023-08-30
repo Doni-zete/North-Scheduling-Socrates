@@ -11,9 +11,9 @@ Router.post('/auth/student/login', studentController.login)
 Router.get('/auth/student/logout', studentController.logout)
 
 Router.get('/student/', authenticateUser, authorizePermissions(['admin']), studentController.findAll)
-Router.get('/student/:id', authenticateUser, authorizePermissions(['student']), studentController.findById)
-Router.patch('/student/:id', authenticateUser, authorizePermissions(['student']), studentController.updateId)
-Router.delete('/student/:id', authenticateUser, authorizePermissions(['student']), studentController.deleteId)
+Router.get('/student/:id', authenticateUser, authorizePermissions(['student', 'admin']), studentController.findById)
+Router.patch('/student/:id', authenticateUser, authorizePermissions(['student', 'admin']), studentController.updateId)
+Router.delete('/student/:id', authenticateUser, authorizePermissions(['student', 'admin']), studentController.deleteId)
 
 
 export default Router

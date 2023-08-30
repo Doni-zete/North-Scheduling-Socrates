@@ -53,6 +53,10 @@ const findAll = async (req: Request, res: Response) => {
 }
 
 const findById = async (req: Request, res: Response) => {
+    if ((req.user.role !== 'admin') && (req.user.id !== req.params.id)) {
+        throw new customApiErrors.UnauthorizedError('Invalid id request, you only can get your id')
+    }
+
     const student = await Student.findById(req.params.id)
     if (!student) {
         throw new customApiErrors.NotFoundError('Record was not found')
@@ -63,6 +67,9 @@ const findById = async (req: Request, res: Response) => {
 
 const updateId = async (req: Request, res: Response) => {
     const studentData = req.body
+    if ((req.user.role !== 'admin') && (req.user.id !== req.params.id)) {
+        throw new customApiErrors.UnauthorizedError('Invalid id request, you only can update your id')
+    }
 
     const id = req.params.id
     if (!mongoose.isValidObjectId(id)) {
@@ -79,6 +86,10 @@ const updateId = async (req: Request, res: Response) => {
 
 const deleteId = async (req: Request, res: Response) => {
     const id = req.params.id
+    if ((req.user.role !== 'admin') && (req.user.id !== req.params.id)) {
+        throw new customApiErrors.UnauthorizedError('Invalid id request, you only can delete your id')
+    }
+
     if (!mongoose.isValidObjectId(id)) {
         throw new customApiErrors.BadRequestError(`Id provided is out of standard: ${id}`)
     }
