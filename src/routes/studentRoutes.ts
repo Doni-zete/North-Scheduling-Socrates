@@ -10,7 +10,7 @@ Router.post('/auth/student/register', studentController.register)
 Router.post('/auth/student/login', studentController.login)
 Router.get('/auth/student/logout', studentController.logout)
 
-Router.get('/student/', authenticateUser, authorizePermissions(['student']), studentController.findAll)
+Router.get('/student/', authenticateUser, authorizePermissions(['admin']), studentController.findAll)
 Router.get('/student/:id', authenticateUser, authorizePermissions(['student']), studentController.findById)
 Router.patch('/student/:id', authenticateUser, authorizePermissions(['student']), studentController.updateId)
 Router.delete('/student/:id', authenticateUser, authorizePermissions(['student']), studentController.deleteId)

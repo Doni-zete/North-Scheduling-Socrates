@@ -16,6 +16,7 @@ app.use(cookieParser(process.env.JWT_SECRET))
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
 // Routers
+import adminRoute from './routes/adminRoutes'
 import instructorRoute from './routes/instructorRoutes'
 import studentRoute from './routes/studentRoutes'
 
@@ -25,6 +26,7 @@ app.get('/', (req: Request, res: Response) => {
 })
 
 // Routes
+app.use('/api', adminRoute)
 app.use('/api', instructorRoute)
 app.use('/api', studentRoute)
 
