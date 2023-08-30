@@ -51,7 +51,9 @@ const findById = async (req: Request, res: Response) => {
     }
 
     const instructor = await Instructor.findById(req.params.id)
-
+    if (!instructor) {
+        throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
+    }
     return res.status(StatusCodes.OK).json({ instructor })
 }
 
@@ -61,7 +63,9 @@ const updateId = async (req: Request, res: Response) => {
     }
 
     const updatedInstructor = await Instructor.findByIdAndUpdate(req.params.id, req.body, { new: true })
-
+    if (!updatedInstructor) {
+        throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
+    }
     return res.status(StatusCodes.OK).json({ updatedInstructor })
 }
 
@@ -71,7 +75,9 @@ const deleteId = async (req: Request, res: Response) => {
     }
 
     const instructor = await Instructor.findByIdAndRemove(req.params.id)
-
+    if (!instructor) {
+        throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
+    }
     return res.status(StatusCodes.OK).json({ msg: "Instructor deleted successfully" })
 }
 

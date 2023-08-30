@@ -51,19 +51,25 @@ const findAll = async (req: Request, res: Response) => {
 
 const findById = async (req: Request, res: Response) => {
     const admin = await Admin.findById(req.params.id)
-
+    if (!admin) {
+        throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
+    }
     return res.status(StatusCodes.OK).json({ admin })
 }
 
 const updateId = async (req: Request, res: Response) => {
     const updatedAdmin = await Admin.findByIdAndUpdate(req.params.id, req.body, { new: true })
-
+    if (!updatedAdmin) {
+        throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
+    }
     return res.status(StatusCodes.OK).json({ updatedAdmin })
 }
 
 const deleteId = async (req: Request, res: Response) => {
     const admin = await Admin.findByIdAndRemove(req.params.id)
-
+    if (!admin) {
+        throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
+    }
     return res.status(StatusCodes.OK).json({ msg: "Admin deleted successfully" })
 }
 
