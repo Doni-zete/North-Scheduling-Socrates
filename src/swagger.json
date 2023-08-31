@@ -11,7 +11,7 @@
     },
     "servers": [
         {
-            "url": "http://localhost:3000/api/v1",
+            "url": "http://localhost:3000/api",
             "description": "API de teste"
         }
     ],
@@ -32,7 +32,7 @@
                                 "instructor": {
                                     "value": {
                                         "name": "Alana Fernandes",
-                                        "specialties": "Biologia",
+                                        "specialities": "Biologia",
                                         "availableTime": "das 15h até as 18:30h",
                                         "formOfService": "online",
                                         "classStartTime": "2023-08-29T13:41:21.508Z",
@@ -73,7 +73,7 @@
                     "name": {
                         "type": "string"
                     },
-                    "specialties": {
+                    "specialities": {
                         "type": "string"
                     },
                     "formOfService": {
