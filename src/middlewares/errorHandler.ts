@@ -3,7 +3,6 @@ import mongoose from 'mongoose'
 import customApiErrors from '../errors/customApiErrors'
 import { StatusCodes } from 'http-status-codes'
 import jwt from 'jsonwebtoken'
-import { MongoServerError } from 'mongodb'
 
 
 export default function errorHandler(err: Error, req: express.Request, res: express.Response, next: express.NextFunction) {
@@ -16,7 +15,7 @@ export default function errorHandler(err: Error, req: express.Request, res: expr
 	if (err instanceof jwt.JsonWebTokenError || err instanceof jwt.NotBeforeError || err instanceof jwt.TokenExpiredError) {
 		return res.status(StatusCodes.UNAUTHORIZED).json({ error: 'Invalid or expired token!' })
 	}
-	if (err instanceof MongoServerError) {
+	if (err instanceof mongoose.mongo.MongoServerError) {
 		// This error is from MongoServerError, not mongoose.Error - {unique: true} in schema
 		if (err.code === 11000) {
 			err.message = `Invalid value for ${Object.keys(err.keyValue)} field. Please, try again!`
@@ -47,6 +46,6 @@ export default function errorHandler(err: Error, req: express.Request, res: expr
 		return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: '500 Internal Server DB Error' })
 	}
 
-	return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: '500 Internal Server Error' })
+	res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: '500 Internal Server Error' })
 	next(err)
 }
