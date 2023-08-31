@@ -8,5 +8,118 @@
             "name": "API Support",
             "email": "asttryd.pacheco.pb@compass.com.br"
         }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000/api",
+            "description": "API de teste"
+        }
+    ],
+    "paths": {
+        "/auth/instructor/register": {
+            "post": {
+                "summary": "Cadastro de instrutor",
+                "description": "Essa rota é responsável por cadastrar um instrutor novo",
+                "tags": ["Instructor"],
+                "security": [{ "bearerAuth": {} }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Instructor"
+                            },
+                            "examples": {
+                                "instructor": {
+                                    "value": {
+                                        "name": "Alana Fernandes",
+                                        "specialities": "Biologia",
+                                        "availableTime": "das 15h até as 18:30h",
+                                        "formOfService": "online",
+                                        "classStartTime": "2023-08-29T13:41:21.508Z",
+                                        "classTime": 60,
+                                        "classLocation": "Microsoft Teams",
+                                        "email": "alana.bio@gmail.com",
+                                        "password": "anjinho250322"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Instructor created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Instructor"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: please provide valid payload"
+                    }
+                }
+            }
+        }
+        
+    },
+    "components": {
+        "schemas": {
+            "Instructor": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "specialities": {
+                        "type": "string"
+                    },
+                    "formOfService": {
+                        "type": "string"
+                    },
+                    "classStartTime": {
+                        "type": "date"
+                    },
+                    "classTime": {
+                        "type": "number"
+                    },
+                    "classLocation": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Student": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "schooling": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
     }
 }
