@@ -51,6 +51,15 @@ InstructorSchema.pre('save', async function (next) {
 	next()
 })
 
+InstructorSchema.pre('findOneAndUpdate', async function (next) {
+	if (this.get('password')) {
+		const salt = await bcrypt.genSalt(10)
+		const passHashed = await bcrypt.hash(this.get('password'), salt)
+		this.set('password', passHashed)
+	}
+	next()
+})
+
 InstructorSchema.methods.comparePassword = async function (candidatePassword: string) {
 	return await bcrypt.compare(candidatePassword, this.password)
 }
