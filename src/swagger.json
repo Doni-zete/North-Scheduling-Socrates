@@ -16,18 +16,49 @@
         }
     ],
     "paths": {
-        "/instructor/register": {
+        "/auth/instructor/register": {
             "post": {
                 "summary": "Cadastro de instrutor",
                 "description": "Essa rota é responsável por cadastrar um instrutor novo",
                 "tags": ["Instructor"],
+                "security": [{ "bearerAuth": {} }],
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/Instructor"
+                            },
+                            "examples": {
+                                "instructor": {
+                                    "value": {
+                                        "name": "Alana Fernandes",
+                                        "specialties": "Biologia",
+                                        "availableTime": "das 15h até as 18:30h",
+                                        "formOfService": "online",
+                                        "classStartTime": "2023-08-29T13:41:21.508Z",
+                                        "classTime": 60,
+                                        "classLocation": "Microsoft Teams",
+                                        "email": "alana.bio@gmail.com",
+                                        "password": "anjinho250322"
+                                    }
+                                }
                             }
                         }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Instructor created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Instructor"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: please provide valid payload"
                     }
                 }
             }
@@ -81,6 +112,13 @@
                         "type": "string"
                     }
                 }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
             }
         }
     }
