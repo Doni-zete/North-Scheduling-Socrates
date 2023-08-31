@@ -14,5 +14,74 @@
             "url": "http://localhost:3000/api/v1",
             "description": "API de teste"
         }
-    ]
+    ],
+    "paths": {
+        "/instructor/register": {
+            "post": {
+                "summary": "Cadastro de instrutor",
+                "description": "Essa rota é responsável por cadastrar um instrutor novo",
+                "tags": ["Instructor"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Instructor"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+    },
+    "components": {
+        "schemas": {
+            "Instructor": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "specialties": {
+                        "type": "string"
+                    },
+                    "formOfService": {
+                        "type": "string"
+                    },
+                    "classStartTime": {
+                        "type": "date"
+                    },
+                    "classTime": {
+                        "type": "number"
+                    },
+                    "classLocation": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Student": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "schooling": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
 }
