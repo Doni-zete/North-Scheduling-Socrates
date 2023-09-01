@@ -222,6 +222,35 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    }
+                }
+            }
+        },
+        "/student": {
+            "get": {
+                "summary": "Retorna todos os alunos",
+                "description": "Esta rota é responsável por retornar todos os alunos cadastrados na API",
+                "tags": ["Student"],
+                "security": [{ "bearerAuth": [] }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Student"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
                     }
                 }
             }
