@@ -124,7 +124,7 @@
                                 "$ref": "#/components/schemas/Student"
                             },
                             "examples": {
-                                "instructor": {
+                                "student": {
                                     "value": {
                                         "name": "Pietra Gonzalez",
                                         "email": "pietra.gon@gmail.com",
@@ -205,8 +205,8 @@
         },
         "/instructor": {
             "get": {
-                "summary": "Retorna todos os instrutores",
-                "description": "Esta rota é responsável por retornar todos os instrutores cadastrados na API",
+                "summary": "Busca todos os instrutores",
+                "description": "Esta rota é responsável por buscar e retornar todos os instrutores cadastrados na API",
                 "tags": ["Instructor"],
                 "security": [{ "bearerAuth": [] }],
                 "responses": {
@@ -222,6 +222,264 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    }
+                }
+            }
+        },
+        "/instructor/{id}":{
+            "get": {
+                "summary": "Busca um instrutor pelo id",
+                "description": "Esta rota é responsável por buscar e retornar um instrutor pelo id fornecido",
+                "tags": ["Instructor"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do instrutor",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Instructor"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    },
+                    "404": {
+                        "description": "The provided id was not found. Please provide a valid Id"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Busca um instrutor pelo id e o atualiza",
+                "description": "Esta rota é responsável por buscar, atualizar e retornar um instrutor pelo id fornecido",
+                "tags": ["Instructor"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Buscar instrutor pelo Id",
+                        "required": "true"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Instructor"
+                            },
+                            "examples": {
+                                "instructor": {
+                                    "value": {
+                                        "name": "Alana Fernandes",
+                                        "specialities": "Biologia, Química",
+                                        "availableTime": "das 15h até as 18:30h",
+                                        "formOfService": "online",
+                                        "classStartTime": "2023-08-29T13:41:21.508Z",
+                                        "classTime": 60,
+                                        "classLocation":"Microsoft Teams",
+                                        "email": "alana.bio@gmail.com",
+                                        "password": "anjinho250322"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Instructor"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    },
+                    "404": {
+                        "description": "The provided id was not found or there was no data to be updated. Please provide a valid Id or valid data"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Busca um instrutor pelo id e o deleta",
+                "description": "Esta rota é responsável por buscar e deletar um instrutor pelo id fornecido",
+                "tags": ["Instructor"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Buscar instrutor pelo Id",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK. User deleted sucessfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    },
+                    "404": {
+                        "description": "The provided id was not found."
+                    }
+                }
+            }
+        },
+        "/student": {
+            "get": {
+                "summary": "Retorna todos os alunos",
+                "description": "Esta rota é responsável por retornar todos os alunos cadastrados na API",
+                "tags": ["Student"],
+                "security": [{ "bearerAuth": [] }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Student"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    }
+                }
+            }
+        },
+        "/student/{id}":{
+            "get": {
+                "summary": "Busca um estudante pelo id",
+                "description": "Esta rota é responsável por buscar e retornar um estudante pelo id fornecido",
+                "tags": ["Student"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do estudante",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Student"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    },
+                    "404": {
+                        "description": "The provided id was not found. Please provide a valid Id"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Busca um estudante pelo id e o atualiza",
+                "description": "Esta rota é responsável por buscar, atualizar e retornar um estudante pelo id fornecido",
+                "tags": ["Student"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Buscar estudante pelo Id",
+                        "required": "true"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Student"
+                            },
+                            "examples": {
+                                "instructor": {
+                                    "value": {
+                                        "name": "Pietra Gonzalez",
+                                        "email": "pietra.gonza@gmail.com",
+                                        "password": "abc047",
+                                        "schooling": "1 ano do Ensino Médio"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Student"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    },
+                    "404": {
+                        "description": "The provided id was not found or there was no data to be updated. Please provide a valid Id or valid data"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Busca um estudante pelo id e o deleta",
+                "description": "Esta rota é responsável por buscar e deletar um estudante pelo id fornecido",
+                "tags": ["Student"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Buscar estudante pelo Id",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK. User deleted sucessfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    },
+                    "404": {
+                        "description": "The provided id was not found."
                     }
                 }
             }
