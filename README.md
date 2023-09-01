@@ -114,7 +114,7 @@ The challenge simulates a scenario in which this microservice will be used by pe
 
 - [Matheus Bernardo](https://www.linkedin.com/in/matheus-da-cruz-933729104/)
 
-- Gilberto Medeiros -> gilberto.medeiros@compasso.com.br
+- [Gilberto Medeiros](https://www.linkedin.com/in/gilberto-medeiros/)
 
 </details>
 
