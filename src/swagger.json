@@ -191,7 +191,18 @@
                 }
             }
         },
-        
+        "/auth/student/logout": {
+            "get": {
+                "summary": "Logout de estudante",
+                "description": "Essa rota é responsável por deslogar um estudante",
+                "tags": ["Student"],
+                "responses": {
+                    "200": {
+                        "description": "User logged out!"
+                    }
+                }
+            }
+        },
         "/instructor": {
             "get": {
                 "summary": "Retorna todos os instrutores",
