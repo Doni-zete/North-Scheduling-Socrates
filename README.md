@@ -106,13 +106,15 @@ The challenge simulates a scenario in which this microservice will be used by pe
 
 - [Yago Felipe Lopes](https://www.linkedin.com/in/yago-lopes-7b78a580/)
 
-### Instructors:
+### Instructors Contact:
 
 - [Rafael Menegon](https://www.linkedin.com/in/rafael-menegon/)
 
 - [Jonatan Machado](https://www.linkedin.com/in/jonatan-machado/)
 
-- 2 Instructors not found.
+- Matheus Bernardo -> matheus.bernardo@compasso.com.br
+
+- Gilberto Medeiros -> gilberto.medeiros@compasso.com.br
 
 </details>
 
