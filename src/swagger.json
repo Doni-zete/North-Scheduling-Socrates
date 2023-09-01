@@ -205,8 +205,8 @@
         },
         "/instructor": {
             "get": {
-                "summary": "Retorna todos os instrutores",
-                "description": "Esta rota é responsável por retornar todos os instrutores cadastrados na API",
+                "summary": "Busca todos os instrutores",
+                "description": "Esta rota é responsável por buscar e retornar todos os instrutores cadastrados na API",
                 "tags": ["Instructor"],
                 "security": [{ "bearerAuth": [] }],
                 "responses": {
@@ -219,6 +219,38 @@
                                     "items": {
                                         "$ref": "#/components/schemas/Instructor"
                                     }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    }
+                }
+            }
+        },
+        "/instructor/{id}":{
+            "get": {
+                "summary": "Busca um instrutor pelo id",
+                "description": "Esta rota é responsável por buscar e retornar um instrutor pelo id fornecido",
+                "tags": ["Instructor"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do instrutor",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Instructor"
                                 }
                             }
                         }
