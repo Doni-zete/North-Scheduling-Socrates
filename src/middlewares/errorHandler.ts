@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken'
 
 
 export default function errorHandler(err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
-    console.log(err)
+    //console.log(err)
 
     if (err instanceof customApiErrors.CustomApiError) {
         return res.status(err.statusCode).json({ error: err.message })

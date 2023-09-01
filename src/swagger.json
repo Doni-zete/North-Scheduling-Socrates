@@ -86,20 +86,16 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "User logged in successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "password":"string"
-                                }
-                            }
-                        }
+                        "description": "User logged in successfully"
                     },
                     "401": {
                         "description": "Invalid Credentials"
                     },
                     "400": {
                         "description": "Please provide email and password"
+                    },
+                    "500": {
+                        "description": "Internal Server Error: check .env file"
                     }
                 }
             }
@@ -116,6 +112,48 @@
                 }
             }
         },
+        "/auth/student/register": {
+            "post": {
+                "summary": "Cadastro de estudante",
+                "description": "Essa rota é responsável por cadastrar um estudante novo",
+                "tags": ["Student"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Student"
+                            },
+                            "examples": {
+                                "instructor": {
+                                    "value": {
+                                        "name": "Pietra Gonzalez",
+                                        "email": "pietra.gon@gmail.com",
+                                        "password": "abc047",
+                                        "schooling": "9 ano do fundamental II"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Student created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Student"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: please provide valid payload"
+                    }
+                }
+            }
+        },
+        
         "/instructor": {
             "get": {
                 "summary": "Retorna todos os instrutores",
@@ -138,8 +176,7 @@
                     }
                 }
             }
-        } 
-        
+        }
     },
     "components": {
         "schemas": {
