@@ -405,6 +405,58 @@
                         "description": "The provided id was not found. Please provide a valid Id"
                     }
                 }
+            },
+            "patch": {
+                "summary": "Busca um estudante pelo id e o atualiza",
+                "description": "Esta rota é responsável por buscar, atualizar e retornar um estudante pelo id fornecido",
+                "tags": ["Student"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Buscar estudante pelo Id",
+                        "required": "true"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Student"
+                            },
+                            "examples": {
+                                "instructor": {
+                                    "value": {
+                                        "name": "Pietra Gonzalez",
+                                        "email": "pietra.gonza@gmail.com",
+                                        "password": "abc047",
+                                        "schooling": "1 ano do Ensino Médio"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Student"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    },
+                    "404": {
+                        "description": "The provided id was not found or there was no data to be updated. Please provide a valid Id or valid data"
+                    }
+                }
             }
         }
     },
