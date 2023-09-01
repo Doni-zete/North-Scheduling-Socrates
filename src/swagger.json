@@ -259,6 +259,60 @@
                         "description": "Unauthorized, please provide a valid token"
                     }
                 }
+            },
+            "patch": {
+                "summary": "Busca um instrutor pelo id e o atualiza",
+                "description": "Esta rota é responsável por buscar, atualizar e retornar um instrutor pelo id fornecido",
+                "tags": ["Instructor"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Buscar instrutor pelo Id",
+                        "required": "true"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Instructor"
+                            },
+                            "examples": {
+                                "instructor": {
+                                    "value": {
+                                        "name": "Alana Fernandes",
+                                        "specialities": "Biologia, Química",
+                                        "availableTime": "das 15h até as 18:30h",
+                                        "formOfService": "online",
+                                        "classStartTime": "2023-08-29T13:41:21.508Z",
+                                        "classTime": 60,
+                                        "classLocation":"Microsoft Teams",
+                                        "email": "alana.bio@gmail.com",
+                                        "password": "anjinho250322"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Instructor"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    }
+                }
             }
         },
         "/student": {
