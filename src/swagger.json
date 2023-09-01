@@ -86,7 +86,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Instructor logged in successfully",
+                        "description": "User logged in successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -100,6 +100,18 @@
                     },
                     "400": {
                         "description": "Please provide email and password"
+                    }
+                }
+            }
+        },
+        "/auth/instructor/logout": {
+            "get": {
+                "summary": "Logout de instrutor",
+                "description": "Essa rota é responsável por deslogar um instrutor",
+                "tags": ["Instructor"],
+                "responses": {
+                    "200": {
+                        "description": "User logged out!"
                     }
                 }
             }
@@ -123,9 +135,6 @@
                                 }
                             }
                         }
-                    },
-                    "401": {
-                        "description": "Unauthorized. Please provide a token"
                     }
                 }
             }
