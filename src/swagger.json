@@ -124,7 +124,7 @@
                                 "$ref": "#/components/schemas/Student"
                             },
                             "examples": {
-                                "instructor": {
+                                "student": {
                                     "value": {
                                         "name": "Pietra Gonzalez",
                                         "email": "pietra.gon@gmail.com",
@@ -368,6 +368,41 @@
                     },
                     "401": {
                         "description": "Unauthorized, please provide a valid token"
+                    }
+                }
+            }
+        },
+        "/student/{id}":{
+            "get": {
+                "summary": "Busca um estudante pelo id",
+                "description": "Esta rota é responsável por buscar e retornar um estudante pelo id fornecido",
+                "tags": ["Student"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do estudante",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Student"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    },
+                    "404": {
+                        "description": "The provided id was not found. Please provide a valid Id"
                     }
                 }
             }
