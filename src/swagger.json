@@ -257,6 +257,9 @@
                     },
                     "401": {
                         "description": "Unauthorized, please provide a valid token"
+                    },
+                    "404": {
+                        "description": "The provided id was not found. Please provide a valid Id"
                     }
                 }
             },
@@ -311,6 +314,34 @@
                     },
                     "401": {
                         "description": "Unauthorized, please provide a valid token"
+                    },
+                    "404": {
+                        "description": "The provided id was not found or there was no data to be updated. Please provide a valid Id or valid data"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Busca um instrutor pelo id e o deleta",
+                "description": "Esta rota é responsável por buscar e deletar um instrutor pelo id fornecido",
+                "tags": ["Instructor"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Buscar instrutor pelo Id",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK. User deleted sucessfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    },
+                    "404": {
+                        "description": "The provided id was not found."
                     }
                 }
             }
