@@ -34,16 +34,16 @@ The challenge simulates a scenario in which this microservice will be used by pe
 • TypeScript        
 • Node.js        
 • Express        
-• MongoDB
-• Mongoose
-• JWT (JSON Web Tokens)
-• jsonwebtoken
-• Express Validator
-• Eslint
-• HTTP Status Codes
-• Express Router
-• Cookies
-• Swagger
+• MongoDB        
+• Mongoose        
+• JWT (JSON Web Tokens)        
+• jsonwebtoken        
+• Express Validator        
+• Eslint        
+• HTTP Status Codes        
+• Express Router        
+• Cookies        
+• Swagger        
 </details>
 
 <details>
@@ -81,13 +81,15 @@ The challenge simulates a scenario in which this microservice will be used by pe
 
 5 - Now rename the .env.example file to .env and add your connection string provided by mongoDB next to the front of MONGO_URL=
 
-6 - change <password> by the access password to your database and enter "/?" enter the name of the bank.
+6 - change <password> by the access password to your database and enter "/?" enter the name of the database.
 
-7 - Provide JWT_SECRET, JWT_LIFETIME and CREATE_ADMIN_KEY at .env file.
+7 - Provide JWT_SECRET, JWT_LIFETIME and CREATE_ADMIN_KEY at .env file. The application port is already set to 3000.
 
 8 - Use the command **npm start** in the VS Code terminal to start the program
 
 9 - Open an application supporting the documentation of requests made by APIs called PostMan and follow the Swagger instructions.
+
+10 - After the application is running the Swagger link will be http://localhost:3000/docs.
 
 </details>
 
