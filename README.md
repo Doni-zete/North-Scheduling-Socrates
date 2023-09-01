@@ -9,7 +9,7 @@ The challenge simulates a scenario in which this microservice will be used by pe
 ## North Squad
 </summary>
 
-***Members:***
+***Members:***      
 **Name: Asttryd Santos Pacheco**         
 **Name: Donizete Crisostomo Barbosa**   
 **Name: João Amim Mascarenhas Bonina**       
