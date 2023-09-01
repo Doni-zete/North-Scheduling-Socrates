@@ -112,7 +112,7 @@ The challenge simulates a scenario in which this microservice will be used by pe
 
 - [Jonatan Machado](https://www.linkedin.com/in/jonatan-machado/)
 
-- Matheus Bernardo -> matheus.bernardo@compasso.com.br
+- [Matheus Bernardo](https://www.linkedin.com/in/matheus-da-cruz-933729104/)
 
 - Gilberto Medeiros -> gilberto.medeiros@compasso.com.br
 
