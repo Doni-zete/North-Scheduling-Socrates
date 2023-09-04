@@ -16,15 +16,17 @@ app.use(cookieParser(process.env.JWT_SECRET))
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
 // Routers
+import adminRoute from './routes/adminRoutes'
 import instructorRoute from './routes/instructorRoutes'
 import studentRoute from './routes/studentRoutes'
 
 // Base page
 app.get('/', (req: Request, res: Response) => {
-    res.send('North Scheduling Socrates')
+	res.send('North Scheduling Socrates')
 })
 
 // Routes
+app.use('/api', adminRoute)
 app.use('/api', instructorRoute)
 app.use('/api', studentRoute)
 
@@ -33,16 +35,16 @@ app.use(notFoundRoute)
 app.use(errorHandler)
 
 async function start() {
-    try {
-        await mongoose.connect(process.env.MONGO_URI)
-        console.log('Database connected!')
+	try {
+		await mongoose.connect(process.env.MONGO_URI)
+		console.log('Database connected!')
 
-        app.listen(process.env.PORT, () => {
-            console.log(`Server running on port ${process.env.PORT}!`)
-        })
-    } catch (error) {
-        console.log(error)
-    }
+		app.listen(process.env.PORT, () => {
+			console.log(`Server running on port ${process.env.PORT}!`)
+		})
+	} catch (error) {
+		console.log(error)
+	}
 }
 
 start()

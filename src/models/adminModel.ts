@@ -1,9 +1,9 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
-import StudentDocument from './studentDocument'
+import AdminDocument from './adminDocument'
 import customApiErrors from '../errors/customApiErrors'
 
-const StudentSchema = new mongoose.Schema({
+const AdminSchema = new mongoose.Schema({
 	name: {
 		type: String, required: [true, 'Enter your name']
 	},
@@ -15,14 +15,10 @@ const StudentSchema = new mongoose.Schema({
 	},
 	password: {
 		type: String, required: [true, 'Enter your password']
-	},
-	schooling: {
-		type: String, required: [true, 'Enter your schooling']
-	},
-
+	}
 })
 
-StudentSchema.pre('save', async function (next) {
+AdminSchema.pre('save', async function (next) {
 	if (this.password) {
 		const salt = await bcrypt.genSalt(10)
 		this.password = await bcrypt.hash(this.password, salt)
@@ -30,7 +26,7 @@ StudentSchema.pre('save', async function (next) {
 	next()
 })
 
-StudentSchema.pre('findOneAndUpdate', async function (next) {
+AdminSchema.pre('findOneAndUpdate', async function (next) {
 	if (this.get('password')) {
 		const newPassword = this.get('password')
 		const oldPassword = this.get('oldPassword')
@@ -38,17 +34,17 @@ StudentSchema.pre('findOneAndUpdate', async function (next) {
 			throw new customApiErrors.BadRequestError('Please provide a valid password and old password')
 		}
 
-		const student = await Student.findById(this.getQuery()._id)
-		if (!student) {
-			throw new customApiErrors.BadRequestError('Please provide a valid student id')
+		const admin = await Admin.findById(this.getQuery()._id)
+		if (!admin) {
+			throw new customApiErrors.BadRequestError('Please provide a valid admin id')
 		}
 
-		const isSameOldPassword = await student.comparePassword(this.get('oldPassword'))
+		const isSameOldPassword = await admin.comparePassword(this.get('oldPassword'))
 		if (!isSameOldPassword) {
 			throw new customApiErrors.BadRequestError('Please provide a valid oldPassword')
 		}
 
-		const isSamePassword = await student.comparePassword(newPassword)
+		const isSamePassword = await admin.comparePassword(newPassword)
 		if (isSamePassword) {
 			throw new customApiErrors.BadRequestError('This new password is the same as the current password, try again!')
 		}
@@ -60,10 +56,10 @@ StudentSchema.pre('findOneAndUpdate', async function (next) {
 	next()
 })
 
-StudentSchema.methods.comparePassword = async function (candidatePassword: string) {
+AdminSchema.methods.comparePassword = async function (candidatePassword: string) {
 	return await bcrypt.compare(candidatePassword, this.password)
 }
 
-const Student = mongoose.model<StudentDocument>('Students', StudentSchema)
+const Admin = mongoose.model<AdminDocument>('Admin', AdminSchema)
 
-export default Student
+export default Admin
