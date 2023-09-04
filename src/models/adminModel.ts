@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
 import AdminDocument from './adminDocument'
+import customApiErrors from '../errors/customApiErrors'
 
 const AdminSchema = new mongoose.Schema({
 	name: {
@@ -27,8 +28,29 @@ AdminSchema.pre('save', async function (next) {
 
 AdminSchema.pre('findOneAndUpdate', async function (next) {
 	if (this.get('password')) {
+		const newPassword = this.get('password')
+		const oldPassword = this.get('oldPassword')
+		if (!oldPassword || (newPassword === oldPassword)) {
+			throw new customApiErrors.BadRequestError('Please provide a valid password and old password')
+		}
+
+		const admin = await Admin.findById(this.getQuery()._id)
+		if (!admin) {
+			throw new customApiErrors.BadRequestError('Please provide a valid admin id')
+		}
+
+		const isSameOldPassword = await admin.comparePassword(this.get('oldPassword'))
+		if (!isSameOldPassword) {
+			throw new customApiErrors.BadRequestError('Please provide a valid oldPassword')
+		}
+
+		const isSamePassword = await admin.comparePassword(newPassword)
+		if (isSamePassword) {
+			throw new customApiErrors.BadRequestError('This new password is the same as the current password, try again!')
+		}
+
 		const salt = await bcrypt.genSalt(10)
-		const passHashed = await bcrypt.hash(this.get('password'), salt)
+		const passHashed = await bcrypt.hash(newPassword, salt)
 		this.set('password', passHashed)
 	}
 	next()

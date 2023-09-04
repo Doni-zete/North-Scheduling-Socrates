@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
 import InstructorDocument from './instructorDocument'
+import customApiErrors from '../errors/customApiErrors'
 
 const InstructorSchema = new mongoose.Schema({
 	name: {
@@ -53,8 +54,29 @@ InstructorSchema.pre('save', async function (next) {
 
 InstructorSchema.pre('findOneAndUpdate', async function (next) {
 	if (this.get('password')) {
+		const newPassword = this.get('password')
+		const oldPassword = this.get('oldPassword')
+		if (!oldPassword || (newPassword === oldPassword)) {
+			throw new customApiErrors.BadRequestError('Please provide a valid password and old password')
+		}
+
+		const instructor = await Instructor.findById(this.getQuery()._id)
+		if (!instructor) {
+			throw new customApiErrors.BadRequestError('Please provide a valid instructor id')
+		}
+
+		const isSameOldPassword = await instructor.comparePassword(this.get('oldPassword'))
+		if (!isSameOldPassword) {
+			throw new customApiErrors.BadRequestError('Please provide a valid oldPassword')
+		}
+
+		const isSamePassword = await instructor.comparePassword(newPassword)
+		if (isSamePassword) {
+			throw new customApiErrors.BadRequestError('This new password is the same as the current password, try again!')
+		}
+
 		const salt = await bcrypt.genSalt(10)
-		const passHashed = await bcrypt.hash(this.get('password'), salt)
+		const passHashed = await bcrypt.hash(newPassword, salt)
 		this.set('password', passHashed)
 	}
 	next()
