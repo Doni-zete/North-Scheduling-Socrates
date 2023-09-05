@@ -2,14 +2,15 @@ import { Document } from 'mongoose'
 
 interface InstructorDocument extends Document {
 	name: string,
-	specialities: string[],
-	availableTime: string,
-	formOfService: string,
-	classStartTime: Date,
-	classTime: number,
-	classLocation: string,
 	email: string,
 	password: string,
+	specialities: string[],
+	formOfService: string,
+	availabilitySchedule: [{
+		date: string,
+		availableHours: string[]
+	}]
+	classLocation: string,
 	comparePassword(candidatePassword: string): Promise<boolean>,
 }
 

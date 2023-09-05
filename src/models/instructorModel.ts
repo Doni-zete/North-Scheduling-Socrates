@@ -8,30 +8,6 @@ const InstructorSchema = new mongoose.Schema({
 		type: String,
 		required: [true, 'Please provide a name']
 	},
-	specialities: [{
-		type: String,
-		required: [true, 'Please provide your speciality']
-	}],
-	availableTime: {
-		type: String,
-		required: [true, 'Please provide your available time']
-	},
-	formOfService: {
-		type: String,
-		enum: ['presential', 'online'],
-		required: [true, 'Please provide your form of service']
-	},
-	classStartTime: {
-		type: Date,
-		required: [true, 'Please provide the start time of the class']
-	},
-	classTime: {
-		type: Number,
-		required: [true, 'Please provide the time of each class']
-	},
-	classLocation: {
-		type: String
-	},
 	email: {
 		type: String,
 		required: [true, 'Please provide an email'],
@@ -41,6 +17,22 @@ const InstructorSchema = new mongoose.Schema({
 	password: {
 		type: String,
 		required: [true, 'Please provide a password'],
+	},
+	specialities: [{
+		type: String,
+		required: [true, 'Please provide your speciality']
+	}],
+	formOfService: {
+		type: String,
+		enum: ['presential', 'online'],
+		required: [true, 'Please provide your form of service']
+	},
+	availabilitySchedule: [{
+		date: String, // "2023-09-01 - AAAA-MM-DD"
+		availableHours: [String] // ["09:00", "10:00", "14:00" - HH:MM]
+	}],
+	classLocation: {
+		type: String
 	}
 })
 
