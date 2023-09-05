@@ -23,6 +23,10 @@ const uploadFile = async (req: Request, res: Response) => {
 		resource_type: 'auto'
 	})
 
+	if(!result || !result.secure_url){
+		return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({msg: 'Falha no upload do arquivo'})
+	}
+
 	const publicUrl = result.secure_url
 
 	return res.status(StatusCodes.OK).json({ msg: `Arquivo enviado com sucesso! URL: ${publicUrl}` })
