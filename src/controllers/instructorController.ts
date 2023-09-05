@@ -63,7 +63,7 @@ const findAppointmentsByInstructorId = async (req: Request, res: Response) => {
 		throw new customApiErrors.UnauthorizedError('Invalid id request, you only can get your id')
 	}
 
-	const appointment = await Appointment.findOne({ instructorId: req.params.id })
+	const appointment = await Appointment.find({ instructorId: req.params.id })
 	if (!appointment) {
 		throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
 	}
