@@ -13,6 +13,7 @@ Router.get('/auth/student/logout', studentController.logout)
 
 Router.get('/student/', authenticateUser, authorizePermissions(['admin']), studentController.findAll)
 Router.get('/student/:id', authenticateUser, authorizePermissions(['student', 'admin']), studentController.findById)
+Router.get('/student/:id/appointments', authenticateUser, authorizePermissions(['student', 'admin']), studentController.findAppointmentsByStudentId)
 Router.patch('/student/:id', authenticateUser, authorizePermissions(['student', 'admin']), studentController.updateId)
 Router.delete('/student/:id', authenticateUser, authorizePermissions(['student', 'admin']), studentController.deleteId)
 Router.post('/student/upload', authenticateUser, authorizePermissions(['student']), uploadFile)
