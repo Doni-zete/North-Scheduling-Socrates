@@ -41,6 +41,7 @@ cloudinary.config({
 import adminRoute from './routes/adminRoutes'
 import instructorRoute from './routes/instructorRoutes'
 import studentRoute from './routes/studentRoutes'
+import appointmentRoute from './routes/appointmentRoutes'
 
 // Base page
 app.get('/', (req: Request, res: Response) => {
@@ -51,6 +52,7 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/api', adminRoute)
 app.use('/api', instructorRoute)
 app.use('/api', studentRoute)
+app.use('/api', appointmentRoute)
 
 // Middlewares
 app.use(notFoundRoute)
