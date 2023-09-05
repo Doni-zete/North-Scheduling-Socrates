@@ -4,6 +4,12 @@ declare namespace Express {
 			id: string
 			name: string
 			role: string
+		},
+		files: {
+			arquivo: {
+				name: string
+				tempFilePath: string
+			}
 		}
 	}
 }
