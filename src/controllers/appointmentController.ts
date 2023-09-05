@@ -12,15 +12,17 @@ const create = async (req: Request, res: Response) => {
 		throw new customApiErrors.BadRequestError('Instructor id not found!')
 	}
 
-	for (let i = 0; i < instructor.availabilitySchedule.length; i++) {
-		const instructorCurrentDate = instructor.availabilitySchedule[i].date
-		const instructorCurrentHours = instructor.availabilitySchedule[i].availableHours
+	const availabilitySchedule = instructor.availabilitySchedule
+	for (let i = 0; i < availabilitySchedule.length; i++) {
+		const instructorCurrentDate = availabilitySchedule[i].date
+		const instructorCurrentHours = availabilitySchedule[i].availableHours
 
 		if (instructorCurrentDate === req.body.date && instructorCurrentHours.includes(req.body.hour)) {
 			const appointment = await Appointment.create(req.body)
 
 			const updatedAvailableHours = instructorCurrentHours.filter(item => item !== req.body.hour)
-			await instructor.updateOne({ availableHours: updatedAvailableHours })
+			availabilitySchedule[i].availableHours = updatedAvailableHours
+			await instructor.updateOne({ availabilitySchedule })
 
 			return res.status(StatusCodes.CREATED).json({ appointment })
 		}
