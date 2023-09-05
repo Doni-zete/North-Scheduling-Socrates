@@ -12,6 +12,7 @@ Router.get('/auth/instructor/logout', instructorController.logout)
 
 Router.get('/instructor/', authenticateUser, authorizePermissions(['admin']), instructorController.findAll)
 Router.get('/instructor/:id', authenticateUser, authorizePermissions(['instructor', 'admin']), instructorController.findById)
+Router.get('/instructor/:id/appointments', authenticateUser, authorizePermissions(['instructor', 'admin']), instructorController.findAppointmentsByInstructorId)
 Router.patch('/instructor/:id', authenticateUser, authorizePermissions(['instructor', 'admin']), instructorController.updateId)
 Router.delete('/instructor/:id', authenticateUser, authorizePermissions(['instructor', 'admin']), instructorController.deleteId)
 
