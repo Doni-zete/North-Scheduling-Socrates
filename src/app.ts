@@ -8,7 +8,7 @@ import cookieParser from 'cookie-parser'
 import swaggerUi from 'swagger-ui-express'
 import swaggerDocs from './swagger.json'
 import fileUpload from 'express-fileupload'
-import {v2 as cloudinary} from 'cloudinary'
+import { v2 as cloudinary } from 'cloudinary'
 
 const app = express()
 app.use(express.json())
@@ -31,9 +31,9 @@ app.use(fileUpload({
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
 cloudinary.config({
-	cloud_name:process.env.CLOUD_NAME,
-	api_key:process.env.CLOUD_API_KEY,
-	api_secret:process.env.CLOUD_API_SECRET,
+	cloud_name: process.env.CLOUD_NAME,
+	api_key: process.env.CLOUD_API_KEY,
+	api_secret: process.env.CLOUD_API_SECRET,
 	throwOnAPIError: true
 })
 
@@ -41,6 +41,7 @@ cloudinary.config({
 import adminRoute from './routes/adminRoutes'
 import instructorRoute from './routes/instructorRoutes'
 import studentRoute from './routes/studentRoutes'
+import availabilityRoute from './routes/availabilityRoutes'
 import appointmentRoute from './routes/appointmentRoutes'
 
 // Base page
@@ -52,6 +53,7 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/api', adminRoute)
 app.use('/api', instructorRoute)
 app.use('/api', studentRoute)
+app.use('/api', availabilityRoute)
 app.use('/api', appointmentRoute)
 
 // Middlewares
