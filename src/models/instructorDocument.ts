@@ -5,12 +5,6 @@ interface InstructorDocument extends Document {
 	email: string,
 	password: string,
 	specialities: string[],
-	formOfService: string,
-	availabilitySchedule: [{
-		date: string,
-		availableHours: string[]
-	}]
-	classLocation: string,
 	comparePassword(candidatePassword: string): Promise<boolean>,
 }
 

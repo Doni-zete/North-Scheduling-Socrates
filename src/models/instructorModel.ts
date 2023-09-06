@@ -21,19 +21,7 @@ const InstructorSchema = new mongoose.Schema({
 	specialities: [{
 		type: String,
 		required: [true, 'Please provide your speciality']
-	}],
-	formOfService: {
-		type: String,
-		enum: ['presential', 'online'],
-		required: [true, 'Please provide your form of service']
-	},
-	availabilitySchedule: [{
-		date: String, // "2023-09-01 - AAAA-MM-DD"
-		availableHours: [String] // ["09:00", "10:00", "14:00" - HH:MM]
-	}],
-	classLocation: {
-		type: String
-	}
+	}]
 })
 
 InstructorSchema.pre('save', async function (next) {
