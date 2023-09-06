@@ -10,7 +10,7 @@ Router.post('/auth/admin/register', adminController.register)
 Router.post('/auth/admin/login', adminController.login)
 Router.get('/auth/admin/logout', adminController.logout)
 
-Router.get('/admin/', authenticateUser, authorizePermissions(['admin']), adminController.findAll)
+Router.get('/admin', authenticateUser, authorizePermissions(['admin']), adminController.findAll)
 Router.get('/admin/:id', authenticateUser, authorizePermissions(['admin']), adminController.findById)
 Router.patch('/admin/:id', authenticateUser, authorizePermissions(['admin']), adminController.updateId)
 Router.delete('/admin/:id', authenticateUser, authorizePermissions(['admin']), adminController.deleteId)
