@@ -17,9 +17,9 @@ const create = async (req: Request, res: Response) => {
 		throw new customApiErrors.BadRequestError('Instructor is not available in this date')
 	}
 
+	const appointment = await Appointment.create(req.body)
 	instructorAvailability.hours = instructorAvailability.hours.filter(item => item !== req.body.hour)
 	await instructorAvailability.save()
-	const appointment = await Appointment.create(req.body)
 	return res.status(StatusCodes.CREATED).json({ appointment })
 }
 
