@@ -7,9 +7,13 @@ import Availability from '../models/availabilityModel'
 
 
 const create = async (req: Request, res: Response) => {
+	if ((req.user.role !== 'admin') && (req.user.id !== req.body.studentId)) {
+		throw new customApiErrors.UnauthorizedError('You only can post your studentId')
+	}
+
 	const instructorExists = await Instructor.findById(req.body.instructorId)
 	if (!instructorExists) {
-		throw new customApiErrors.BadRequestError('Invalid instructorId, this instructor dont exists')
+		throw new customApiErrors.BadRequestError('instructorId does not exists')
 	}
 
 	const instructorAvailability = await Availability.findOne({ instructorId: req.body.instructorId, date: req.body.date })

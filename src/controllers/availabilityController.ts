@@ -6,9 +6,13 @@ import Instructor from '../models/instructorModel'
 
 
 const create = async (req: Request, res: Response) => {
+	if ((req.user.role !== 'admin') && (req.user.id !== req.body.instructorId)) {
+		throw new customApiErrors.UnauthorizedError('You only can post your instructorId')
+	}
+
 	const instructorExists = await Instructor.findById(req.body.instructorId)
 	if (!instructorExists) {
-		throw new customApiErrors.BadRequestError('Invalid instructorId')
+		throw new customApiErrors.BadRequestError('instructorId does not exists')
 	}
 
 	const availabilityExists = await Availability.findOne({ instructorId: req.body.instructorId, date: req.body.date })
