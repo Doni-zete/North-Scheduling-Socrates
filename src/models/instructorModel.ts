@@ -6,21 +6,21 @@ import customApiErrors from '../errors/customApiErrors'
 const InstructorSchema = new mongoose.Schema({
 	name: {
 		type: String,
-		required: [true, 'Please provide a name']
+		required: [true, 'The name field is required']
 	},
 	email: {
 		type: String,
-		required: [true, 'Please provide an email'],
-		match: [/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 'Please provide valid email'],
+		required: [true, 'The email field is required'],
+		match: [/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 'Invalid email'],
 		unique: [true, 'Email already exists']
 	},
 	password: {
 		type: String,
-		required: [true, 'Please provide a password'],
+		required: [true, 'The password field is required']
 	},
 	specialities: [{
 		type: String,
-		required: [true, 'Please provide your speciality']
+		required: [true, 'The specialities field is required']
 	}]
 })
 
