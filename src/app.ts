@@ -8,7 +8,6 @@ import cookieParser from 'cookie-parser'
 import swaggerUi from 'swagger-ui-express'
 import swaggerDocs from './swagger.json'
 import fileUpload from 'express-fileupload'
-import {v2 as cloudinary} from 'cloudinary'
 
 const app = express()
 app.use(express.json())
@@ -21,7 +20,6 @@ app.use(fileUpload({
 		files: 1 // Limite de 1 arquivo por vez
 	},
 	useTempFiles: true,
-	tempFileDir: '/tmp/',
 	safeFileNames: true,
 	preserveExtension: true,
 	abortOnLimit: true,
@@ -29,13 +27,6 @@ app.use(fileUpload({
 }))
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
-
-cloudinary.config({
-	cloud_name:process.env.CLOUD_NAME,
-	api_key:process.env.CLOUD_API_KEY,
-	api_secret:process.env.CLOUD_API_SECRET,
-	throwOnAPIError: true
-})
 
 // Routers
 import adminRoute from './routes/adminRoutes'
