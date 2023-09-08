@@ -32,6 +32,8 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 import adminRoute from './routes/adminRoutes'
 import instructorRoute from './routes/instructorRoutes'
 import studentRoute from './routes/studentRoutes'
+import availabilityRoute from './routes/availabilityRoutes'
+import appointmentRoute from './routes/appointmentRoutes'
 
 // Base page
 app.get('/', (req: Request, res: Response) => {
@@ -42,6 +44,8 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/api', adminRoute)
 app.use('/api', instructorRoute)
 app.use('/api', studentRoute)
+app.use('/api', availabilityRoute)
+app.use('/api', appointmentRoute)
 
 // Middlewares
 app.use(notFoundRoute)
