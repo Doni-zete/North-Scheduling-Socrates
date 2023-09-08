@@ -15,7 +15,6 @@ Router.get('/student', authenticateUser, authorizePermissions(['admin']), studen
 Router.get('/student/:id', authenticateUser, authorizePermissions(['student', 'admin']), studentController.findById)
 Router.patch('/student/:id', authenticateUser, authorizePermissions(['student', 'admin']), studentController.updateId)
 Router.delete('/student/:id', authenticateUser, authorizePermissions(['student', 'admin']), studentController.deleteId)
-Router.get('/student/:id/appointment', authenticateUser, authorizePermissions(['student', 'admin']), studentController.findAppointmentsByStudentId)
 Router.post('/student/upload', authenticateUser, authorizePermissions(['student']), uploadFile)
 
 

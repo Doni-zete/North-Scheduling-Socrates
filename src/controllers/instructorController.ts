@@ -3,8 +3,6 @@ import { StatusCodes } from 'http-status-codes'
 import { Request, Response } from 'express'
 import customApiErrors from '../errors/customApiErrors'
 import { createJwt, setResponseCookie } from '../utils/jwtUtils'
-import Appointment from '../models/appointmentModel'
-import Availability from '../models/availabilityModel'
 
 
 const register = async (req: Request, res: Response) => {
@@ -59,26 +57,6 @@ const findById = async (req: Request, res: Response) => {
 	return res.status(StatusCodes.OK).json({ instructor })
 }
 
-const findAppointmentsByInstructorId = async (req: Request, res: Response) => {
-	if ((req.user.role !== 'admin') && (req.user.id !== req.params.id)) {
-		throw new customApiErrors.UnauthorizedError('Invalid id request, you only can get your id')
-	}
-
-	const appointment = await Appointment.find({ instructorId: req.params.id })
-	if (!appointment) {
-		throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
-	}
-	return res.status(StatusCodes.OK).json({ appointment })
-}
-
-const findAvailabilitysByInstructorId = async (req: Request, res: Response) => {
-	const availability = await Availability.find({ instructorId: req.params.id })
-	if (!availability) {
-		throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
-	}
-	return res.status(StatusCodes.OK).json({ availability })
-}
-
 const updateId = async (req: Request, res: Response) => {
 	if ((req.user.role !== 'admin') && (req.user.id !== req.params.id)) {
 		throw new customApiErrors.UnauthorizedError('Invalid id request, you only can update your id')
@@ -104,6 +82,6 @@ const deleteId = async (req: Request, res: Response) => {
 }
 
 
-const instructorController = { register, login, logout, findAll, findById, findAppointmentsByInstructorId, findAvailabilitysByInstructorId, updateId, deleteId }
+const instructorController = { register, login, logout, findAll, findById, updateId, deleteId }
 
 export default instructorController

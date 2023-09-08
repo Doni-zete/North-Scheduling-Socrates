@@ -38,6 +38,14 @@ const findById = async (req: Request, res: Response) => {
 	return res.status(StatusCodes.OK).json({ availability })
 }
 
+const findAvailabilitysByInstructorId = async (req: Request, res: Response) => {
+	const availability = await Availability.find({ instructorId: req.params.id })
+	if (!availability) {
+		throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
+	}
+	return res.status(StatusCodes.OK).json({ availability })
+}
+
 const updateId = async (req: Request, res: Response) => {
 	const updatedAvailability = await Availability.findByIdAndUpdate(req.params.id, req.body, { new: true })
 	if (!updatedAvailability) {
@@ -57,6 +65,6 @@ const deleteId = async (req: Request, res: Response) => {
 }
 
 
-const availabilityController = { create, findAll, findById, updateId, deleteId }
+const availabilityController = { create, findAll, findById, findAvailabilitysByInstructorId, updateId, deleteId }
 
 export default availabilityController

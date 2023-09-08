@@ -14,8 +14,5 @@ Router.get('/instructor', authenticateUser, authorizePermissions(['admin']), ins
 Router.get('/instructor/:id', authenticateUser, authorizePermissions(['instructor', 'admin']), instructorController.findById)
 Router.patch('/instructor/:id', authenticateUser, authorizePermissions(['instructor', 'admin']), instructorController.updateId)
 Router.delete('/instructor/:id', authenticateUser, authorizePermissions(['instructor', 'admin']), instructorController.deleteId)
-Router.get('/instructor/:id/appointment', authenticateUser, authorizePermissions(['instructor', 'admin']), instructorController.findAppointmentsByInstructorId)
-Router.get('/instructor/:id/availability', authenticateUser, authorizePermissions(['instructor', 'student', 'admin']), instructorController.findAvailabilitysByInstructorId)
-
 
 export default Router
