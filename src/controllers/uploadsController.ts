@@ -1,35 +1,38 @@
-import { StatusCodes } from 'http-status-codes'
 import { Request, Response } from 'express'
 import customApiErrors from '../errors/customApiErrors'
-import {v2 as cloudinary} from 'cloudinary'
 import path from 'path'
+import { StatusCodes } from 'http-status-codes'
 
 const uploadFile = async (req: Request, res: Response) => {
 
-	if (!req.files || Object.keys(req.files).length === 0) {
-		throw new customApiErrors.BadRequestError('Nenhum arquivo foi enviado.')
+	const files = req.files
+
+	if(!files){
+		throw new customApiErrors.BadRequestError('Nenhum arquivo foi enviado')
 	}
 
-	const file = req.files.arquivo
+	const allowedExtension = ['.pdf', '.txt', '.ocx']
 
-	const allowedExtensions = ['.pdf', '.txt', '.docx']
-	const fileExtension = path.extname(file.name).toLocaleLowerCase()
+	const UploadedFiles = []
 
-	if (!allowedExtensions.includes(fileExtension)) {
-		throw new customApiErrors.BadRequestError('Apenas arquivos PDF, TXT e Word são permitidos.')
+	for (const fileKey in files) {
+		if (Object.hasOwnProperty.call(files, fileKey)) {
+			const file = files[fileKey]
+			const fileExtension = path.extname(file.name).toLowerCase()
+
+			if (!allowedExtension.includes(fileExtension)){
+				throw new customApiErrors.BadRequestError('Apenas arquivos PDF, TXT e Word são permitidos')
+			}
+
+			const uniqueFileName = `${Date.now()}_${file.name}`
+			const uploadPath = path.join(__dirname, '../tmp', uniqueFileName)
+
+			await file.mv(uploadPath)
+			
+			UploadedFiles.push(uploadPath)
+		}
 	}
-
-	const result = await cloudinary.uploader.upload(file.tempFilePath, {
-		resource_type: 'auto'
-	})
-
-	if(!result || !result.secure_url){
-		return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({msg: 'Falha no upload do arquivo'})
-	}
-
-	const publicUrl = result.secure_url
-
-	return res.status(StatusCodes.OK).json({ msg: `Arquivo enviado com sucesso! URL: ${publicUrl}` })
+	res.status(StatusCodes.OK).json('Upload concluido.')
 }
 
 export default uploadFile
