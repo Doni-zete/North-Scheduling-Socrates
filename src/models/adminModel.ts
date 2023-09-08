@@ -5,16 +5,18 @@ import customApiErrors from '../errors/customApiErrors'
 
 const AdminSchema = new mongoose.Schema({
 	name: {
-		type: String, required: [true, 'Enter your name']
+		type: String,
+		required: [true, 'The name field is required']
 	},
 	email: {
 		type: String,
-		required: [true, 'Please provide an email'],
-		match: [/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 'Please provide valid email'],
+		required: [true, 'The email field is required'],
+		match: [/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 'Invalid email'],
 		unique: [true, 'Email already exists']
 	},
 	password: {
-		type: String, required: [true, 'Enter your password']
+		type: String,
+		required: [true, 'The password field is required']
 	}
 })
 
