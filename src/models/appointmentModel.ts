@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 import AppointmentDocument from './appointmentDocument'
 
-
 const appointmentSchema = new mongoose.Schema({
 	instructorId: {
 		type: mongoose.Schema.Types.ObjectId,
@@ -26,6 +25,9 @@ const appointmentSchema = new mongoose.Schema({
 		type: String,
 		required: [true, 'The hour field is required'],
 		match: [/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, 'Invalid hour']
+	},
+	attachments: {
+		type: [String],
 	}
 })
 
