@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser'
 import swaggerUi from 'swagger-ui-express'
 import swaggerDocs from './swagger.json'
 import fileUpload from 'express-fileupload'
+import path from 'path'
 
 const app = express()
 app.use(express.json())
@@ -20,6 +21,7 @@ app.use(fileUpload({
 		files: 1 // Limite de 1 arquivo por vez
 	},
 	useTempFiles: true,
+	tempFileDir: '/tmp/',
 	safeFileNames: true,
 	preserveExtension: true,
 	abortOnLimit: true,
@@ -49,9 +51,12 @@ app.use('/api', availabilityRoute)
 app.use('/api', appointmentRoute)
 app.use('/api', attachmentRoute)
 
+app.use('/tmp', express.static(path.resolve(__dirname, './tmp/')))
+
 // Middlewares
 app.use(notFoundRoute)
 app.use(errorHandler)
+
 
 async function start() {
 	try {
@@ -61,6 +66,8 @@ async function start() {
 		app.listen(process.env.PORT, () => {
 			console.log(`Server running on port ${process.env.PORT}!`)
 		})
+
+		console.log(__dirname)
 	} catch (error) {
 		console.log(error)
 	}

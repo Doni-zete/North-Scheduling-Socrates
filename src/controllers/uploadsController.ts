@@ -2,11 +2,11 @@ import { Request, Response } from 'express'
 import customApiErrors from '../errors/customApiErrors'
 import path from 'path'
 import { StatusCodes } from 'http-status-codes'
+import crypto from 'crypto'
 
 const uploadFile = async (req: Request, res: Response) => {
 
 	const files = req.files
-	console.log(files)
 
 	if(!files){
 		throw new customApiErrors.BadRequestError('Nenhum arquivo foi enviado')
@@ -19,21 +19,27 @@ const uploadFile = async (req: Request, res: Response) => {
 	for (const fileKey in files) {
 		if (Object.hasOwnProperty.call(files, fileKey)) {
 			const file = files[fileKey]
-			const fileExtension = path.extname(file.name).toLowerCase()
+			let fileExtension = path.extname(file.name).toLowerCase()
 
 			if (!allowedExtension.includes(fileExtension)){
 				throw new customApiErrors.BadRequestError('Apenas arquivos PDF, TXT e Word são permitidos')
 			}
 
-			const uniqueFileName = `${Date.now()}_${file.name}`
-			const uploadPath = path.join(__dirname, '../tmp', uniqueFileName)
+			if(fileExtension === '.ocx'){
+				fileExtension = '.docx'
+			}
+
+			const uniqueFileName = crypto.randomUUID() + fileExtension
+
+
+			const uploadPath = path.join(__dirname, '../tmp/', uniqueFileName)
 
 			await file.mv(uploadPath)
+			console.log(uploadPath)
 			
 			UploadedFiles.push(uploadPath)
-			console.log(UploadedFiles)
 
-			res.status(StatusCodes.OK).json({file: {src: `/api/attachments/upload/${uniqueFileName}` }})
+			res.status(StatusCodes.OK).json({ file: { src: `/tmp/${uniqueFileName}` }})
 		}
 	}
 }
