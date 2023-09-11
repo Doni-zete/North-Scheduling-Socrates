@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import AppointmentDocument from './appointmentDocument'
+import customApiErrors from '../errors/customApiErrors'
 
 const appointmentSchema = new mongoose.Schema({
 	instructorId: {
@@ -30,6 +31,23 @@ const appointmentSchema = new mongoose.Schema({
 		type: [String],
 	}
 })
+
+appointmentSchema.pre('findOneAndUpdate', async function (next) {
+	if (this.get('date')) {
+		throw new customApiErrors.BadRequestError('You can\'t update date field')
+	} else if (this.get('_id')) {
+		throw new customApiErrors.BadRequestError('You can\'t update _id field')
+	} else if (this.get('instructorId')) {
+		throw new customApiErrors.BadRequestError('You can\'t update instructorId field')
+	} else if (this.get('studentId')) {
+		throw new customApiErrors.BadRequestError('You can\'t update studentId field')
+	} else if (this.get('hour')) {
+		throw new customApiErrors.BadRequestError('You can\'t update hour field')
+	}
+	next()
+})
+
+
 
 
 const Appointment = mongoose.model<AppointmentDocument>('Appointment', appointmentSchema)

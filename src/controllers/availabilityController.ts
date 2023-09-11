@@ -62,7 +62,7 @@ const updateId = async (req: Request, res: Response) => {
 
 const updateAvailabilitysByInstructorId = async (req: Request, res: Response) => {
 	if ((req.user.role !== 'admin') && (req.user.id !== req.params.instructorId)) {
-		throw new customApiErrors.UnauthorizedError('You only can post your instructorId')
+		throw new customApiErrors.UnauthorizedError('You only can update your instructorId')
 	}
 
 	if (Object.keys(req.body).length === 0 ) {

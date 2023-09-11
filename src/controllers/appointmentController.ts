@@ -75,6 +75,40 @@ const updateId = async (req: Request, res: Response) => {
 	return res.status(StatusCodes.OK).json({ updatedAppointment })
 }
 
+const updateAppointmentsByInstructorId = async (req: Request, res: Response) => {
+	if ((req.user.role !== 'admin') && (req.user.id !== req.params.instructorId)) {
+		throw new customApiErrors.UnauthorizedError('Invalid id request, you only can update your instructorId')
+	}
+
+	if (Object.keys(req.body).length === 0 ) {
+		throw new customApiErrors.BadRequestError('Please provide properties to update')
+	}
+
+	const appointment = await Appointment.findOneAndUpdate({ instructorId: req.params.instructorId, _id: req.params.id }, req.body, { new: true })
+	if (!appointment) {
+		throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
+	}
+
+	return res.status(StatusCodes.OK).json({ appointment })
+}
+
+const updateAppointmentsByStudentId = async (req: Request, res: Response) => {
+	if ((req.user.role !== 'admin') && (req.user.id !== req.params.studentId)) {
+		throw new customApiErrors.UnauthorizedError('Invalid id request, you only can update your studentId')
+	}
+
+	if (Object.keys(req.body).length === 0 ) {
+		throw new customApiErrors.BadRequestError('Please provide properties to update')
+	}
+
+	const appointment = await Appointment.findOneAndUpdate({ studentId: req.params.studentId, _id: req.params.id }, req.body, { new: true })
+	if (!appointment) {
+		throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
+	}
+	
+	return res.status(StatusCodes.OK).json({ appointment })
+}
+
 const deleteId = async (req: Request, res: Response) => {
 	const deletedAppointment = await Appointment.findByIdAndDelete(req.body.id)
 	if (!deletedAppointment) {
@@ -85,6 +119,6 @@ const deleteId = async (req: Request, res: Response) => {
 }
 
 
-const appointmentController = { create, findAll, findById, findAppointmentsByInstructorId, findAppointmentsByStudentId, updateId, deleteId }
+const appointmentController = { create, findAll, findById, findAppointmentsByInstructorId, findAppointmentsByStudentId, updateId, updateAppointmentsByInstructorId, updateAppointmentsByStudentId, deleteId }
 
 export default appointmentController
