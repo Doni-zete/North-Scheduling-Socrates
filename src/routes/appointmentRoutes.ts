@@ -3,6 +3,7 @@ import appointmentController from '../controllers/appointmentController'
 import authenticateUser from '../middlewares/authentication'
 import { authorizePermissions } from '../middlewares/authorization'
 
+
 const Router = express.Router()
 
 Router.post('/appointment', authenticateUser, authorizePermissions(['student', 'admin']), appointmentController.create)

@@ -8,7 +8,7 @@ import cookieParser from 'cookie-parser'
 import swaggerUi from 'swagger-ui-express'
 import swaggerDocs from './swagger.json'
 import fileUpload from 'express-fileupload'
-import { v2 as cloudinary } from 'cloudinary'
+import path from 'path'
 
 const app = express()
 app.use(express.json())
@@ -30,19 +30,13 @@ app.use(fileUpload({
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
-cloudinary.config({
-	cloud_name: process.env.CLOUD_NAME,
-	api_key: process.env.CLOUD_API_KEY,
-	api_secret: process.env.CLOUD_API_SECRET,
-	throwOnAPIError: true
-})
-
 // Routers
 import adminRoute from './routes/adminRoutes'
 import instructorRoute from './routes/instructorRoutes'
 import studentRoute from './routes/studentRoutes'
 import availabilityRoute from './routes/availabilityRoutes'
 import appointmentRoute from './routes/appointmentRoutes'
+import attachmentRoute from './routes/attachmentsRoutes'
 
 // Base page
 app.get('/', (req: Request, res: Response) => {
@@ -55,10 +49,14 @@ app.use('/api', instructorRoute)
 app.use('/api', studentRoute)
 app.use('/api', availabilityRoute)
 app.use('/api', appointmentRoute)
+app.use('/api', attachmentRoute)
+
+app.use('/tmp', express.static(path.resolve(__dirname, './tmp/')))
 
 // Middlewares
 app.use(notFoundRoute)
 app.use(errorHandler)
+
 
 async function start() {
 	try {
@@ -68,6 +66,8 @@ async function start() {
 		app.listen(process.env.PORT, () => {
 			console.log(`Server running on port ${process.env.PORT}!`)
 		})
+
+		console.log(__dirname)
 	} catch (error) {
 		console.log(error)
 	}

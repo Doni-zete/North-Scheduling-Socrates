@@ -1,35 +1,49 @@
-import { StatusCodes } from 'http-status-codes'
 import { Request, Response } from 'express'
 import customApiErrors from '../errors/customApiErrors'
-import {v2 as cloudinary} from 'cloudinary'
 import path from 'path'
+import { StatusCodes } from 'http-status-codes'
+import crypto from 'crypto'
 
 const uploadFile = async (req: Request, res: Response) => {
 
-	if (!req.files || Object.keys(req.files).length === 0) {
-		throw new customApiErrors.BadRequestError('Nenhum arquivo foi enviado.')
+	const files = req.files
+
+	if(!files){
+		throw new customApiErrors.BadRequestError('Nenhum arquivo foi enviado')
 	}
 
-	const file = req.files.arquivo
+	const allowedExtension = ['.pdf', '.txt', '.ocx']
 
-	const allowedExtensions = ['.pdf', '.txt', '.docx']
-	const fileExtension = path.extname(file.name).toLocaleLowerCase()
+	const UploadedFiles = []
 
-	if (!allowedExtensions.includes(fileExtension)) {
-		throw new customApiErrors.BadRequestError('Apenas arquivos PDF, TXT e Word são permitidos.')
+	for (const fileKey in files) {
+		if (Object.hasOwnProperty.call(files, fileKey)) {
+			const file = files[fileKey]
+			let fileExtension = path.extname(file.name).toLowerCase()
+
+			if (!allowedExtension.includes(fileExtension)){
+				throw new customApiErrors.BadRequestError('Apenas arquivos PDF, TXT e Word são permitidos')
+			}
+
+			if(fileExtension === '.ocx'){
+				fileExtension = '.docx'
+			}
+
+			const uniqueFileName = crypto.randomUUID() + fileExtension
+
+
+			const uploadPath = path.join(__dirname, '../tmp/', uniqueFileName)
+
+			await file.mv(uploadPath)
+			console.log(uploadPath)
+			
+			UploadedFiles.push(uploadPath)
+
+			res.status(StatusCodes.OK).json({ file: { src: `/tmp/${uniqueFileName}` }})
+		}
 	}
-
-	const result = await cloudinary.uploader.upload(file.tempFilePath, {
-		resource_type: 'auto'
-	})
-
-	if(!result || !result.secure_url){
-		return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({msg: 'Falha no upload do arquivo'})
-	}
-
-	const publicUrl = result.secure_url
-
-	return res.status(StatusCodes.OK).json({ msg: `Arquivo enviado com sucesso! URL: ${publicUrl}` })
 }
 
-export default uploadFile
+const uploadController = {uploadFile}
+
+export default uploadController

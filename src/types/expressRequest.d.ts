@@ -1,15 +1,11 @@
 declare namespace Express {
+	import fileUpload from 'express-fileupload'
 	interface Request {
 		user: {
 			id: string
 			name: string
 			role: string
 		},
-		files: {
-			arquivo: {
-				name: string
-				tempFilePath: string
-			}
-		}
+		files: fileUpload[]
 	}
 }
