@@ -6,6 +6,7 @@ import { StatusCodes } from 'http-status-codes'
 const uploadFile = async (req: Request, res: Response) => {
 
 	const files = req.files
+	console.log(files)
 
 	if(!files){
 		throw new customApiErrors.BadRequestError('Nenhum arquivo foi enviado')
@@ -30,9 +31,13 @@ const uploadFile = async (req: Request, res: Response) => {
 			await file.mv(uploadPath)
 			
 			UploadedFiles.push(uploadPath)
+			console.log(UploadedFiles)
+
+			res.status(StatusCodes.OK).json({file: {src: `/api/attachments/upload/${uniqueFileName}` }})
 		}
 	}
-	res.status(StatusCodes.OK).json('Upload concluido.')
 }
 
-export default uploadFile
+const uploadController = {uploadFile}
+
+export default uploadController
