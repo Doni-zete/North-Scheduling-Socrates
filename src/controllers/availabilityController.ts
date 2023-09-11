@@ -40,19 +40,41 @@ const findById = async (req: Request, res: Response) => {
 
 const findAvailabilitysByInstructorId = async (req: Request, res: Response) => {
 	const availability = await Availability.find({ instructorId: req.params.id })
-	if (!availability) {
+	if (!availability || availability.length === 0) {
 		throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
 	}
+
 	return res.status(StatusCodes.OK).json({ availability })
 }
 
 const updateId = async (req: Request, res: Response) => {
+	if (Object.keys(req.body).length === 0 ) {
+		throw new customApiErrors.BadRequestError('Please provide properties to update')
+	}
+
 	const updatedAvailability = await Availability.findByIdAndUpdate(req.params.id, req.body, { new: true })
 	if (!updatedAvailability) {
 		throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
 	}
 
 	return res.status(StatusCodes.OK).json({ updatedAvailability })
+}
+
+const updateAvailabilitysByInstructorId = async (req: Request, res: Response) => {
+	if ((req.user.role !== 'admin') && (req.user.id !== req.params.instructorId)) {
+		throw new customApiErrors.UnauthorizedError('You only can post your instructorId')
+	}
+
+	if (Object.keys(req.body).length === 0 ) {
+		throw new customApiErrors.BadRequestError('Please provide properties to update')
+	}
+
+	const availability = await Availability.findOneAndUpdate({ instructorId: req.params.instructorId, _id: req.params.id }, req.body)
+	if (!availability) {
+		throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
+	}
+
+	return res.status(StatusCodes.OK).json({ availability })
 }
 
 const deleteId = async (req: Request, res: Response) => {
@@ -65,6 +87,6 @@ const deleteId = async (req: Request, res: Response) => {
 }
 
 
-const availabilityController = { create, findAll, findById, findAvailabilitysByInstructorId, updateId, deleteId }
+const availabilityController = { create, findAll, findById, findAvailabilitysByInstructorId, updateId, updateAvailabilitysByInstructorId, deleteId }
 
 export default availabilityController
