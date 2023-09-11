@@ -34,6 +34,7 @@ import instructorRoute from './routes/instructorRoutes'
 import studentRoute from './routes/studentRoutes'
 import availabilityRoute from './routes/availabilityRoutes'
 import appointmentRoute from './routes/appointmentRoutes'
+import attachmentRoute from './routes/attachmentsRoutes'
 
 // Base page
 app.get('/', (req: Request, res: Response) => {
@@ -46,6 +47,7 @@ app.use('/api', instructorRoute)
 app.use('/api', studentRoute)
 app.use('/api', availabilityRoute)
 app.use('/api', appointmentRoute)
+app.use('/api', attachmentRoute)
 
 // Middlewares
 app.use(notFoundRoute)
