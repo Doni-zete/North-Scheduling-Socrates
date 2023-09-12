@@ -238,6 +238,44 @@
                 }
             }
         },
+        "/auth/admin/login": {
+            "post": {
+                "summary": "Login de administrador",
+                "description": "Essa rota é responsável por logar um administrador",
+                "tags": ["Admin"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User logged in successfully"
+                    },
+                    "401": {
+                        "description": "Invalid Credentials"
+                    },
+                    "400": {
+                        "description": "Please provide email and password"
+                    },
+                    "500": {
+                        "description": "Internal Server Error: check .env file"
+                    }
+                }
+            }
+        },
         "/instructor": {
             "get": {
                 "summary": "Busca todos os instrutores",
