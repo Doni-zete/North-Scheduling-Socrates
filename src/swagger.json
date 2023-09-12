@@ -210,7 +210,7 @@
                                 "$ref": "#/components/schemas/Admin"
                             },
                             "examples": {
-                                "instructor": {
+                                "admin": {
                                     "value": {
                                         "name": "Miguel Ferreira",
                                         "email": "miguel.ferreira@gmail.com",
@@ -626,6 +626,58 @@
                     },
                     "404": {
                         "description": "The provided id was not found. Please provide a valid Id"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Busca um administrador pelo id e o atualiza",
+                "description": "Esta rota é responsável por buscar, atualizar a senha e retornar um administrador pelo id fornecido",
+                "tags": ["Admin"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Buscar administrador pelo Id",
+                        "required": "true"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "password": {
+                                    "type": "string"
+                                }
+                            },
+                            "examples": {
+                                "admin": {
+                                    "value": {
+                                        "oldPassword": "m12041988f",
+                                        "password": "m12041988fA"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Admin"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    },
+                    "404": {
+                        "description": "The provided id was not found or there was no data to be updated. Please provide a valid Id or valid data"
                     }
                 }
             }
