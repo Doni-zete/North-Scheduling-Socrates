@@ -47,29 +47,25 @@ const findAvailabilitysByInstructorId = async (req: Request, res: Response) => {
 	return res.status(StatusCodes.OK).json({ availability })
 }
 
-const updateId = async (req: Request, res: Response) => {
-	if (Object.keys(req.body).length === 0 ) {
-		throw new customApiErrors.BadRequestError('Please provide properties to update')
-	}
-
-	const updatedAvailability = await Availability.findByIdAndUpdate(req.params.id, req.body, { new: true })
-	if (!updatedAvailability) {
-		throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
-	}
-
-	return res.status(StatusCodes.OK).json({ updatedAvailability })
-}
-
-const updateAvailabilitysByInstructorId = async (req: Request, res: Response) => {
-	if ((req.user.role !== 'admin') && (req.user.id !== req.params.instructorId)) {
-		throw new customApiErrors.UnauthorizedError('You only can update your instructorId')
+const updateAvailabilityByInstructorId = async (req: Request, res: Response) => {
+	if (req.user.role === 'instructor' && req.params.instructorId !== req.user.id) {
+		throw new customApiErrors.UnauthorizedError('You can not update a availability of others instructors!')
 	}
 
 	if (Object.keys(req.body).length === 0 ) {
 		throw new customApiErrors.BadRequestError('Please provide properties to update')
 	}
 
-	const availability = await Availability.findOneAndUpdate({ instructorId: req.params.instructorId, _id: req.params.id }, req.body)
+	if (req.user.role === 'admin') {
+		const availability = await Availability.findOneAndUpdate({ instructorId: req.params.instructorId, _id: req.params.id }, req.body, { new: true, runValidators: true })
+		if (!availability) {
+			throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
+		}
+	
+		return res.status(StatusCodes.OK).json({ availability })
+	}
+
+	const availability = await Availability.findOneAndUpdate({ instructorId: req.params.instructorId, _id: req.params.id }, req.body, { new: true, runValidators: true })
 	if (!availability) {
 		throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
 	}
@@ -77,16 +73,29 @@ const updateAvailabilitysByInstructorId = async (req: Request, res: Response) =>
 	return res.status(StatusCodes.OK).json({ availability })
 }
 
-const deleteId = async (req: Request, res: Response) => {
-	const deletedAvailability = await Availability.findByIdAndRemove(req.params.id)
-	if (!deletedAvailability) {
+const deleteAvailabilityByInstructorId = async (req: Request, res: Response) => {	
+	if (req.user.role === 'instructor' && req.params.instructorId !== req.user.id) {
+		throw new customApiErrors.UnauthorizedError('You can not delete a availability of others instructors!')
+	}
+	
+	if (req.user.role === 'admin') {
+		const availability = await Availability.findOneAndDelete({ instructorId: req.params.instructorId, _id: req.params.id }, req.body)
+		if (!availability) {
+			throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
+		}
+	
+		return res.status(StatusCodes.OK).json({ msg: 'Availability deleted successfully' })
+	}
+
+	const availability = await Availability.findOneAndDelete({ instructorId: req.params.instructorId, _id: req.params.id }, req.body)
+	if (!availability) {
 		throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
 	}
 
-	return res.status(StatusCodes.OK).json({ msg: 'Availability deleted successfully' })
+	return res.status(StatusCodes.OK).json({ msg: 'Availability deleted successfully' })	
 }
 
 
-const availabilityController = { create, findAll, findById, findAvailabilitysByInstructorId, updateId, updateAvailabilitysByInstructorId, deleteId }
+const availabilityController = { create, findAll, findById, findAvailabilitysByInstructorId, updateAvailabilityByInstructorId, deleteAvailabilityByInstructorId }
 
 export default availabilityController

@@ -9,12 +9,11 @@ const Router = express.Router()
 Router.post('/appointment', authenticateUser, authorizePermissions(['student', 'admin']), appointmentController.create)
 Router.get('/appointment', authenticateUser, authorizePermissions(['admin']), appointmentController.findAll)
 Router.get('/appointment/:id', authenticateUser, authorizePermissions(['admin']), appointmentController.findById)
+
 Router.get('/instructor/:id/appointment', authenticateUser, authorizePermissions(['instructor', 'admin']), appointmentController.findAppointmentsByInstructorId)
-Router.patch('/instructor/:instructorId/appointment/:id', authenticateUser, authorizePermissions(['instructor', 'admin']), appointmentController.updateAppointmentsByInstructorId)
 Router.get('/student/:id/appointment', authenticateUser, authorizePermissions(['student', 'admin']), appointmentController.findAppointmentsByStudentId)
-Router.patch('/student/:studentId/appointment/:id', authenticateUser, authorizePermissions(['student', 'admin']), appointmentController.updateAppointmentsByStudentId)
-Router.patch('/appointment/:id', authenticateUser, authorizePermissions(['admin']), appointmentController.updateId)
-Router.delete('/appointment/:id', authenticateUser, authorizePermissions(['admin']), appointmentController.deleteId)
+Router.patch('/instructor/:instructorId/appointment/:id', authenticateUser, authorizePermissions(['instructor', 'admin']), appointmentController.updateAppointmentsByInstructorId)
+Router.delete('/instructor/:instructorId/appointment/:id', authenticateUser, authorizePermissions(['instructor', 'admin']), appointmentController.deleteAppointmentsByInstructorId)
 
 
 export default Router

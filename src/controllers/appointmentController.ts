@@ -66,59 +66,57 @@ const findAppointmentsByStudentId = async (req: Request, res: Response) => {
 	return res.status(StatusCodes.OK).json({ appointment })
 }
 
-const updateId = async (req: Request, res: Response) => {
-	const updatedAppointment = await Appointment.findByIdAndUpdate(req.body.id, req.body, { new: true })
-	if (!updatedAppointment) {
-		throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
-	}
-
-	return res.status(StatusCodes.OK).json({ updatedAppointment })
-}
-
-const updateAppointmentsByInstructorId = async (req: Request, res: Response) => {
-	if ((req.user.role !== 'admin') && (req.user.id !== req.params.instructorId)) {
-		throw new customApiErrors.UnauthorizedError('Invalid id request, you only can update your instructorId')
-	}
-
-	if (Object.keys(req.body).length === 0 ) {
-		throw new customApiErrors.BadRequestError('Please provide properties to update')
-	}
-
-	const appointment = await Appointment.findOneAndUpdate({ instructorId: req.params.instructorId, _id: req.params.id }, req.body, { new: true })
-	if (!appointment) {
-		throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
-	}
-
-	return res.status(StatusCodes.OK).json({ appointment })
-}
-
-const updateAppointmentsByStudentId = async (req: Request, res: Response) => {
-	if ((req.user.role !== 'admin') && (req.user.id !== req.params.studentId)) {
-		throw new customApiErrors.UnauthorizedError('Invalid id request, you only can update your studentId')
-	}
-
-	if (Object.keys(req.body).length === 0 ) {
-		throw new customApiErrors.BadRequestError('Please provide properties to update')
-	}
-
-	const appointment = await Appointment.findOneAndUpdate({ studentId: req.params.studentId, _id: req.params.id }, req.body, { new: true })
-	if (!appointment) {
-		throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
+const updateAppointmentsByInstructorId = async (req: Request, res: Response) => {	
+	if (req.user.role === 'instructor' && req.params.instructorId !== req.user.id) {
+		throw new customApiErrors.UnauthorizedError('You can not update a appointment of others instructors!')
 	}
 	
-	return res.status(StatusCodes.OK).json({ appointment })
-}
+	if (Object.keys(req.body).length === 0 ) {
+		throw new customApiErrors.BadRequestError('Please provide properties to update')
+	}
 
-const deleteId = async (req: Request, res: Response) => {
-	const deletedAppointment = await Appointment.findByIdAndDelete(req.body.id)
-	if (!deletedAppointment) {
+	if (req.user.role === 'admin') {
+		const appointment = await Appointment.findOneAndUpdate({ instructorId: req.params.instructorId, _id: req.params.id }, req.body, { new: true, runValidators: true })
+		if (!appointment) {
+			throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
+		}
+	
+		return res.status(StatusCodes.OK).json({ appointment })
+	}
+
+	const appointment = await Appointment.findOneAndUpdate({ instructorId: req.params.instructorId, _id: req.params.id }, req.body, { new: true, runValidators: true })
+	if (!appointment) {
 		throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
 	}
 
-	return res.status(StatusCodes.OK).json({ msg: 'Appointment deleted successfully' })
+	return res.status(StatusCodes.OK).json({ appointment })
 }
 
 
-const appointmentController = { create, findAll, findById, findAppointmentsByInstructorId, findAppointmentsByStudentId, updateId, updateAppointmentsByInstructorId, updateAppointmentsByStudentId, deleteId }
+
+const deleteAppointmentsByInstructorId = async (req: Request, res: Response) => {	
+	if (req.user.role === 'instructor' && req.params.instructorId !== req.user.id) {
+		throw new customApiErrors.UnauthorizedError('You can not delete a appointment of others instructors!')
+	}
+	
+	if (req.user.role === 'admin') {
+		const appointment = await Appointment.findOneAndDelete({ instructorId: req.params.instructorId, _id: req.params.id }, req.body)
+		if (!appointment) {
+			throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
+		}
+	
+		return res.status(StatusCodes.OK).json({ msg: 'Appointment deleted successfully' })
+	}
+
+	const appointment = await Appointment.findOneAndDelete({ instructorId: req.params.instructorId, _id: req.params.id }, req.body)
+	if (!appointment) {
+		throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
+	}
+
+	return res.status(StatusCodes.OK).json({ msg: 'Appointment deleted successfully' })	
+}
+
+
+const appointmentController = { create, findAll, findById, findAppointmentsByInstructorId, findAppointmentsByStudentId, updateAppointmentsByInstructorId, deleteAppointmentsByInstructorId }
 
 export default appointmentController

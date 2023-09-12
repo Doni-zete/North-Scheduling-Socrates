@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
 import AvailabilityDocument from './availabilityDocument'
-import customApiErrors from '../errors/customApiErrors'
 
 
 const AvailabilitySchema = new mongoose.Schema({
@@ -34,18 +33,6 @@ const AvailabilitySchema = new mongoose.Schema({
 			}, message: 'Invalid hours'
 		}
 	}
-})
-
-
-AvailabilitySchema.pre('findOneAndUpdate', async function (next) {
-	if (this.get('date')) {
-		throw new customApiErrors.BadRequestError('You can\'t update date field')
-	} else if (this.get('_id')) {
-		throw new customApiErrors.BadRequestError('You can\'t update _id field')
-	} else if (this.get('instructorId')) {
-		throw new customApiErrors.BadRequestError('You can\'t update instructorId field')
-	}
-	next()
 })
 
 const Availability = mongoose.model<AvailabilityDocument>('Availability', AvailabilitySchema)
