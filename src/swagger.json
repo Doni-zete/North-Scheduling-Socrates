@@ -31,14 +31,9 @@
                                 "instructor": {
                                     "value": {
                                         "name": "Alana Fernandes",
-                                        "specialities": "Biologia",
-                                        "availableTime": "das 15h até as 18:30h",
-                                        "formOfService": "online",
-                                        "classStartTime": "2023-08-29T13:41:21.508Z",
-                                        "classTime": 60,
-                                        "classLocation": "Microsoft Teams",
                                         "email": "alana.bio@gmail.com",
-                                        "password": "anjinho250322"
+                                        "password": "anjinho250322",
+                                        "specialities": "Biologia"
                                     }
                                 }
                             }
@@ -493,27 +488,15 @@
                     "name": {
                         "type": "string"
                     },
-                    "specialities": {
-                        "type": "string"
-                    },
-                    "formOfService": {
-                        "type": "string"
-                    },
-                    "classStartTime": {
-                        "type": "date"
-                    },
-                    "classTime": {
-                        "type": "number"
-                    },
-                    "classLocation": {
-                        "type": "string"
-                    },
                     "email": {
                         "type": "string"
                     },
                     "password": {
                         "type": "string"
-                    }
+                    },
+                    "specialities": {
+                        "type": "string"
+                    }  
                 }
             },
             "Student": {
