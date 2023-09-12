@@ -20,7 +20,6 @@ const uploadFile = async (req: Request, res: Response) => {
 		if (Object.hasOwnProperty.call(files, fileKey)) {
 			const file = files[fileKey]
 			let fileExtension = path.extname(file.name).toLowerCase()
-
 			if (!allowedExtension.includes(fileExtension)){
 				throw new customApiErrors.BadRequestError('Apenas arquivos PDF, TXT e Word são permitidos')
 			}
@@ -30,13 +29,8 @@ const uploadFile = async (req: Request, res: Response) => {
 			}
 
 			const uniqueFileName = crypto.randomUUID() + fileExtension
-
-
 			const uploadPath = path.join(__dirname, '../tmp/', uniqueFileName)
-
 			await file.mv(uploadPath)
-			console.log(uploadPath)
-			
 			UploadedFiles.push(uploadPath)
 
 			res.status(StatusCodes.OK).json({ file: { src: `/tmp/${uniqueFileName}` }})

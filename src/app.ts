@@ -28,7 +28,6 @@ app.use(fileUpload({
 	responseOnLimit: 'File size limit has been reached'
 }))
 
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
 // Routers
 import adminRoute from './routes/adminRoutes'
@@ -52,6 +51,7 @@ app.use('/api', appointmentRoute)
 app.use('/api', attachmentRoute)
 
 app.use('/tmp', express.static(path.resolve(__dirname, './tmp/')))
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
 // Middlewares
 app.use(notFoundRoute)
@@ -66,8 +66,6 @@ async function start() {
 		app.listen(process.env.PORT, () => {
 			console.log(`Server running on port ${process.env.PORT}!`)
 		})
-
-		console.log(__dirname)
 	} catch (error) {
 		console.log(error)
 	}
