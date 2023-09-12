@@ -198,6 +198,46 @@
                 }
             }
         },
+        "/auth/admin/register": {
+            "post": {
+                "summary": "Cadastro de Administrador",
+                "description": "Essa rota é responsável por cadastrar um administrador novo",
+                "tags": ["Admin"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Admin"
+                            },
+                            "examples": {
+                                "instructor": {
+                                    "value": {
+                                        "name": "Miguel Ferreira",
+                                        "email": "miguel.ferreira@gmail.com",
+                                        "password": "m12041988f"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Admin created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Admin"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: please provide valid payload"
+                    }
+                }
+            }
+        },
         "/instructor": {
             "get": {
                 "summary": "Busca todos os instrutores",
