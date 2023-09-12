@@ -680,6 +680,31 @@
                         "description": "The provided id was not found or there was no data to be updated. Please provide a valid Id or valid data"
                     }
                 }
+            },
+            "delete": {
+                "summary": "Busca um administrador pelo id e o deleta",
+                "description": "Esta rota é responsável por buscar e deletar um administrador pelo id fornecido",
+                "tags": ["Admin"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Buscar administrador pelo Id",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK. User deleted sucessfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    },
+                    "404": {
+                        "description": "The provided id was not found."
+                    }
+                }
             }
         }
     },
