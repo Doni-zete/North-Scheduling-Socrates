@@ -3,6 +3,7 @@ import customApiErrors from '../errors/customApiErrors'
 import path from 'path'
 import { StatusCodes } from 'http-status-codes'
 import crypto from 'crypto'
+import fs from 'fs'
 
 const uploadFile = async (req: Request, res: Response) => {
 
@@ -10,6 +11,12 @@ const uploadFile = async (req: Request, res: Response) => {
 
 	if(!files){
 		throw new customApiErrors.BadRequestError('Nenhum arquivo foi enviado')
+	}
+
+	const tmpPath = path.join(__dirname, '../tmp')
+
+	if (!fs.existsSync(tmpPath)) {
+		fs.mkdirSync(tmpPath)
 	}
 
 	const allowedExtension = ['.pdf', '.txt', '.ocx']
