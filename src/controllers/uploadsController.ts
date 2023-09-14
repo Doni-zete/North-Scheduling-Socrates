@@ -2,10 +2,11 @@ import { Request, Response } from 'express'
 import customApiErrors from '../errors/customApiErrors'
 import path from 'path'
 import { StatusCodes } from 'http-status-codes'
+import Appointment from '../models/appointmentModel'
 import crypto from 'crypto'
 import fs from 'fs'
 
-const uploadFile = async (req: Request, res: Response) => {
+const uploadFilebyAppointmentId = async (req: Request, res: Response) => {
 
 	const files = req.files
 
@@ -31,6 +32,17 @@ const uploadFile = async (req: Request, res: Response) => {
 				throw new customApiErrors.BadRequestError('Apenas arquivos PDF, TXT e Word são permitidos')
 			}
 
+			if (req.user.role === 'student' && req.params.studentId !== req.user.id) {
+				throw new customApiErrors.UnauthorizedError('You can not update a appointment of others students!')
+			}
+
+			const appointmentId = req.params.id
+			const appointment = await Appointment.findById(appointmentId)
+
+			if (!appointment){
+				throw new customApiErrors.NotFoundError('No Appointment with this id')
+			}
+
 			if(fileExtension === '.ocx'){
 				fileExtension = '.docx'
 			}
@@ -40,11 +52,14 @@ const uploadFile = async (req: Request, res: Response) => {
 			await file.mv(uploadPath)
 			UploadedFiles.push(uploadPath)
 
+			appointment.attachments.push(`/tmp/${uniqueFileName}`)
+			await appointment.save()
+
 			res.status(StatusCodes.OK).json({ file: { src: `/tmp/${uniqueFileName}` }})
 		}
 	}
 }
 
-const uploadController = {uploadFile}
+const uploadController = {uploadFilebyAppointmentId}
 
 export default uploadController
