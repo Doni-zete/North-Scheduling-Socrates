@@ -42,10 +42,14 @@ const uploadFilebyAppointmentId = async (req: Request, res: Response) => {
 	}
 
 	const uniqueFileName = crypto.randomUUID() + fileExtension
-	const urlPath = `/tmp/${uniqueFileName}`
 
+	const uploadPath = path.join(__dirname, '../tmp/', uniqueFileName)
+	req.files.foo.mv(uploadPath)
+
+	const urlPath = `/tmp/${uniqueFileName}`
 	appointment.attachments.push(urlPath)
 	appointment.save()
+	
 	res.status(StatusCodes.CREATED).json({ urlPath })
 }
 
