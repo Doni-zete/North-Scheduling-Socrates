@@ -5,7 +5,7 @@ import { authorizePermissions } from '../middlewares/authorization'
 
 const Router = express.Router()
 
-Router.post('/attachments/upload', authenticateUser, authorizePermissions(['student']), uploadController.uploadFile)
+Router.post('/attachments/:studentId/upload/:id', authenticateUser, authorizePermissions(['student']), uploadController.uploadFilebyAppointmentId)
 
 
 export default Router
