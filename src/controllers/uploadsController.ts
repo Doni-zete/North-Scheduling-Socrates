@@ -10,7 +10,7 @@ const uploadFilebyAppointmentId = async (req: Request, res: Response) => {
 
 	const files = req.files
 
-	if(!files){
+	if (!files) {
 		throw new customApiErrors.BadRequestError('Nenhum arquivo foi enviado')
 	}
 
@@ -28,22 +28,24 @@ const uploadFilebyAppointmentId = async (req: Request, res: Response) => {
 		if (Object.hasOwnProperty.call(files, fileKey)) {
 			const file = files[fileKey]
 			let fileExtension = path.extname(file.name).toLowerCase()
-			if (!allowedExtension.includes(fileExtension)){
+			if (!allowedExtension.includes(fileExtension)) {
 				throw new customApiErrors.BadRequestError('Apenas arquivos PDF, TXT e Word são permitidos')
-			}
-
-			if (req.user.role === 'student' && req.params.studentId !== req.user.id) {
-				throw new customApiErrors.UnauthorizedError('You can not update a appointment of others students!')
 			}
 
 			const appointmentId = req.params.id
 			const appointment = await Appointment.findById(appointmentId)
 
-			if (!appointment){
+			if (!appointment) {
 				throw new customApiErrors.NotFoundError('No Appointment with this id')
 			}
 
-			if(fileExtension === '.ocx'){
+			if (req.user.role === 'student' && req.params.studentId !== req.user.id) {
+				throw new customApiErrors.UnauthorizedError('You can not update a appointment of others students!')
+			} else if (req.user.role === 'instructor' && appointment.instructorId.toString() !== req.user.id) {
+				// throw new error
+			}
+
+			if (fileExtension === '.ocx') {
 				fileExtension = '.docx'
 			}
 
@@ -55,11 +57,11 @@ const uploadFilebyAppointmentId = async (req: Request, res: Response) => {
 			appointment.attachments.push(`/tmp/${uniqueFileName}`)
 			await appointment.save()
 
-			res.status(StatusCodes.OK).json({ file: { src: `/tmp/${uniqueFileName}` }})
+			res.status(StatusCodes.OK).json({ file: { src: `/tmp/${uniqueFileName}` } })
 		}
 	}
 }
 
-const uploadController = {uploadFilebyAppointmentId}
+const uploadController = { uploadFilebyAppointmentId }
 
 export default uploadController
