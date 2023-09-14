@@ -757,6 +757,43 @@
                         "type": "string"
                     }
                 }
+            },
+            "Availability": {
+                "type": "object",
+                "properties": {
+                    "instructorId": {
+                        "type": "objectId"
+                    },
+                    "date": {
+                        "type": "string"
+                    },
+                    "hours": {
+                        "type": ["string"]
+                    }
+                }
+            },
+            "Appointment": {
+                "type": "object",
+                "properties": {
+                    "instructorId": {
+                        "type": "objectId"
+                    },
+                    "studentId": {
+                        "type": "objectId"
+                    },
+                    "subject": {
+                        "type": "string"
+                    },
+                    "date": {
+                        "type": "string"
+                    },
+                    "hour": {
+                        "type": "string"
+                    },
+                    "attachments": {
+                        "type": ["string"]
+                    }
+                }
             }
         },
         "securitySchemes": {
