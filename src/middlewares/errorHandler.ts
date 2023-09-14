@@ -7,6 +7,10 @@ import jwt from 'jsonwebtoken'
 
 export default function errorHandler(err: Error, req: express.Request, res: express.Response, next: express.NextFunction) {
 	console.log(err)
+
+	if (err instanceof SyntaxError && err.message.match('JSON at position')) {
+		return res.status(StatusCodes.BAD_REQUEST).json({ error: err.message })
+	}
   
 	if (err instanceof customApiErrors.CustomApiError) {
 		return res.status(err.statusCode).json({ error: err.message })

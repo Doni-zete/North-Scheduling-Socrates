@@ -48,7 +48,7 @@ const findAppointmentsByInstructorId = async (req: Request, res: Response) => {
 	}
 
 	const appointment = await Appointment.find({ instructorId: req.params.id })
-	if (!appointment) {
+	if (!appointment || appointment.length == 0) {
 		throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
 	}
 	return res.status(StatusCodes.OK).json({ appointment })
@@ -60,7 +60,7 @@ const findAppointmentsByStudentId = async (req: Request, res: Response) => {
 	}
 
 	const appointment = await Appointment.find({ studentId: req.params.id })
-	if (!appointment) {
+	if (!appointment || appointment.length == 0) {
 		throw new customApiErrors.NotFoundError(`No item found with _id: ${req.params.id}`)
 	}
 	return res.status(StatusCodes.OK).json({ appointment })
