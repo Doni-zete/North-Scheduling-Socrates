@@ -910,6 +910,37 @@
                         "description": "The provided id was not found. Please provide a valid Id"
                     }
                 }
+            },
+            "delete": {
+                "summary": "Busca uma disponibilidade específica de um instrutor específico e o deleta",
+                "description": "Esta rota é responsável por buscar e deletar uma disponibilidade específica de um instrutor específico",
+                "tags": ["Instructor", "Availability"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "instructorId",
+                        "in": "path",
+                        "description": "id do instrutor",
+                        "required": "true"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id da disponibilidade",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK. Availability deleted successfully."
+                    },
+                    "401": {
+                        "description": "Unauthorized access to this route"
+                    },
+                    "404": {
+                        "description": "The provided id was not found."
+                    }
+                }
             }
         }
     },
