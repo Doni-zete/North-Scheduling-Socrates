@@ -845,8 +845,8 @@
         },
         "/instructor/{instructorId}/availability/{id}":{
             "patch": {
-                "summary": "Busca uma disponibilidade específica de um instrutor específico",
-                "description": "Esta rota é responsável por buscar e retornar uma disponibilidade específica de um instrutor específico",
+                "summary": "Busca uma disponibilidade específica de um instrutor e o atualiza",
+                "description": "Esta rota é responsável por buscar, atualizar e retornar uma disponibilidade específica de um instrutor",
                 "tags": ["Instructor", "Availability"],
                 "security": [{ "bearerAuth": [] }],
                 "parameters": [
@@ -1110,6 +1110,84 @@
                     }
                 }
             }
+        },
+        "/instructor/{instructorId}/appointment/{id}":{
+            "patch": {
+                "summary": "Busca um agendamento específico de um instrutor e o atualiza",
+                "description": "Esta rota é responsável por buscar, atualizar e retornar um agendamento",
+                "tags": ["Instructor", "Appointment"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "instructorId",
+                        "in": "path",
+                        "description": "id do instrutor",
+                        "required": "true"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do agendamento",
+                        "required": "true"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "subject": {
+                                        "type": "string"
+                                    },
+                                    "date": {
+                                        "type": "string"
+                                    },
+                                    "hour": {
+                                        "type": "string"
+                                    },
+                                    "attachments": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "Appointment": {
+                                    "value": {
+                                        "subject": "química",
+                                        "date": "2023-11-03",
+                                        "hour": "14:00",
+                                        "attachments": ["microsoft.teams.com.br/url-reuniao", "link-apostila.pdf"]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Appointment"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized to access this route."
+                    },
+                    "404": {
+                        "description": "The provided id was not found. Please provide a valid Id"
+                    }
+                }
+            }
+            
         }
     },
     "components": {
