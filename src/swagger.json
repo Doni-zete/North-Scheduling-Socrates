@@ -842,6 +842,75 @@
                     }
                 }
             }
+        },
+        "/instructor/{instructorId}/availability/{id}":{
+            "patch": {
+                "summary": "Busca uma disponibilidade específica de um instrutor específico",
+                "description": "Esta rota é responsável por buscar e retornar uma disponibilidade específica de um instrutor específico",
+                "tags": ["Instructor", "Availability"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "instructorId",
+                        "in": "path",
+                        "description": "id do instrutor",
+                        "required": "true"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id da disponibilidade",
+                        "required": "true"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "date": {
+                                        "type": "string"
+                                    },
+                                    "hours": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "Availability": {
+                                    "value": {
+                                        "date": "2023-11-03",
+                                        "hours": ["09:30", "11:00", "15:30"]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Availability"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized to access this route."
+                    },
+                    "404": {
+                        "description": "The provided id was not found. Please provide a valid Id"
+                    }
+                }
+            }
         }
     },
     "components": {
