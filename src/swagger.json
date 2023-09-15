@@ -1075,6 +1075,41 @@
                     }
                 }
             }
+        },
+        "/student/{id}/appointment":{
+            "get": {
+                "summary": "Buscar agendamentos por id do estudante",
+                "description": "Esta rota é responsável por buscar e retornar os agendamentos de um estudante em específico",
+                "tags": ["Appointment"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do estudante",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Appointment"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized to access this route."
+                    },
+                    "404": {
+                        "description": "The provided id was not found. Please provide a valid Id"
+                    }
+                }
+            }
         }
     },
     "components": {
