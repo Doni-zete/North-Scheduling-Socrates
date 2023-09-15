@@ -33,12 +33,6 @@ const login = async (req: Request, res: Response) => {
 	return res.status(StatusCodes.OK).json({ instructor: { _id: instructor._id, name: instructor.name, role: 'instructor' }, msg: 'Logged in successfully' })
 }
 
-const logout = async (req: Request, res: Response) => {
-	res.clearCookie('token')
-
-	return res.status(StatusCodes.OK).json({ msg: 'User logged out!' })
-}
-
 const findAll = async (req: Request, res: Response) => {
 	const instructors = await Instructor.find({}).select('-password')
 
@@ -82,6 +76,6 @@ const deleteId = async (req: Request, res: Response) => {
 }
 
 
-const instructorController = { register, login, logout, findAll, findById, updateId, deleteId }
+const instructorController = { register, login, findAll, findById, updateId, deleteId }
 
 export default instructorController

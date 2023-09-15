@@ -37,7 +37,7 @@ const login = async (req: Request, res: Response) => {
 	return res.status(StatusCodes.OK).json({ admin: { _id: admin._id, name: admin.name, role: 'admin' }, msg: 'Logged in successfully' })
 }
 
-const logout = async (req: Request, res: Response) => {
+export const logout = async (req: Request, res: Response) => {
 	res.clearCookie('token')
 
 	return res.status(StatusCodes.OK).json({ msg: 'User logged out!' })

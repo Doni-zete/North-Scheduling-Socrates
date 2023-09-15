@@ -34,12 +34,6 @@ const login = async (req: Request, res: Response) => {
 	return res.status(StatusCodes.OK).json({ student: { _id: student._id, name: student.name, role: 'student' }, msg: 'Logged in successfully' })
 }
 
-const logout = async (req: Request, res: Response) => {
-	res.clearCookie('token')
-
-	return res.status(StatusCodes.OK).json({ msg: 'User logged out!' })
-}
-
 const findAll = async (req: Request, res: Response) => {
 	const students = await Student.find({}).select('-password')
 
@@ -95,6 +89,6 @@ const deleteId = async (req: Request, res: Response) => {
 }
 
 
-const studentController = { register, login, logout, findAll, findAppointmentsByStudentId, findById, updateId, deleteId }
+const studentController = { register, login, findAll, findAppointmentsByStudentId, findById, updateId, deleteId }
 
 export default studentController
