@@ -37,13 +37,15 @@ The challenge simulates a scenario in which this microservice will be used by pe
 • MongoDB        
 • Mongoose        
 • JWT (JSON Web Tokens)        
-• jsonwebtoken        
+• Jsonwebtoken        
 • Express Validator        
 • Eslint        
 • HTTP Status Codes        
 • Express Router        
 • Cookies        
 • Swagger        
+
+
 </details>
 
 <details>
@@ -57,9 +59,10 @@ The challenge simulates a scenario in which this microservice will be used by pe
 ✅ Register, Login and Logout Admins          
 ✅ Updates and Deletes Instructors, Students and Admins     
 ✅ Only the account creator can update or delete his data besides the admins       
-❌ Instructor creates available classes **(Not implemented yet)**       
-❌ Students join available classes making instructor unavailable for others during class time **(Not implemented yet)**      
-❌ Students can upload text files  **(Not implemented yet)**      
+✅ Instructor creates his availability     
+✅ Students creates appointments with an available instructor       
+✅ Students can upload TXT, DOCX and PDF files     
+❌ Unitary tests with JEST  **Not implemented yet**     
 
 </details>
 
@@ -81,7 +84,7 @@ The challenge simulates a scenario in which this microservice will be used by pe
 
 5 - Now rename the .env.example file to .env and add your connection string provided by mongoDB next to the front of MONGO_URL=
 
-6 - change <password> by the access password to your database and enter "/?" enter the name of the database.
+6 - Change <password> to your database password and at "/?" enter the name of the database.
 
 7 - Provide JWT_SECRET, JWT_LIFETIME and CREATE_ADMIN_KEY at .env file. The application port is already set to 3000.
 

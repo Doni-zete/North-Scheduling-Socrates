@@ -1,0 +1,1329 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "North Scheduling Socrates",
+        "description": "A API N.S.S. (North Scheduling Socrates) tem como seu objetivo possibilitar o agendamento de aulas de forma dinâmica, onde um instrutor pode se cadastrar para mestrar aulas, e o aluno pode agendar uma aula com o instrutor.",
+        "version": "1.0.0",
+        "contact": {
+            "name": "API Support",
+            "email": "asttryd.pacheco.pb@compass.com.br"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000/api",
+            "description": "API de teste"
+        }
+    ],
+    "paths": {
+        "/auth/instructor/register": {
+            "post": {
+                "summary": "Cadastro de instrutor",
+                "description": "Essa rota é responsável por cadastrar um instrutor novo",
+                "tags": ["Instructor"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Instructor"
+                            },
+                            "examples": {
+                                "instructor": {
+                                    "value": {
+                                        "name": "Alana Fernandes",
+                                        "email": "alana.bio@gmail.com",
+                                        "password": "anjinho250322",
+                                        "specialities": "Biologia"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Instructor created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Instructor"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: please provide valid payload"
+                    }
+                }
+            }
+        },
+        "/auth/instructor/login": {
+            "post": {
+                "summary": "Login de instrutor",
+                "description": "Essa rota é responsável por logar um instrutor",
+                "tags": ["Instructor"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User logged in successfully"
+                    },
+                    "401": {
+                        "description": "Invalid Credentials"
+                    },
+                    "400": {
+                        "description": "Please provide email and password"
+                    },
+                    "500": {
+                        "description": "Internal Server Error: check .env file"
+                    }
+                }
+            }
+        },
+        "/auth/instructor/logout": {
+            "get": {
+                "summary": "Logout de instrutor",
+                "description": "Essa rota é responsável por deslogar um instrutor",
+                "tags": ["Instructor"],
+                "responses": {
+                    "200": {
+                        "description": "User logged out!"
+                    }
+                }
+            }
+        },
+        "/auth/student/register": {
+            "post": {
+                "summary": "Cadastro de estudante",
+                "description": "Essa rota é responsável por cadastrar um estudante novo",
+                "tags": ["Student"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Student"
+                            },
+                            "examples": {
+                                "student": {
+                                    "value": {
+                                        "name": "Pietra Gonzalez",
+                                        "email": "pietra.gon@gmail.com",
+                                        "password": "abc047",
+                                        "schooling": "9 ano do fundamental II"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Student created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Student"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: please provide valid payload"
+                    }
+                }
+            }
+        },
+        "/auth/student/login": {
+            "post": {
+                "summary": "Login de estudante",
+                "description": "Essa rota é responsável por logar um estudante",
+                "tags": ["Student"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User logged in successfully"
+                    },
+                    "401": {
+                        "description": "Invalid Credentials"
+                    },
+                    "400": {
+                        "description": "Please provide email and password"
+                    },
+                    "500": {
+                        "description": "Internal Server Error: check .env file"
+                    }
+                }
+            }
+        },
+        "/auth/student/logout": {
+            "get": {
+                "summary": "Logout de estudante",
+                "description": "Essa rota é responsável por deslogar um estudante",
+                "tags": ["Student"],
+                "responses": {
+                    "200": {
+                        "description": "User logged out!"
+                    }
+                }
+            }
+        },
+        "/auth/admin/register": {
+            "post": {
+                "summary": "Cadastro de Administrador",
+                "description": "Essa rota é responsável por cadastrar um administrador novo",
+                "tags": ["Admin"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Admin"
+                            },
+                            "examples": {
+                                "admin": {
+                                    "value": {
+                                        "name": "Miguel Ferreira",
+                                        "email": "miguel.ferreira@gmail.com",
+                                        "password": "m12041988f"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Admin created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Admin"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: please provide valid payload"
+                    }
+                }
+            }
+        },
+        "/auth/admin/login": {
+            "post": {
+                "summary": "Login de administrador",
+                "description": "Essa rota é responsável por logar um administrador",
+                "tags": ["Admin"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User logged in successfully"
+                    },
+                    "401": {
+                        "description": "Invalid Credentials"
+                    },
+                    "400": {
+                        "description": "Please provide email and password"
+                    },
+                    "500": {
+                        "description": "Internal Server Error: check .env file"
+                    }
+                }
+            }
+        },
+        "/auth/admin/logout": {
+            "get": {
+                "summary": "Logout de administrador",
+                "description": "Essa rota é responsável por deslogar um administrador",
+                "tags": ["Admin"],
+                "responses": {
+                    "200": {
+                        "description": "User logged out!"
+                    }
+                }
+            }
+        },
+        "/instructor": {
+            "get": {
+                "summary": "Busca todos os instrutores",
+                "description": "Esta rota é responsável por buscar e retornar todos os instrutores cadastrados na API",
+                "tags": ["Instructor"],
+                "security": [{ "bearerAuth": [] }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Instructor"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    }
+                }
+            }
+        },
+        "/instructor/{id}":{
+            "get": {
+                "summary": "Busca um instrutor pelo id",
+                "description": "Esta rota é responsável por buscar e retornar um instrutor pelo id fornecido",
+                "tags": ["Instructor"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do instrutor",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Instructor"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    },
+                    "404": {
+                        "description": "The provided id was not found. Please provide a valid Id"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Busca um instrutor pelo id e o atualiza",
+                "description": "Esta rota é responsável por buscar, atualizar e retornar um instrutor pelo id fornecido",
+                "tags": ["Instructor"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Buscar instrutor pelo Id",
+                        "required": "true"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Instructor"
+                            },
+                            "examples": {
+                                "instructor": {
+                                    "value": {
+                                        "name": "Alana Fernandes",
+                                        "specialities": "Biologia, Química",
+                                        "availableTime": "das 15h até as 18:30h",
+                                        "formOfService": "online",
+                                        "classStartTime": "2023-08-29T13:41:21.508Z",
+                                        "classTime": 60,
+                                        "classLocation":"Microsoft Teams",
+                                        "email": "alana.bio@gmail.com",
+                                        "password": "anjinho250322"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Instructor"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    },
+                    "404": {
+                        "description": "The provided id was not found or there was no data to be updated. Please provide a valid Id or valid data"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Busca um instrutor pelo id e o deleta",
+                "description": "Esta rota é responsável por buscar e deletar um instrutor pelo id fornecido",
+                "tags": ["Instructor"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Buscar instrutor pelo Id",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK. User deleted sucessfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    },
+                    "404": {
+                        "description": "The provided id was not found."
+                    }
+                }
+            }
+        },
+        "/student": {
+            "get": {
+                "summary": "Retorna todos os alunos",
+                "description": "Esta rota é responsável por retornar todos os alunos cadastrados na API",
+                "tags": ["Student"],
+                "security": [{ "bearerAuth": [] }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Student"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    }
+                }
+            }
+        },
+        "/student/{id}":{
+            "get": {
+                "summary": "Busca um estudante pelo id",
+                "description": "Esta rota é responsável por buscar e retornar um estudante pelo id fornecido",
+                "tags": ["Student"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do estudante",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Student"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    },
+                    "404": {
+                        "description": "The provided id was not found. Please provide a valid Id"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Busca um estudante pelo id e o atualiza",
+                "description": "Esta rota é responsável por buscar, atualizar e retornar um estudante pelo id fornecido",
+                "tags": ["Student"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Buscar estudante pelo Id",
+                        "required": "true"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Student"
+                            },
+                            "examples": {
+                                "instructor": {
+                                    "value": {
+                                        "name": "Pietra Gonzalez",
+                                        "email": "pietra.gonza@gmail.com",
+                                        "password": "abc047",
+                                        "schooling": "1 ano do Ensino Médio"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Student"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    },
+                    "404": {
+                        "description": "The provided id was not found or there was no data to be updated. Please provide a valid Id or valid data"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Busca um estudante pelo id e o deleta",
+                "description": "Esta rota é responsável por buscar e deletar um estudante pelo id fornecido",
+                "tags": ["Student"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Buscar estudante pelo Id",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK. User deleted sucessfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    },
+                    "404": {
+                        "description": "The provided id was not found."
+                    }
+                }
+            }
+        },
+        "/admin": {
+            "get": {
+                "summary": "Retorna todos os administradores",
+                "description": "Esta rota é responsável por retornar todos os administradores cadastrados na API",
+                "tags": ["Admin"],
+                "security": [{ "bearerAuth": [] }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Admin"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    }
+                }
+            }
+        },
+        "/admin/{id}":{
+            "get": {
+                "summary": "Busca um administrador pelo id",
+                "description": "Esta rota é responsável por buscar e retornar um administrador pelo id fornecido",
+                "tags": ["Admin"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do admin",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Admin"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    },
+                    "404": {
+                        "description": "The provided id was not found. Please provide a valid Id"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Busca um administrador pelo id e o atualiza",
+                "description": "Esta rota é responsável por buscar, atualizar a senha e retornar um administrador pelo id fornecido",
+                "tags": ["Admin"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Buscar administrador pelo Id",
+                        "required": "true"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "password": {
+                                    "type": "string"
+                                }
+                            },
+                            "examples": {
+                                "admin": {
+                                    "value": {
+                                        "oldPassword": "m12041988f",
+                                        "password": "m12041988fA"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Admin"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    },
+                    "404": {
+                        "description": "The provided id was not found or there was no data to be updated. Please provide a valid Id or valid data"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Busca um administrador pelo id e o deleta",
+                "description": "Esta rota é responsável por buscar e deletar um administrador pelo id fornecido",
+                "tags": ["Admin"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Buscar administrador pelo Id",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK. User deleted sucessfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized, please provide a valid token"
+                    },
+                    "404": {
+                        "description": "The provided id was not found."
+                    }
+                }
+            }
+        },
+        "/availability": {
+            "post": {
+                "summary": "Disponibilidade dos instrutores",
+                "description": "Essa rota é responsável por criar a disponibilidade do instrutor",
+                "tags": ["Instructor", "Availability"],
+                "security": [{ "bearerAuth": [] }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/Availability"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "CREATED",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Availability"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "You can only post your instructorId"
+                    },
+                    "400": {
+                        "description": "instructorId does not exist"
+                    },
+                    "409": {
+                        "description": "This availability already exists"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "get": {
+                "summary": "Retorna todas as disponibilidades",
+                "description": "Esta rota é responsável por retornar todos os horários disponíveis de todos os instrutores",
+                "tags": ["Availability"],
+                "security": [{ "bearerAuth": [] }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Availability"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized to access this route!"
+                    }
+                }
+            }
+        },
+        "/availability/{id}":{
+            "get": {
+                "summary": "Busca disponibilidade pelo id",
+                "description": "Esta rota é responsável por buscar e retornar a disponibilidade pelo id",
+                "tags": ["Instructor", "Availability"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id da disponibilidade",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Availability"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized to access this route."
+                    },
+                    "404": {
+                        "description": "The provided id was not found. Please provide a valid Id"
+                    }
+                }
+            }
+        },
+        "/instructor/{id}/availability":{
+            "get": {
+                "summary": "Busca disponibilidade do instrutor determinado pelo Id",
+                "description": "Esta rota é responsável por buscar e retornar a disponibilidade de um instrutor em específico pelo Id",
+                "tags": ["Instructor", "Availability"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do instrutor",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Availability"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized to access this route."
+                    },
+                    "404": {
+                        "description": "The provided id was not found. Please provide a valid Id"
+                    }
+                }
+            }
+        },
+        "/instructor/{instructorId}/availability/{id}":{
+            "patch": {
+                "summary": "Busca uma disponibilidade específica de um instrutor e o atualiza",
+                "description": "Esta rota é responsável por buscar, atualizar e retornar uma disponibilidade específica de um instrutor",
+                "tags": ["Instructor", "Availability"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "instructorId",
+                        "in": "path",
+                        "description": "id do instrutor",
+                        "required": "true"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id da disponibilidade",
+                        "required": "true"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "date": {
+                                        "type": "string"
+                                    },
+                                    "hours": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "Availability": {
+                                    "value": {
+                                        "date": "2023-11-03",
+                                        "hours": ["09:30", "11:00", "15:30"]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Availability"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized to access this route."
+                    },
+                    "404": {
+                        "description": "The provided id was not found. Please provide a valid Id"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Busca uma disponibilidade específica de um instrutor específico e o deleta",
+                "description": "Esta rota é responsável por buscar e deletar uma disponibilidade específica de um instrutor específico",
+                "tags": ["Instructor", "Availability"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "instructorId",
+                        "in": "path",
+                        "description": "id do instrutor",
+                        "required": "true"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id da disponibilidade",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK. Availability deleted successfully."
+                    },
+                    "401": {
+                        "description": "Unauthorized access to this route"
+                    },
+                    "404": {
+                        "description": "The provided id was not found."
+                    }
+                }
+            }
+        },
+        "/appointment": {
+            "post": {
+                "summary": "Criação de agendamento",
+                "description": "Essa rota é responsável por criar os agendamentos",
+                "tags": ["Student", "Appointment"],
+                "security": [{ "bearerAuth": [] }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/Appointment"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "CREATED",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Appointment"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "You can only post your studentId"
+                    },
+                    "400": {
+                        "description": "instructorId does not exist or the instructor is not available on this date"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "get": {
+                "summary": "Retorna todos os agendamentos",
+                "description": "Esta rota é responsável por retornar todos os agendamentos feitos",
+                "tags": ["Appointment"],
+                "security": [{ "bearerAuth": [] }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Appointment"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized to access this route!"
+                    }
+                }
+            }
+        },
+        "/appointment/{id}":{
+            "get": {
+                "summary": "Busca agendamento pelo id",
+                "description": "Esta rota é responsável por buscar e retornar o agendamento pelo id",
+                "tags": ["Appointment"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do agendamento",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Appointment"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized to access this route."
+                    },
+                    "404": {
+                        "description": "The provided id was not found. Please provide a valid Id"
+                    }
+                }
+            }
+        },
+        "/instructor/{id}/appointment":{
+            "get": {
+                "summary": "Buscar agendamentos por id do instrutor",
+                "description": "Esta rota é responsável por buscar e retornar os agendamentos de um instrutor em específico",
+                "tags": ["Appointment"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do instrutor",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Appointment"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized to access this route."
+                    },
+                    "404": {
+                        "description": "The provided id was not found. Please provide a valid Id"
+                    }
+                }
+            }
+        },
+        "/student/{id}/appointment":{
+            "get": {
+                "summary": "Buscar agendamentos por id do estudante",
+                "description": "Esta rota é responsável por buscar e retornar os agendamentos de um estudante em específico",
+                "tags": ["Appointment"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do estudante",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Appointment"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized to access this route."
+                    },
+                    "404": {
+                        "description": "The provided id was not found. Please provide a valid Id"
+                    }
+                }
+            }
+        },
+        "/instructor/{instructorId}/appointment/{id}":{
+            "patch": {
+                "summary": "Busca um agendamento específico de um instrutor e o atualiza",
+                "description": "Esta rota é responsável por buscar e atualizar um agendamento",
+                "tags": ["Instructor", "Appointment"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "instructorId",
+                        "in": "path",
+                        "description": "id do instrutor",
+                        "required": "true"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do agendamento",
+                        "required": "true"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "subject": {
+                                        "type": "string"
+                                    },
+                                    "date": {
+                                        "type": "string"
+                                    },
+                                    "hour": {
+                                        "type": "string"
+                                    },
+                                    "attachments": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "Appointment": {
+                                    "value": {
+                                        "subject": "química",
+                                        "date": "2023-11-03",
+                                        "hour": "14:00",
+                                        "attachments": ["microsoft.teams.com.br/url-reuniao", "link-apostila.pdf"]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Appointment"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized to access this route."
+                    },
+                    "404": {
+                        "description": "The provided id was not found. Please provide a valid Id"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Busca uma disponibilidade específica de um instrutor específico e o deleta",
+                "description": "Esta rota é responsável por buscar e deletar uma disponibilidade específica de um instrutor específico",
+                "tags": ["Instructor", "Appointment"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "instructorId",
+                        "in": "path",
+                        "description": "id do instrutor",
+                        "required": "true"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do agendamento",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK. Appointment deleted successfully."
+                    },
+                    "401": {
+                        "description": "Unauthorized access to this route"
+                    },
+                    "404": {
+                        "description": "The provided id was not found."
+                    }
+                }
+            }
+            
+        }
+    },
+    "components": {
+        "schemas": {
+            "Instructor": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "specialities": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }  
+                }
+            },
+            "Student": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "schooling": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Admin": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Availability": {
+                "type": "object",
+                "properties": {
+                    "instructorId": {
+                        "type": "string"
+                    },
+                    "date": {
+                        "type": "string"
+                    },
+                    "hours": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "Appointment": {
+                "type": "object",
+                "properties": {
+                    "instructorId": {
+                        "type": "string"
+                    },
+                    "studentId": {
+                        "type": "string"
+                    },
+                    "subject": {
+                        "type": "string"
+                    },
+                    "date": {
+                        "type": "string"
+                    },
+                    "hour": {
+                        "type": "string"
+                    },
+                    "attachments": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}
