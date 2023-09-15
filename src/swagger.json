@@ -706,6 +706,48 @@
                     }
                 }
             }
+        },
+        "/availability": {
+            "post": {
+                "summary": "Disponibilidade dos instrutores",
+                "description": "Essa rota é responsável por criar a disponibilidade do instrutor",
+                "tags": ["Instructor"],
+                "security": [{ "bearerAuth": [] }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/Availability"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "CREATED",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Instructor"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "You can only post your instructorId"
+                    },
+                    "400": {
+                        "description": "instructorId does not exist"
+                    },
+                    "409": {
+                        "description": "This availability already exists"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -768,7 +810,10 @@
                         "type": "string"
                     },
                     "hours": {
-                        "type": ["string"]
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
                     }
                 }
             },
