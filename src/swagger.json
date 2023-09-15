@@ -807,6 +807,41 @@
                     }
                 }
             }
+        },
+        "/instructor/{id}/availability":{
+            "get": {
+                "summary": "Busca disponibilidade do instrutor determinado pelo Id",
+                "description": "Esta rota é responsável por buscar e retornar a disponibilidade de um instrutor em específico pelo Id",
+                "tags": ["Instructor", "Availability"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do instrutor",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Availability"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized to access this route."
+                    },
+                    "404": {
+                        "description": "The provided id was not found. Please provide a valid Id"
+                    }
+                }
+            }
         }
     },
     "components": {
