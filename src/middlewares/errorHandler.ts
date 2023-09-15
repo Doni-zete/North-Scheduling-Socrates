@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken'
 
 
 export default function errorHandler(err: Error, req: express.Request, res: express.Response, next: express.NextFunction) {
-	console.log(err)
+	console.log(err.message)
 
 	if (err instanceof SyntaxError && err.message.match('JSON at position')) {
 		return res.status(StatusCodes.BAD_REQUEST).json({ error: err.message })
@@ -49,15 +49,12 @@ export default function errorHandler(err: Error, req: express.Request, res: expr
 	if (err instanceof mongoose.Error) {
 		return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: '500 Internal Server DB Error' })
 	}
-
-	if(err.message) {
-		if (err.message.includes('authorization')) {
-			return res.status(StatusCodes.UNAUTHORIZED).json({ error: 'Erro de autorização no Cloudinary.' })
-		}
-		if (err.message.includes('invalid')) {
-			return res.status(StatusCodes.BAD_REQUEST).json({ error: 'Erro de solicitação ao Cloudinary.' })
-		}
+	
+	if (err instanceof TypeError && err.message.match('Cannot read properties of undefined')) {
+		return res.status(StatusCodes.BAD_REQUEST).json({ error: 'You need provide foo field as a file' })
 	}
+
+
 
 	res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: '500 Internal Server Error' })
 	next(err)
