@@ -60,9 +60,9 @@ The challenge simulates a scenario in which this microservice will be used by pe
 ✅ Updates and Deletes Instructors, Students and Admins     
 ✅ Only the account creator can update or delete his data besides the admins       
 ✅ Instructor creates his availability     
-✅ Students creates appointments with an available       
+✅ Students creates appointments with an available instructor       
 ✅ Students can upload TXT, DOCX and PDF files     
-❌ Unitary tests with JEST  **Not implemented yet**    
+❌ Unitary tests with JEST  **Not implemented yet**     
 
 </details>
 
