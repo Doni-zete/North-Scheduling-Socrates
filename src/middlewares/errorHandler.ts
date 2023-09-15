@@ -54,14 +54,7 @@ export default function errorHandler(err: Error, req: express.Request, res: expr
 		return res.status(StatusCodes.BAD_REQUEST).json({ error: 'You need provide foo as a folder' })
 	}
 
-	if(err.message) {
-		if (err.message.includes('authorization')) {
-			return res.status(StatusCodes.UNAUTHORIZED).json({ error: 'Erro de autorização no Cloudinary.' })
-		}
-		if (err.message.includes('invalid')) {
-			return res.status(StatusCodes.BAD_REQUEST).json({ error: 'Erro de solicitação ao Cloudinary.' })
-		}
-	}
+
 
 	res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: '500 Internal Server Error' })
 	next(err)
