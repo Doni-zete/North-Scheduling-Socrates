@@ -24,7 +24,7 @@ const uploadFilebyAppointmentId = async (req: Request, res: Response) => {
 	}
 	
 	if (!allowedExtension.includes(fileExtension)) {
-		throw new customApiErrors.BadRequestError('Apenas arquivos PDF, TXT e Word são permitidos')
+		throw new customApiErrors.BadRequestError('Only files extensions .pdf, .txt and .docx are allowed.')
 	}
 	
 	const appointment = await Appointment.findById(req.params.id)

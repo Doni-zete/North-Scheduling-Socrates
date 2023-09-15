@@ -51,7 +51,7 @@ export default function errorHandler(err: Error, req: express.Request, res: expr
 	}
 	
 	if (err instanceof TypeError && err.message.match('Cannot read properties of undefined')) {
-		return res.status(StatusCodes.BAD_REQUEST).json({ error: 'You need provide foo as a folder' })
+		return res.status(StatusCodes.BAD_REQUEST).json({ error: 'You need provide foo field as a file' })
 	}
 
 
