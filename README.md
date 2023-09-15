@@ -44,6 +44,8 @@ The challenge simulates a scenario in which this microservice will be used by pe
 • Express Router        
 • Cookies        
 • Swagger        
+
+
 </details>
 
 <details>
@@ -57,9 +59,10 @@ The challenge simulates a scenario in which this microservice will be used by pe
 ✅ Register, Login and Logout Admins          
 ✅ Updates and Deletes Instructors, Students and Admins     
 ✅ Only the account creator can update or delete his data besides the admins       
-❌ Instructor creates available classes **(Not implemented yet)**       
-❌ Students join available classes making instructor unavailable for others during class time **(Not implemented yet)**      
-❌ Students can upload text files  **(Not implemented yet)**      
+✅ Instructor creates his availability     
+✅ Students creates appointments with an available instructor       
+✅ Students can upload TXT, DOCX and PDF files     
+❌ Unitary tests with JEST  **Not implemented yet**     
 
 </details>
 
