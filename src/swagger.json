@@ -729,7 +729,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Instructor"
+                                    "$ref": "#/components/schemas/Availability"
                                 }
                             }
                         }
@@ -942,6 +942,46 @@
                     }
                 }
             }
+        },
+        "/appointment": {
+            "post": {
+                "summary": "Criação de agendamento",
+                "description": "Essa rota é responsável por criar os agendamentos",
+                "tags": ["Student", "Appointment"],
+                "security": [{ "bearerAuth": [] }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/Appointment"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "CREATED",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Appointment"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "You can only post your studentId"
+                    },
+                    "400": {
+                        "description": "instructorId does not exist or the instructor is not available on this date"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+            
         }
     },
     "components": {
