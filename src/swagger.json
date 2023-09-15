@@ -711,7 +711,7 @@
             "post": {
                 "summary": "Disponibilidade dos instrutores",
                 "description": "Essa rota é responsável por criar a disponibilidade do instrutor",
-                "tags": ["Instructor"],
+                "tags": ["Instructor", "Availability"],
                 "security": [{ "bearerAuth": [] }],
                 "requestBody": {
                     "content": {
@@ -749,9 +749,9 @@
                 }
             },
             "get": {
-                "summary": "Retorna todos os instrutores e seus horários disponíveis",
+                "summary": "Retorna todas as disponibilidades",
                 "description": "Esta rota é responsável por retornar todos os horários disponíveis de todos os instrutores",
-                "tags": ["Instructor"],
+                "tags": ["Instructor", "Availability"],
                 "security": [{ "bearerAuth": [] }],
                 "responses": {
                     "200": {
@@ -772,6 +772,41 @@
                     }
                 }
             }
+        },
+        "/availability/{id}":{
+            "get": {
+                "summary": "Busca disponibilidade pelo id",
+                "description": "Esta rota é responsável por buscar e retornar a disponibilidade pelo id",
+                "tags": ["Instructor", "Availability"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id da disponibilidade",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Availability"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized to access this route."
+                    },
+                    "404": {
+                        "description": "The provided id was not found. Please provide a valid Id"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -789,7 +824,10 @@
                         "type": "string"
                     },
                     "specialities": {
-                        "type": "string"
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
                     }  
                 }
             },
@@ -828,7 +866,7 @@
                 "type": "object",
                 "properties": {
                     "instructorId": {
-                        "type": "objectId"
+                        "type": "string"
                     },
                     "date": {
                         "type": "string"
@@ -845,10 +883,10 @@
                 "type": "object",
                 "properties": {
                     "instructorId": {
-                        "type": "objectId"
+                        "type": "string"
                     },
                     "studentId": {
-                        "type": "objectId"
+                        "type": "string"
                     },
                     "subject": {
                         "type": "string"
@@ -860,7 +898,10 @@
                         "type": "string"
                     },
                     "attachments": {
-                        "type": ["string"]
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
                     }
                 }
             }
