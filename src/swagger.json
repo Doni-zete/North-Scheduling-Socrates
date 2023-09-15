@@ -1005,6 +1005,41 @@
                     }
                 }
             }
+        },
+        "/appointment/{id}":{
+            "get": {
+                "summary": "Busca agendamento pelo id",
+                "description": "Esta rota é responsável por buscar e retornar o agendamento pelo id",
+                "tags": ["Appointment"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do agendamento",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Appointment"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized to access this route."
+                    },
+                    "404": {
+                        "description": "The provided id was not found. Please provide a valid Id"
+                    }
+                }
+            }
         }
     },
     "components": {
