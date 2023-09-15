@@ -751,7 +751,7 @@
             "get": {
                 "summary": "Retorna todas as disponibilidades",
                 "description": "Esta rota é responsável por retornar todos os horários disponíveis de todos os instrutores",
-                "tags": ["Instructor", "Availability"],
+                "tags": ["Availability"],
                 "security": [{ "bearerAuth": [] }],
                 "responses": {
                     "200": {
@@ -980,8 +980,31 @@
                         "description": "Internal Server Error"
                     }
                 }
+            },
+            "get": {
+                "summary": "Retorna todos os agendamentos",
+                "description": "Esta rota é responsável por retornar todos os agendamentos feitos",
+                "tags": ["Appointment"],
+                "security": [{ "bearerAuth": [] }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Appointment"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized to access this route!"
+                    }
+                }
             }
-            
         }
     },
     "components": {
