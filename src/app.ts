@@ -70,5 +70,5 @@ async function start() {
 		console.log(error)
 	}
 }
-
 start()
+export default app
