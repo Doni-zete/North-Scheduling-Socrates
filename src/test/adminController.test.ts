@@ -181,3 +181,51 @@ describe('Should list an admin by their id', () => {
 
 
 })
+
+//Teste de findByIdAndUpdate do admin
+describe('Should update an admin', () => {
+	afterEach(() => {
+		jest.clearAllMocks()
+	})
+
+	it('should successfully get an admin by their id and update them', async () => {
+		const req = {
+			user: {role: 'admin', id: 'adminId'},
+			params: {id: 'adminId'},
+			body: {
+				email: 'jakob@email.com',
+				password: 'password456'
+			}
+		} as unknown as Request
+
+		const res = {
+			status: jest.fn().mockReturnThis(),
+			json: jest.fn(),
+		} as unknown as Response
+
+		const mockedUpdatedAdmin =
+			{
+				name: 'Jakob',
+				password: 'password123'
+			};
+
+		(Admin.findByIdAndUpdate as jest.Mock).mockReturnValue({
+			select: jest.fn().mockResolvedValue(mockedUpdatedAdmin)
+		})
+
+		await adminController.updateId(req, res)
+
+		expect(res.status).toHaveBeenCalledWith(StatusCodes.OK)
+		expect(res.json).toBeCalledWith({
+			updatedAdmin: mockedUpdatedAdmin
+		})
+
+		expect(Admin.findByIdAndUpdate).toHaveBeenCalledWith(req.params.id, req.body, {new: true})
+
+		// expect(Admin.findById).toHaveBeenCalledWith(req.params.id)
+
+		// expect((Admin.findById as jest.Mock).mock.results[0].value.select).toHaveBeenCalledWith('-password')
+	})
+
+
+})
