@@ -11,6 +11,7 @@ jest.mock('../models/studentModel', () => ({
 	comparePassword: jest.fn(),
 	find: jest.fn(),
 	findById: jest.fn(),
+	findByIdAndUpdate: jest.fn()
 }))
 
 describe('Students Registration', () => {
@@ -45,7 +46,7 @@ describe('Students Login', () => {
 		jest.clearAllMocks()
 	})
 
-	it('should successfully login a student',async () => {
+	it('should successfully login a student', async () => {
 		const req = {
 			body: {
 				email: 'joao@email.com',
@@ -98,15 +99,15 @@ describe('Should list all students', () => {
 		} as unknown as Response
 
 		const mockedStudents = [
-			{_id: 'studentId1', name: 'Student 1', role: 'student'},
-			{_id: 'studentId2', name: 'Student 2', role: 'student'}
+			{ _id: 'studentId1', name: 'Student 1', role: 'student' },
+			{ _id: 'studentId2', name: 'Student 2', role: 'student' }
 		];
-    
+
 		(Student.find as jest.Mock).mockReturnValue({
 			select: jest.fn().mockResolvedValue(mockedStudents)
 		})
-    
-		await studentController.findAll(req,res)
+
+		await studentController.findAll(req, res)
 
 		expect(res.status).toHaveBeenCalledWith(StatusCodes.OK)
 		expect(res.json).toHaveBeenCalledWith({
@@ -143,7 +144,7 @@ describe('Should find a student by ID', () => {
 			select: jest.fn().mockResolvedValue(mockedStudent)
 		})
 
-		await studentController.findById(req,res)
+		await studentController.findById(req, res)
 
 		expect(res.status).toHaveBeenCalledWith(StatusCodes.OK)
 		expect(res.json).toHaveBeenCalledWith({
@@ -152,6 +153,42 @@ describe('Should find a student by ID', () => {
 
 		expect(Student.findById).toHaveBeenCalledWith('studentId')
 
+		expect((Student.findById as jest.Mock).mock.results[0].value.select).toHaveBeenCalledWith('-password')
+	})
+})
+
+describe('Update Student ID', () => {
+	afterEach(() => {
+		jest.clearAllMocks()
+	})
+
+	it('should successfully update student ID for admin', async () => {
+		const req = {
+			user: { role: 'admin', id: 'adminId' },
+			params: { id: 'studentId' },
+			body: { email: 'joao@email.com', password: 'password123' }
+		} as unknown as Request
+		const res = {
+			status: jest.fn().mockReturnThis(),
+			json: jest.fn()
+		} as unknown as Response
+
+		const updatedStudentData = { 
+			email: 'joao1@email.com',
+			password: 'password321'
+		};
+
+		(Student.findByIdAndUpdate as jest.Mock).mockResolvedValue(updatedStudentData)
+
+		await studentController.updateId(req, res)
+
+		expect(res.status).toHaveBeenCalledWith(StatusCodes.OK)
+		expect(res.json).toHaveBeenCalledWith({
+			updatedStudent: updatedStudentData
+		})
+
+		expect(Student.findByIdAndUpdate).toHaveBeenCalledWith(req.params.id, req.body, { new: true })
+		expect(Student.findById).toHaveBeenCalledWith(req.params.id)
 		expect((Student.findById as jest.Mock).mock.results[0].value.select).toHaveBeenCalledWith('-password')
 	})
 })
