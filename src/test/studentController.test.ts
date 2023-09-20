@@ -11,7 +11,8 @@ jest.mock('../models/studentModel', () => ({
 	comparePassword: jest.fn(),
 	find: jest.fn(),
 	findById: jest.fn(),
-	findByIdAndUpdate: jest.fn()
+	findByIdAndUpdate: jest.fn(),
+	findByIdAndRemove: jest.fn()
 }))
 
 describe('Students Registration', () => {
@@ -191,4 +192,31 @@ describe('Update Student ID', () => {
 		expect(Student.findById).toHaveBeenCalledWith(req.params.id)
 		expect((Student.findById as jest.Mock).mock.results[0].value.select).toHaveBeenCalledWith('-password')
 	})
+})
+
+describe('Delete Student', () => {
+	afterEach(() => {
+		jest.clearAllMocks()
+	})
+
+	it('should successfully delete a student', async () => {
+		const req = {
+			user: { role: 'admin', id: 'adminId'},
+			params: { id: 'studentId' }
+		} as unknown as Request
+		const res = {
+			status: jest.fn().mockReturnThis(),
+			json: jest.fn()
+		} as unknown as Response
+
+		(Student.findByIdAndRemove as jest.Mock).mockResolvedValue({})
+
+		await studentController.deleteId(req, res)
+
+		expect(res.status).toHaveBeenCalledWith(StatusCodes.OK)
+		expect(res.json).toHaveBeenCalledWith({ msg: 'Student deleted successfully'})
+		expect(Student.findByIdAndRemove).toHaveBeenCalledWith(req.params.id)
+	})
+
+    
 })
