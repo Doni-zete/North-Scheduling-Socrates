@@ -9,8 +9,13 @@ jest.mock('../models/adminModel', () => ({
 	create: jest.fn(),
 	findOne: jest.fn(),
 	comparePassword: jest.fn(),
+	find: jest.fn(),
+	findById: jest.fn(),
+	findByIdAndUpdate: jest.fn(),
+	findByIdAndRemove: jest.fn(),
 }))
 
+//Teste de cadastro do admin
 describe('Admin Registration', () => {
 	it('should successfully register an admin', async () => {
 		const req = {
@@ -24,11 +29,9 @@ describe('Admin Registration', () => {
 			json: jest.fn(),
 		} as unknown as Response
 
-		const adminData = { name: 'Mariah' }
-
 		const mockedAdmin = {
-			_id: 'mockedId',
-			name: adminData.name,
+			_id: 'mockId',
+			name: 'Jakob',
 			role: 'admin',
 		};
 		(Admin.create as jest.Mock).mockResolvedValue(mockedAdmin)
@@ -43,7 +46,7 @@ describe('Admin Registration', () => {
 	})
 })
 
-
+//Teste de login do admin
 describe('Admin Login', () => {
 	afterEach(() => {
 		jest.clearAllMocks()
@@ -52,8 +55,8 @@ describe('Admin Login', () => {
 	it('should successfully login an admin', async () => {
 		const req = {
 			body: {
-				email: 'mariah@email.com',
-				password: 'password123',
+				email: 'jakob@email.com',
+				password: 'password456',
 			},
 		} as Request
 
@@ -65,7 +68,7 @@ describe('Admin Login', () => {
 
 		const mockedAdmin = {
 			_id: 'mockedId',
-			name: 'Mariah',
+			name: 'Jakob',
 			role: 'admin',
 			comparePassword: jest.fn().mockResolvedValue(true),
 		}
@@ -85,6 +88,52 @@ describe('Admin Login', () => {
 		})
 
 		expect(Admin.findOne).toHaveBeenCalledWith({ email: req.body.email })
+	})
+
+
+})
+
+//Teste de findAll do admin
+describe('Should list all admins', () => {
+	afterEach(() => {
+		jest.clearAllMocks()
+	})
+
+	it('should successfully get a list of all registered admins', async () => {
+		const req = {} as Request
+
+		const res = {
+			status: jest.fn().mockReturnThis(),
+			json: jest.fn(),
+		} as unknown as Response
+
+		const mockedAdmins = [
+			{
+				_id: 'mockedId',
+				name: 'Jakob',
+				role: 'admin',
+			},
+			{
+				_id: 'mockedId',
+				name: 'Michael',
+				role: 'admin',
+			}
+		];
+
+		(Admin.find as jest.Mock).mockReturnValue({
+			select: jest.fn().mockResolvedValue(mockedAdmins)
+		})
+
+		await adminController.findAll(req, res)
+
+		expect(res.status).toHaveBeenCalledWith(StatusCodes.OK)
+		expect(res.json).toBeCalledWith({
+			admins: mockedAdmins
+		})
+
+		expect(Admin.find).toHaveBeenCalledWith({})
+
+		expect((Admin.find as jest.Mock).mock.results[0].value.select).toHaveBeenCalledWith('-password')
 	})
 
 
