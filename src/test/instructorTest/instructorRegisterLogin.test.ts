@@ -1,18 +1,21 @@
 import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
-import instructorController from '../controllers/instructorController'
-import Instructor from '../models/instructorModel'
+import instructorController from '../../controllers/instructorController'
+import Instructor from '../../models/instructorModel'
 import dotenv from 'dotenv'
 dotenv.config()
 
-jest.mock('../models/instructorModel', () => ({
+jest.mock('../../models/instructorModel.ts', () => ({
 	create: jest.fn(),
 	findOne: jest.fn(),
+	find: jest.fn(),
 	comparePassword: jest.fn(),
 }))
 
 describe('Instructor Registration', () => {
 	it('should successfully register an instructor', async () => {
+
+
 		const req = {} as Request
 		const res = {
 			status: jest.fn().mockReturnThis(),
@@ -22,7 +25,7 @@ describe('Instructor Registration', () => {
 		const instructorData = { name: 'Maria' }
 
 		const mockedInstructor = {
-			_id: 'mockedId',
+			_id: '65044bf360353efe5a88c2ab',
 			name: instructorData.name,
 			role: 'instructor',
 		};
@@ -37,7 +40,6 @@ describe('Instructor Registration', () => {
 		expect(Instructor.create).toHaveBeenCalledWith(req.body)
 	})
 })
-
 
 describe('Instructor Login', () => {
 	afterEach(() => {
@@ -59,13 +61,13 @@ describe('Instructor Login', () => {
 		} as unknown as Response
 
 		const mockedInstructor = {
-			_id: 'mockedId',
+			_id: '65044bf360353efe5a88c2ab',
 			name: 'Maria',
 			role: 'instructor',
 			comparePassword: jest.fn().mockResolvedValue(true),
-		}
+		};
 
-			; (Instructor.findOne as jest.Mock).mockResolvedValue(mockedInstructor)
+		(Instructor.findOne as jest.Mock).mockResolvedValue(mockedInstructor)
 
 		await instructorController.login(req, res)
 
@@ -81,7 +83,5 @@ describe('Instructor Login', () => {
 
 		expect(Instructor.findOne).toHaveBeenCalledWith({ email: req.body.email })
 	})
-
-
 })
 
