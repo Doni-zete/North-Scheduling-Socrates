@@ -20,7 +20,7 @@ describe('Instructor Registration', () => {
 		const res = {
 			status: jest.fn().mockReturnThis(),
 			json: jest.fn(),
-		} as any as Response
+		} as unknown as Response
 
 		const instructorData = { name: 'Maria' }
 
@@ -58,7 +58,7 @@ describe('Instructor Login', () => {
 			status: jest.fn().mockReturnThis(),
 			json: jest.fn(),
 			cookie: jest.fn(),
-		} as any as Response
+		} as unknown as Response
 
 		const mockedInstructor = {
 			_id: '65044bf360353efe5a88c2ab',

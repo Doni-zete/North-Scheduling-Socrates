@@ -11,14 +11,14 @@ describe('Instructors Update', () => {
 				oldPassword: '123',
 				password: '1234',
 			},
-		} as any as Request
+		} as unknown as Request
 
 		const jsonMock = jest.fn()
 		const statusMock = jest.fn().mockReturnValue({ json: jsonMock })
 
 		const res: Response = {
 			status: statusMock,
-		} as any as Response
+		} as unknown as Response
 
 		const mockInstructor = {
 			_id: '6508854a72a40e21e3c62efd',
@@ -39,6 +39,8 @@ describe('Instructors Update', () => {
 
 			expect(statusMock).toHaveBeenCalledWith(StatusCodes.OK)
 			expect(jsonMock).toHaveBeenCalledWith({ updatedInstructor: mockInstructor })
-		} catch (error) { }
+		} catch (error) {
+			//console.log(error)
+		}
 	})
 })

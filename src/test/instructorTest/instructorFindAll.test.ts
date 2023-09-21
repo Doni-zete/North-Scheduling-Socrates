@@ -10,7 +10,7 @@ describe('Instructors findAll', () => {
 		const res = {
 			status: jest.fn().mockReturnThis(),
 			json: jest.fn(),
-		} as any as Response;
+		} as unknown as Response
 
 		const mockInstructors = [
 			{
