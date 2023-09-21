@@ -12,12 +12,12 @@ describe('Instructors Delete', () => {
 		const req = {
 			user: { role: 'admin', id: '6508854a72a40e21e3c62efd' },
 			params: { id: '65044bf360353efe5a88c2ab' },
-		} as any as Request
+		} as unknown as Request
 
 		const res = {
 			status: jest.fn().mockReturnThis(),
 			json: jest.fn(),
-		} as any as Response
+		} as unknown as Response
 
 		await instructorController.deleteId(req, res)
 
