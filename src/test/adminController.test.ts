@@ -30,7 +30,7 @@ describe('Admin Registration', () => {
 		} as unknown as Response
 
 		const mockedAdmin = {
-			_id: 'mockId',
+			_id: 'mockedId',
 			name: 'Jakob',
 			role: 'admin',
 		};
@@ -219,6 +219,40 @@ describe('Should update an admin', () => {
 		expect(res.status).toHaveBeenCalledWith(StatusCodes.OK)
 		expect(res.json).toBeCalledWith({
 			updatedAdmin: mockedUpdatedAdmin
+		})
+
+		// expect(Admin.findByIdAndUpdate).toHaveBeenCalledWith(req.params.id, req.body, {new: true})
+
+		// expect(Admin.findById).toHaveBeenCalledWith(req.params.id)
+
+		// expect((Admin.findById as jest.Mock).mock.results[0].value.select).toHaveBeenCalledWith('-password')
+	})
+
+
+})
+
+//Teste de findByIdAndRemove do admin
+describe('Should delete an admin', () => {
+	afterEach(() => {
+		jest.clearAllMocks()
+	})
+
+	it('should successfully get an admin by their id and delete them', async () => {
+		const req = {
+			user: {role: 'admin', id: 'adminId'},
+			params: {id: 'mockedId'},
+		} as unknown as Request
+
+		const res = {
+			status: jest.fn().mockReturnThis(),
+			json: jest.fn(),
+		} as unknown as Response
+
+		await adminController.deleteId(req, res)
+
+		expect(res.status).toHaveBeenCalledWith(StatusCodes.OK)
+		expect(res.json).toBeCalledWith({
+			msg: 'Admin deleted successfully'
 		})
 
 		// expect(Admin.findByIdAndUpdate).toHaveBeenCalledWith(req.params.id, req.body, {new: true})
