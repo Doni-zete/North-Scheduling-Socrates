@@ -221,11 +221,6 @@ describe('Should update an admin', () => {
 			updatedAdmin: mockedUpdatedAdmin
 		})
 
-		// expect(Admin.findByIdAndUpdate).toHaveBeenCalledWith(req.params.id, req.body, {new: true})
-
-		// expect(Admin.findById).toHaveBeenCalledWith(req.params.id)
-
-		// expect((Admin.findById as jest.Mock).mock.results[0].value.select).toHaveBeenCalledWith('-password')
 	})
 
 
@@ -240,7 +235,7 @@ describe('Should delete an admin', () => {
 	it('should successfully get an admin by their id and delete them', async () => {
 		const req = {
 			user: {role: 'admin', id: 'adminId'},
-			params: {id: 'mockedId'},
+			params: {id: 'adminId'},
 		} as unknown as Request
 
 		const res = {
@@ -248,12 +243,15 @@ describe('Should delete an admin', () => {
 			json: jest.fn(),
 		} as unknown as Response
 
+		(Admin.findByIdAndRemove as jest.Mock).mockResolvedValue({})
+
 		await adminController.deleteId(req, res)
 
 		expect(res.status).toHaveBeenCalledWith(StatusCodes.OK)
 		expect(res.json).toBeCalledWith({
 			msg: 'Admin deleted successfully'
 		})
+		expect(Admin.findByIdAndRemove).toHaveBeenCalledWith(req.params.id)
 
 		// expect(Admin.findByIdAndUpdate).toHaveBeenCalledWith(req.params.id, req.body, {new: true})
 
