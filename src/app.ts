@@ -70,5 +70,4 @@ async function start() {
 		console.log(error)
 	}
 }
-
 start()

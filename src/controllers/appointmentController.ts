@@ -16,6 +16,15 @@ const create = async (req: Request, res: Response) => {
 		throw new customApiErrors.BadRequestError('instructorId does not exists')
 	}
 
+	const appointmentParsedDate = new Date(req.body.date + 'T' + req.body.hour)
+	if (!(appointmentParsedDate instanceof Date)) {
+		throw new customApiErrors.BadRequestError('Invalid date or hour')
+	}
+
+	if (appointmentParsedDate < new Date()) {
+		throw new customApiErrors.BadRequestError('Invalid date, your date is lower than now')
+	}
+
 	const instructorAvailability = await Availability.findOne({ instructorId: req.body.instructorId, date: req.body.date })
 	if (!instructorAvailability || !instructorAvailability.hours.includes(req.body.hour)) {
 		throw new customApiErrors.BadRequestError('Instructor is not available in this date')
@@ -75,6 +84,15 @@ const updateAppointmentsByInstructorId = async (req: Request, res: Response) => 
 		throw new customApiErrors.BadRequestError('Please provide properties to update')
 	}
 
+	const appointmentParsedDate = new Date(req.body.date + 'T' + req.body.hour)
+	if (!(appointmentParsedDate instanceof Date)) {
+		throw new customApiErrors.BadRequestError('Invalid date or hour')
+	}
+
+	if (appointmentParsedDate < new Date()) {
+		throw new customApiErrors.BadRequestError('Invalid date, your date is lower than now')
+	}
+	
 	if (req.user.role === 'admin') {
 		const appointment = await Appointment.findOneAndUpdate({ instructorId: req.params.instructorId, _id: req.params.id }, req.body, { new: true, runValidators: true })
 		if (!appointment) {
