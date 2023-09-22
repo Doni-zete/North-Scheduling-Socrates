@@ -40,6 +40,6 @@ describe('Students Update', () => {
 
 		expect(statusMock).toHaveBeenCalledWith(StatusCodes.OK)
 
-		expect(jsonMock).toHaveBeenCalledWith({ updatedStudent: mockStudent, })
+		expect(jsonMock).toHaveBeenCalledWith({ updatedStudent: mockStudent })
 	})
 })
