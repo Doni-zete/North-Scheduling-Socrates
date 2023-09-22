@@ -74,12 +74,11 @@ The challenge simulates a scenario in which this microservice will be used by pe
 </summary>
 
 The project was divided into 2 stages each of two weeks and a repechage week.
-The two first stages are located in the branches:
+The stages are located in the branches:
 
 • [**release-step**](https://github.com/Doni-zete/North-Scheduling-Socrates/tree/release-step)          
 • [**release-step2**](https://github.com/Doni-zete/North-Scheduling-Socrates/tree/release-step2)          
-
-The version you are watching is the final after the repechage.
+• [**main**](https://github.com/Doni-zete/North-Scheduling-Socrates/tree/main)
 
 </details>
 <details>
