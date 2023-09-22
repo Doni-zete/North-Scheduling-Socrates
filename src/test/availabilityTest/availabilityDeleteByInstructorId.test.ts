@@ -24,10 +24,12 @@ describe('Availability Controller - deleteAvailabilityByInstructorId', () => {
 			json: jest.fn(),
 		} as unknown as Response
     
-		(Availability.findOneAndDelete as jest.Mock).mockResolvedValue({
+		const deletedAvailability = {
 			_id: 'availabilityId',
-			instructorId: 'instructorId',
-		})
+			instructorId: 'instructorId'
+		};
+
+		(Availability.findOneAndDelete as jest.Mock).mockResolvedValue(deletedAvailability)
     
 		await availabilityController.deleteAvailabilityByInstructorId(req, res)
     
@@ -36,7 +38,7 @@ describe('Availability Controller - deleteAvailabilityByInstructorId', () => {
 		expect(Availability.findOneAndDelete).toHaveBeenCalledWith({
 			instructorId: req.params.instructorId,
 			_id: req.params.id,
-		})
+		}, undefined)
 	})
 
 	it('should handle unauthorized deletion', async () => {
