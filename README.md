@@ -38,6 +38,7 @@ The challenge simulates a scenario in which this microservice will be used by pe
 • Mongoose        
 • JWT (JSON Web Tokens)        
 • Jsonwebtoken        
+• Jsonwebtoken        
 • Express Validator        
 • Eslint        
 • HTTP Status Codes        
@@ -99,6 +100,7 @@ The version you are watching is the final after the repechage.
 
 5 - Now rename the .env.example file to .env and add your connection string provided by mongoDB next to the front of MONGO_URL=
 
+6 - Change <password> to your database password and at "/?" enter the name of the database.
 6 - Change <password> to your database password and at "/?" enter the name of the database.
 
 7 - Provide JWT_SECRET, JWT_LIFETIME and CREATE_ADMIN_KEY at .env file. The application port is already set to 3000.
