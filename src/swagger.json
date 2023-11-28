@@ -1219,6 +1219,56 @@
                 }
             }
             
+        },
+        "/appointment/{id}/attachment":{
+            "post": {
+                "summary": "Faz upload de arquivo",
+                "description": "Esta rota é responsável por fazer upload de arquivos",
+                "tags": ["Attachment", "Appointment"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do agendamento",
+                        "required": "true"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "foo": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Attachment"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized to access this route."
+                    },
+                    "404": {
+                        "description": "Error"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -1308,12 +1358,6 @@
                     },
                     "hour": {
                         "type": "string"
-                    },
-                    "attachments": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
                     }
                 }
             }
